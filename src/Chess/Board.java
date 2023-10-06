@@ -25,6 +25,23 @@ public class Board {
         pieces[rank][file] = piece;
     }
 
+    public Board clone() {
+        Board board = new Board();
+
+        for(int rank = Rules.MIN_RANK; rank <= Rules.MAX_RANK; rank++) {
+            for(int file = Rules.MIN_FILE; file <= Rules.MAX_FILE; file++) {
+                
+                Piece piece = this.pieces[rank][file];
+
+                if(piece != null) {
+                    board.setPiece(rank, file, piece.clone());
+                }
+            }
+        }
+
+        return board;
+    }
+
     public String toString() {
         final String horizontalLine = "-----------------------------------------";
         
