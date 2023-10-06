@@ -17,4 +17,8 @@ public class Piece {
     public Rules.PieceType getType() {
         return type;
     }
+
+    public Piece clone() {
+        return new Piece(this.colour, this.type);
+    }
 }
