@@ -1,5 +1,5 @@
 
-package Chess.Common;
+package Common;
 
 public class Debug {
 
