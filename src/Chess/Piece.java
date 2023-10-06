@@ -1,34 +1,20 @@
 package Chess;
 
-public abstract class Piece {
-
-    public enum Colour {
-        WHITE,
-        BLACK
-    };
-
-    public enum Type {
-        PAWN,
-        BISHOP,
-        KNIGHT,
-        ROOK,
-        QUEEN,
-        KING
-    };
+public class Piece {
     
-    private Colour colour;
-    private Type type;
+    private Rules.Colour colour;
+    private Rules.PieceType type;
 
-    public Piece(Colour colour, Type type) {
+    public Piece(Rules.Colour colour, Rules.PieceType type) {
         this.colour = colour;
         this.type = type;
     }
 
-    public Colour getColour() {
+    public Rules.Colour getColour() {
         return colour;
     }
 
-    public Type getType() {
+    public Rules.PieceType getType() {
         return type;
     }
 }
