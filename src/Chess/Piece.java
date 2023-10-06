@@ -21,4 +21,8 @@ public class Piece {
     public Piece clone() {
         return new Piece(this.colour, this.type);
     }
+
+    public String getSymbol() {
+        return "" + colour.symbol + type.symbol;
+    }
 }

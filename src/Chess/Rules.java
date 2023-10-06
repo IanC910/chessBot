@@ -3,17 +3,29 @@ package Chess;
 public class Rules {
 
     public enum Colour {
-        WHITE,
-        BLACK
+        WHITE ('w'),
+        BLACK ('b');
+
+        public final char symbol;
+
+        Colour(char symbol) {
+            this.symbol = symbol;
+        }
     };
 
     public enum PieceType {
-        PAWN,
-        BISHOP,
-        KNIGHT,
-        ROOK,
-        QUEEN,
-        KING
+        PAWN    ('P'),
+        BISHOP  ('B'),
+        KNIGHT  ('N'),
+        ROOK    ('R'),
+        QUEEN   ('Q'),
+        KING    ('K');
+
+        public final char symbol;
+
+        PieceType(char symbol) {
+            this.symbol = symbol;
+        }
     };
     
     // Board Dimensions
@@ -113,9 +125,9 @@ public class Rules {
         defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, new Piece(Colour.BLACK, PieceType.ROOK));
 
         // Set Pawns
-        for(int file = 0; file < MAX_FILE; file++) {
+        for(int file = MIN_FILE; file <= MAX_FILE; file++) {
             defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, file, new Piece(Colour.WHITE, PieceType.PAWN));
-            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, file, new Piece(Colour.WHITE, PieceType.PAWN));
+            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, file, new Piece(Colour.BLACK, PieceType.PAWN));
         }
 
         return defaultBoard;
