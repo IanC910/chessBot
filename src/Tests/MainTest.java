@@ -9,7 +9,7 @@ public class MainTest {
     }
 
     static void testPrintBoard() {
-        Board board = Rules.createDefaultBoard();
+        Board board = Board.createDefaultBoard();
 
         String s = board.toString();
 
