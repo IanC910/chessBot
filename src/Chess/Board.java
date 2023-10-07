@@ -3,6 +3,8 @@ package Chess;
 import Common.Debug;
 
 public class Board {
+
+    // Static Constants
     
     // Board Dimensions
     public static final int BOARD_WIDTH         = 8;
@@ -38,27 +40,11 @@ public class Board {
 
     public static final int L_ROOK_START_FILE   = 0;
     public static final int R_ROOK_START_FILE   = 7;
-    
-    private Piece[][] pieces;
 
-    public Board() {
-        pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
-        
-        for(int rank = 0; rank < BOARD_HEIGHT; rank++) {
-            for(int file = 0; file < BOARD_WIDTH; file++) {
-                pieces[rank][file] = null;
-            }
 
-        }
-    }
 
-    public void setPiece(int rank, int file, Piece piece) {
-        if(!isPositionValid(rank, file)) {
-            Debug.fatal("Board.setPiece()", "Invalid Position");
-        }
+    // Static Methods
 
-        pieces[rank][file] = piece;
-    }
     public static boolean isPositionValid(int position) {
         return (position >= MIN_POSITION && position <=MAX_POSITION);
     }
@@ -131,17 +117,37 @@ public class Board {
         return defaultBoard;
     }
 
+    
+
+    // Non-Static Members
+
+    private Piece[][] pieces;
+
+    public Board() {
+        pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
+        
+        for(int rank = 0; rank < BOARD_HEIGHT; rank++) {
+            for(int file = 0; file < BOARD_WIDTH; file++) {
+                pieces[rank][file] = null;
+            }
+
+        }
+    }
+
+    public void setPiece(int rank, int file, Piece piece) {
+        if(!isPositionValid(rank, file)) {
+            Debug.fatal("Board.setPiece()", "Invalid Position");
+        }
+
+        pieces[rank][file] = piece;
+    }
+
     public Board clone() {
         Board board = new Board();
 
         for(int rank = MIN_RANK; rank <= MAX_RANK; rank++) {
             for(int file = MIN_FILE; file <= MAX_FILE; file++) {
-                
-                Piece piece = this.pieces[rank][file];
-
-                if(piece != null) {
-                    board.setPiece(rank, file, piece.clone());
-                }
+                board.setPiece(rank, file, this.pieces[rank][file]);
             }
         }
 
