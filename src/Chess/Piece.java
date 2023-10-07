@@ -1,6 +1,8 @@
 package Chess;
 
-public class Piece {
+import java.util.LinkedList;
+
+public abstract class Piece {
 
     public enum Colour {
         NONE  (' '),
@@ -14,39 +16,30 @@ public class Piece {
         }
     };
 
-    public enum Type {
-        NONE    (' ', 0),
-        PAWN    ('P', 1),
-        BISHOP  ('B', 3),
-        KNIGHT  ('N', 3),
-        ROOK    ('R', 5),
-        QUEEN   ('Q', 9),
-        KING    ('K', 0);
-
-        public final char symbol;
-        public final int value;
-
-        Type(char symbol, int value) {
-            this.symbol = symbol;
-            this.value = value;
-        }
-    };
-
-    public static final Piece NO_PIECE = new Piece(Colour.NONE, Type.NONE);
-    
     public final Colour colour;
-    public final Type type;
+    public final char symbol;
+    public final int value;
+    
+    // public static final Piece NO_PIECE = new NullPiece();
 
-    public Piece(Colour colour, Type type) {
+    // public static final Piece WHITE_PAWN = new Pawn(Colour.WHITE);
+    // public static final Piece BLACK_PAWN = new Pawn(Colour.BLACK);
+
+    // TODO static constants for each piece (maybe in Piece Catalogue)
+
+    public Piece(Colour colour, char symbol, int value) {
         this.colour = colour;
-        this.type = type;
+        this.symbol = symbol;
+        this.value = value;
     }
 
     public String getSymbol() {
-        return "" + colour.symbol + type.symbol;
+        return "" + colour.symbol + this.symbol;
     }
 
     public boolean equals(Piece piece) {
-        return (this.colour == piece.colour && this.type == piece.type);
+        return (this.colour == piece.colour && this.symbol == piece.symbol);
     }
+
+    public abstract LinkedList<Move> getLegalMoves();
 }
