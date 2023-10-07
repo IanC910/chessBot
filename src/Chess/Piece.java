@@ -3,6 +3,7 @@ package Chess;
 public class Piece {
 
     public enum Colour {
+        NONE  (' '),
         WHITE ('w'),
         BLACK ('b');
 
@@ -14,6 +15,7 @@ public class Piece {
     };
 
     public enum Type {
+        NONE    (' ', 0),
         PAWN    ('P', 1),
         BISHOP  ('B', 3),
         KNIGHT  ('N', 3),
@@ -29,6 +31,8 @@ public class Piece {
             this.value = value;
         }
     };
+
+    public static final Piece NO_PIECE = new Piece(Colour.NONE, Type.NONE);
     
     public final Colour colour;
     public final Type type;
@@ -40,5 +44,9 @@ public class Piece {
 
     public String getSymbol() {
         return "" + colour.symbol + type.symbol;
+    }
+
+    public boolean equals(Piece piece) {
+        return (this.colour == piece.colour && this.type == piece.type);
     }
 }
