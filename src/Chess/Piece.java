@@ -41,5 +41,5 @@ public abstract class Piece {
         return (this.colour == piece.colour && this.symbol == piece.symbol);
     }
 
-    public abstract LinkedList<Move> getLegalMoves();
+    public abstract LinkedList<Position> getLegalMoves(Board board, Position position);
 }
