@@ -31,7 +31,7 @@ public class BoardTest {
             }
         }
 
-        Piece testPiece = new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KING);
+        Piece testPiece = Piece.WHITE_KING;
 
         board.setPiece(0, 0, testPiece);
 
@@ -46,7 +46,7 @@ public class BoardTest {
 
         assertTrue(board.equals(clone));
 
-        Piece testPiece = new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KING);
+        Piece testPiece = Piece.WHITE_KNIGHT;
 
         clone.setPiece(0, 0, testPiece);
 
