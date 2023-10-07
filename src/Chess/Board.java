@@ -1,5 +1,6 @@
 package Chess;
 
+import Chess.Pieces.Piece;
 import Common.Debug;
 
 public class Board {
@@ -84,34 +85,34 @@ public class Board {
         Board defaultBoard = new Board();
 
         // Set King and Queen
-        defaultBoard.setPiece(WHITE_START_RANK, KING_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KING));
-        defaultBoard.setPiece(WHITE_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.QUEEN));
+        defaultBoard.setPiece(WHITE_START_RANK, KING_START_FILE, new Piece(Piece.Colour.WHITE, Pieces.Type.KING));
+        defaultBoard.setPiece(WHITE_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.WHITE, Pieces.Type.QUEEN));
 
-        defaultBoard.setPiece(BLACK_START_RANK, KING_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KING));
-        defaultBoard.setPiece(BLACK_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.QUEEN));
+        defaultBoard.setPiece(BLACK_START_RANK, KING_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.KING));
+        defaultBoard.setPiece(BLACK_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.QUEEN));
 
         // Set Bishops
-        defaultBoard.setPiece(WHITE_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.BISHOP));
-        defaultBoard.setPiece(WHITE_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.BISHOP));
-        defaultBoard.setPiece(BLACK_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.BISHOP));
-        defaultBoard.setPiece(BLACK_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.BISHOP));
+        defaultBoard.setPiece(WHITE_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.BISHOP));
+        defaultBoard.setPiece(WHITE_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.BISHOP));
+        defaultBoard.setPiece(BLACK_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.BISHOP));
+        defaultBoard.setPiece(BLACK_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.BISHOP));
 
         // Set Knights
-        defaultBoard.setPiece(WHITE_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(WHITE_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(BLACK_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(BLACK_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KNIGHT));
+        defaultBoard.setPiece(WHITE_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KNIGHT));
+        defaultBoard.setPiece(WHITE_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KNIGHT));
+        defaultBoard.setPiece(BLACK_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.KNIGHT));
+        defaultBoard.setPiece(BLACK_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.KNIGHT));
 
         // Set Rooks
-        defaultBoard.setPiece(WHITE_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.ROOK));
-        defaultBoard.setPiece(WHITE_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.ROOK));
-        defaultBoard.setPiece(BLACK_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.ROOK));
-        defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.ROOK));
+        defaultBoard.setPiece(WHITE_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.ROOK));
+        defaultBoard.setPiece(WHITE_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.ROOK));
+        defaultBoard.setPiece(BLACK_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.ROOK));
+        defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.ROOK));
 
         // Set Pawns
         for(int f = MIN_FILE; f <= MAX_FILE; f++) {
-            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, f, new Piece(Piece.Colour.WHITE, Piece.Type.PAWN));
-            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, f, new Piece(Piece.Colour.BLACK, Piece.Type.PAWN));
+            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, f, new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.PAWN));
+            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, f, new Piece(Piece.Colour.BLACK, Chess.Pieces.Type.PAWN));
         }
 
         return defaultBoard;

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import Chess.Board;
-import Chess.Piece;
+import Chess.Pieces.Piece;
 
 public class BoardTest {
 
@@ -31,7 +31,7 @@ public class BoardTest {
             }
         }
 
-        Piece testPiece = new Piece(Piece.Colour.WHITE, Piece.Type.KING);
+        Piece testPiece = new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KING);
 
         board.setPiece(0, 0, testPiece);
 
@@ -46,7 +46,7 @@ public class BoardTest {
 
         assertTrue(board.equals(clone));
 
-        Piece testPiece = new Piece(Piece.Colour.WHITE, Piece.Type.KING);
+        Piece testPiece = new Piece(Piece.Colour.WHITE, Chess.Pieces.Type.KING);
 
         clone.setPiece(0, 0, testPiece);
 

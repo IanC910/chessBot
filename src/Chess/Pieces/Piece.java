@@ -1,6 +1,9 @@
-package Chess;
+package Chess.Pieces;
 
 import java.util.LinkedList;
+
+import Chess.Board;
+import Chess.Position;
 
 public abstract class Piece {
 
