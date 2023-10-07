@@ -109,9 +109,9 @@ public class Board {
         defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.ROOK));
 
         // Set Pawns
-        for(int file = MIN_FILE; file <= MAX_FILE; file++) {
-            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, file, new Piece(Piece.Colour.WHITE, Piece.Type.PAWN));
-            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, file, new Piece(Piece.Colour.BLACK, Piece.Type.PAWN));
+        for(int f = MIN_FILE; f <= MAX_FILE; f++) {
+            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, f, new Piece(Piece.Colour.WHITE, Piece.Type.PAWN));
+            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, f, new Piece(Piece.Colour.BLACK, Piece.Type.PAWN));
         }
 
         return defaultBoard;
@@ -125,6 +125,12 @@ public class Board {
 
     public Board() {
         pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
+
+        for(int r = MIN_RANK; r <= MAX_RANK; r++) {
+            for(int f = MIN_FILE; f <= MAX_FILE; f++) {
+                pieces[r][f] = Piece.NO_PIECE;
+            }
+        }
     }
 
     public Piece getPiece(int rank, int file) {
@@ -139,8 +145,11 @@ public class Board {
         if(!isPositionValid(rank, file)) {
             Debug.fatal("Board.setPiece()", "Invalid Position");
         }
+        if(piece == null) {
+            Debug.fatal("Board.setPiece()", "Null piece");
+        }
 
-        pieces[rank][file] = piece;
+        this.pieces[rank][file] = piece;
     }
 
     public Board clone() {
@@ -188,5 +197,21 @@ public class Board {
         sb.append("\n");
 
         return sb.toString();
+    }
+
+    public boolean equals(Board board) {
+
+        for(int r = MIN_RANK; r <= MAX_RANK; r++) {
+            for(int f = MIN_FILE; f <= MAX_FILE; f++) {
+                Piece thisPiece = this.getPiece(r, f);
+                Piece otherPiece = board.getPiece(r, f);
+
+                if(!thisPiece.equals(otherPiece)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
