@@ -125,13 +125,14 @@ public class Board {
 
     public Board() {
         pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
-        
-        for(int rank = 0; rank < BOARD_HEIGHT; rank++) {
-            for(int file = 0; file < BOARD_WIDTH; file++) {
-                pieces[rank][file] = null;
-            }
+    }
 
+    public Piece getPiece(int rank, int file) {
+        if(!isPositionValid(rank, file)) {
+            Debug.fatal("Board.getPiece()", "Invalid Position");
         }
+
+        return pieces[rank][file];
     }
 
     public void setPiece(int rank, int file, Piece piece) {
@@ -145,9 +146,9 @@ public class Board {
     public Board clone() {
         Board board = new Board();
 
-        for(int rank = MIN_RANK; rank <= MAX_RANK; rank++) {
-            for(int file = MIN_FILE; file <= MAX_FILE; file++) {
-                board.setPiece(rank, file, this.pieces[rank][file]);
+        for(int r = MIN_RANK; r <= MAX_RANK; r++) {
+            for(int f = MIN_FILE; f <= MAX_FILE; f++) {
+                board.setPiece(r, f, this.pieces[r][f]);
             }
         }
 
