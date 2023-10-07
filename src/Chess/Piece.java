@@ -30,24 +30,12 @@ public class Piece {
         }
     };
     
-    private Colour colour;
-    private Type type;
+    public final Colour colour;
+    public final Type type;
 
     public Piece(Colour colour, Type type) {
         this.colour = colour;
         this.type = type;
-    }
-
-    public Colour getColour() {
-        return colour;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Piece clone() {
-        return new Piece(this.colour, this.type);
     }
 
     public String getSymbol() {
