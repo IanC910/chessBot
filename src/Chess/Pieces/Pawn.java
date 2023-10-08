@@ -12,7 +12,6 @@ public class Pawn extends Piece {
         super(colour, 'P', 1);
     }
 
-    // TODO: getLegalMoves()
     public LinkedList<Move> getLegalMoves(Board board, int rank, int file) {
         LinkedList<Move> legalMoves = new LinkedList<>();
 

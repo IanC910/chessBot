@@ -3,11 +3,8 @@ package Tests.PieceTests;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import java.util.LinkedList;
-
 import Chess.Board;
 import Chess.Pieces.*;
-import Chess.Move;
 import Chess.Position;
 
 public class PawnTest {
