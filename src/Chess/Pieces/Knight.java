@@ -3,7 +3,7 @@ package Chess.Pieces;
 import java.util.LinkedList;
 
 import Chess.Board;
-import Chess.Position;
+import Chess.Move;
 
 public class Knight extends Piece {
     
@@ -12,7 +12,7 @@ public class Knight extends Piece {
     }
 
     // TODO: getLegalMoves()
-    public LinkedList<Position> getLegalMoves(Board board, Position position) {
+    public LinkedList<Move> getLegalMoves(Board board, int rank, int file) {
         return null;
     }
     

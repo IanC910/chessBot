@@ -3,7 +3,7 @@ package Chess.Pieces;
 import java.util.LinkedList;
 
 import Chess.Board;
-import Chess.Position;
+import Chess.Move;
 
 public class Pawn extends Piece {
     
@@ -12,7 +12,20 @@ public class Pawn extends Piece {
     }
 
     // TODO: getLegalMoves()
-    public LinkedList<Position> getLegalMoves(Board board, Position position) {
-        return null;
+    public LinkedList<Move> getLegalMoves(Board board, int rank, int file) {
+        LinkedList<Move> legalMoves = new LinkedList<>();
+
+        Move move = new Move(
+            rank,
+            file,
+            rank + Board.FORWARD_DIR[this.colour.value],
+            file
+        );
+
+        if(!move.doesCheckOwnKing(board)) {
+            legalMoves.add(move);
+        }
+
+        return legalMoves;
     }
 }

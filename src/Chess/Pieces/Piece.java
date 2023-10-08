@@ -3,7 +3,7 @@ package Chess.Pieces;
 import java.util.LinkedList;
 
 import Chess.Board;
-import Chess.Position;
+import Chess.Move;
 
 public abstract class Piece {
 
@@ -30,14 +30,16 @@ public abstract class Piece {
     // Non-Static Members
 
     public enum Colour {
-        NONE  (' '),
-        WHITE ('w'),
-        BLACK ('b');
+        NONE  (' ', 0),
+        WHITE ('w', 0),
+        BLACK ('b', 1);
 
         public final char symbol;
+        public final int value;
 
-        Colour(char symbol) {
+        Colour(char symbol, int value) {
             this.symbol = symbol;
+            this.value = value;
         }
     };
 
@@ -59,5 +61,5 @@ public abstract class Piece {
         return (this.colour == piece.colour && this.symbol == piece.symbol);
     }
 
-    public abstract LinkedList<Position> getLegalMoves(Board board, Position position);
+    public abstract LinkedList<Move> getLegalMoves(Board board, int rank, int file);
 }
