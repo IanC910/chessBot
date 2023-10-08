@@ -45,18 +45,7 @@ public class Board {
     public static final int R_ROOK_START_FILE   = 7;
 
 
-
-    // Static Methods
-
-    public static boolean isPositionValid(int rank, int file) {
-        return (
-            rank >= MIN_RANK &&
-            rank <= MAX_RANK &&
-            file >= MIN_FILE &&
-            file <= MAX_FILE
-        );
-    }
-
+    
     public static Board createDefaultBoard() {
         Board defaultBoard = new Board();
 
@@ -112,7 +101,7 @@ public class Board {
     }
 
     public Piece getPiece(int rank, int file) {
-        if(!isPositionValid(rank, file)) {
+        if(!Position.isValid(rank, file)) {
             Debug.fatal("Board.getPiece()", "Invalid Position");
         }
 
@@ -124,7 +113,7 @@ public class Board {
     }
 
     public void setPiece(int rank, int file, Piece piece) {
-        if(!isPositionValid(rank, file)) {
+        if(!Position.isValid(rank, file)) {
             Debug.fatal("Board.setPiece()", "Invalid Position");
         }
         if(piece == null) {
