@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import Chess.Board;
-import Chess.Pieces.Piece;
+import Chess.*;
+import Chess.Pieces.*;
 
 public class BoardTest {
 
@@ -32,25 +32,34 @@ public class BoardTest {
         }
 
         Piece testPiece = Piece.WHITE_KING;
-
         board.setPiece(0, 0, testPiece);
-
         assertEquals(testPiece, board.getPiece(0, 0));
     }
 
     @Test
     public void cloneTest() {
         Board board = Board.createDefaultBoard();
-
         Board clone = board.clone();
-
         assertTrue(board.equals(clone));
 
-        Piece testPiece = Piece.WHITE_KNIGHT;
-
-        clone.setPiece(0, 0, testPiece);
-
+        Piece piece = clone.getPiece(Board.WHITE_START_RANK, Board.L_KNIGHT_START_FILE);
+        assertTrue(piece.equals(Piece.WHITE_KNIGHT));
+        
+        clone.setPiece(Board.WHITE_START_RANK + 2, Board.L_KNIGHT_START_FILE + 1, piece);
         assertFalse(board.equals(clone));
+
+        clone.setPiece(Board.WHITE_START_RANK, Board.L_KNIGHT_START_FILE, Piece.NO_PIECE);
+        assertFalse(board.equals(clone));
+    }
+
+    @Test
+    public void getKingPosTest() {
+        Board board = Board.createDefaultBoard();
+
+        Position whiteKingPos = board.getKingPos(Piece.Colour.WHITE);
+
+        assertEquals(Board.WHITE_START_RANK, whiteKingPos.rank);
+        assertEquals(Board.KING_START_FILE,  whiteKingPos.file);
     }
     
 }
