@@ -26,9 +26,11 @@ public class Board {
     // Starting Positions
     public static final int WHITE_START_RANK    = MIN_RANK;
     public static final int BLACK_START_RANK    = MAX_RANK;
+    public static final int[] START_RANK        = {WHITE_START_RANK, BLACK_START_RANK};
 
     public static final int WHITE_FORWARD_DIR   = 1;
     public static final int BLACK_FORWARD_DIR   = -1;
+    public static final int[] FORWARD_DIR       = {WHITE_FORWARD_DIR, BLACK_FORWARD_DIR};
 
     public static final int QUEEN_START_FILE    = 3;
     public static final int KING_START_FILE     = 4;
@@ -46,10 +48,6 @@ public class Board {
 
     // Static Methods
 
-    public static boolean isPositionValid(int position) {
-        return (position >= MIN_POSITION && position <=MAX_POSITION);
-    }
-
     public static boolean isPositionValid(int rank, int file) {
         return (
             rank >= MIN_RANK &&
@@ -57,28 +55,6 @@ public class Board {
             file >= MIN_FILE &&
             file <= MAX_FILE
         );
-    }
-
-    public static int getRank(int position) {
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return (position / BOARD_WIDTH);
-    }
-
-    public static int getFile(int position) {
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return (position % BOARD_WIDTH);
-    }
-
-    public static int getPosition(int rank, int file) {
-        int position = (rank * BOARD_WIDTH + file);
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return position;
     }
 
     public static Board createDefaultBoard() {
@@ -143,6 +119,10 @@ public class Board {
         return pieces[rank][file];
     }
 
+    public Piece getPiece(Position position) {
+        return this.getPiece(position.rank, position.file);
+    }
+
     public void setPiece(int rank, int file, Piece piece) {
         if(!isPositionValid(rank, file)) {
             Debug.fatal("Board.setPiece()", "Invalid Position");
@@ -153,6 +133,40 @@ public class Board {
 
         this.pieces[rank][file] = piece;
     }
+
+    public void setPiece(Position position, Piece piece) {
+        this.setPiece(position.rank, position.file, piece);
+    }
+
+    public Position getKingPos(Piece.Colour colour) {
+        if(colour == Piece.Colour.NONE) {
+            Debug.warning("Board.getKingPos()", "colour == NONE");
+            return null;
+        }
+
+        int startRank = START_RANK[colour.value];
+        int dir = FORWARD_DIR[colour.value];
+
+        Piece targetPiece = Piece.WHITE_KING;
+        
+        if(colour == Piece.Colour.BLACK) {
+            targetPiece = Piece.BLACK_KING;
+        }
+
+        for(int r = startRank; r >= MIN_RANK && r <= MAX_RANK; r += dir) {
+            for(int f = MIN_FILE; f <= MAX_FILE; f++) {
+                if(this.pieces[r][f].equals(targetPiece)) {
+                    return new Position(r, f);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // Maybe TODO: isPositionChecked(position)
+
+    // Maybe TODO: isKingChecked(colour)
 
     public Board clone() {
         Board board = new Board();
