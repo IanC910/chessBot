@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Chess.Board;
 import Chess.Move;
+import Chess.Position;
 
 public abstract class Piece {
 
@@ -62,4 +63,8 @@ public abstract class Piece {
     }
 
     public abstract LinkedList<Move> getLegalMoves(Board board, int rank, int file);
+
+    public final LinkedList<Move> getLegalMoves(Board board, Position position) {
+        return getLegalMoves(board, position.rank, position.file);
+    }
 }
