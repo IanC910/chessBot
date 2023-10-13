@@ -3,6 +3,7 @@ package Chess.Pieces;
 import java.util.LinkedList;
 
 import Chess.Board;
+import Chess.Colour;
 import Chess.Move;
 
 public class Rook extends Piece {

@@ -38,7 +38,7 @@ public class Move {
         // A piece can be pinned only if it is the only piece between the king and an attacker on a valid pin line
 
         // Check if piece is initially on a valid pin line
-        Piece.Colour thisColour = this.endPiece.colour;
+        Colour thisColour = this.endPiece.colour;
         Position kingPos = board.getKingPos(thisColour);
         if(kingPos == null) {
             return false;

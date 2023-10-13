@@ -56,7 +56,7 @@ public class BoardTest {
     public void getKingPosTest() {
         Board board = Board.createDefaultBoard();
 
-        Position whiteKingPos = board.getKingPos(Piece.Colour.WHITE);
+        Position whiteKingPos = board.getKingPos(Colour.WHITE);
 
         assertEquals(Board.WHITE_START_RANK, whiteKingPos.rank);
         assertEquals(Board.KING_START_FILE,  whiteKingPos.file);

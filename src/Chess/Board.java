@@ -147,13 +147,13 @@ public class Board {
         this.setPiece(position.rank, position.file, piece);
     }
 
-    public Position getKingPos(Piece.Colour colour) {
-        if(colour == Piece.Colour.NONE) {
+    public Position getKingPos(Colour colour) {
+        if(colour == Colour.NONE) {
             Debug.warning("Board.getKingPos()", "colour == NONE");
             return null;
         }
 
-        if(colour == Piece.Colour.WHITE) {
+        if(colour == Colour.WHITE) {
             return whiteKingPosition;
         }
         else {
