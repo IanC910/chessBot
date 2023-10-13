@@ -89,6 +89,8 @@ public class Board {
     // Non-Static Members
 
     private Piece[][] pieces;
+    private Position whiteKingPosition = null;
+    private Position blackKingPosition = null;
 
     public Board() {
         pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
@@ -102,7 +104,7 @@ public class Board {
 
     public Piece getPiece(int rank, int file) {
         if(!Position.isValid(rank, file)) {
-            Debug.fatal("Board.getPiece()", "Invalid Position");
+            return null;
         }
 
         return pieces[rank][file];
@@ -120,6 +122,13 @@ public class Board {
             Debug.fatal("Board.setPiece()", "Null piece");
         }
 
+        if(piece.equals(Piece.WHITE_KING)) {
+            whiteKingPosition = new Position(rank, file);
+        }
+        else if(piece.equals(Piece.BLACK_KING)) {
+            blackKingPosition = new Position(rank, file);
+        }
+
         this.pieces[rank][file] = piece;
     }
 
@@ -133,24 +142,12 @@ public class Board {
             return null;
         }
 
-        int startRank = START_RANK[colour.value];
-        int dir = FORWARD_DIR[colour.value];
-
-        Piece targetPiece = Piece.WHITE_KING;
-        
-        if(colour == Piece.Colour.BLACK) {
-            targetPiece = Piece.BLACK_KING;
+        if(colour == Piece.Colour.WHITE) {
+            return whiteKingPosition;
         }
-
-        for(int r = startRank; r >= MIN_RANK && r <= MAX_RANK; r += dir) {
-            for(int f = MIN_FILE; f <= MAX_FILE; f++) {
-                if(this.pieces[r][f].equals(targetPiece)) {
-                    return new Position(r, f);
-                }
-            }
+        else {
+            return blackKingPosition;
         }
-
-        return null;
     }
 
     // Maybe TODO: isPositionChecked(position)

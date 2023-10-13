@@ -23,7 +23,7 @@ public class Pawn extends Piece {
             file
         );
 
-        Move move = new Move(startPos, endPos);
+        Move move = new Move(startPos, this, endPos);
 
         if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
             if(board.getPiece(endPos).equals(Piece.NO_PIECE)) {
@@ -37,7 +37,7 @@ public class Pawn extends Piece {
             file - 1
         );
 
-        move = new Move(startPos, endPos);
+        move = new Move(startPos, this, endPos);
 
         if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
             if(!board.getPiece(endPos).equals(Piece.NO_PIECE) && board.getPiece(endPos).colour != this.colour) {
@@ -51,7 +51,7 @@ public class Pawn extends Piece {
             file + 1
         );
 
-        move = new Move(startPos, endPos);
+        move = new Move(startPos, this, endPos);
 
         if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
             if(!board.getPiece(endPos).equals(Piece.NO_PIECE) && board.getPiece(endPos).colour != this.colour) {

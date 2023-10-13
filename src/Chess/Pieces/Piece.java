@@ -42,6 +42,16 @@ public abstract class Piece {
             this.symbol = symbol;
             this.value = value;
         }
+
+        public Colour getOther() {
+            if(this == NONE) {
+                return NONE;
+            }
+            else if(this == WHITE) {
+                return BLACK;
+            }
+            return WHITE;
+        }
     };
 
     public final Colour colour;
