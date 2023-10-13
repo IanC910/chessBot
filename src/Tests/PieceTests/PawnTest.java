@@ -42,23 +42,23 @@ public class PawnTest {
     @Test
     public void promotionTest() {
         Board board = new Board();
-
-        Position whitePawnPos = new Position(6, 5);
+        
+        // Final position is not on back rank, no promotion, 1 move
+        assertEquals(1, Piece.WHITE_PAWN.getLegalMoves(board, 5, 5).size());
 
         // 1 move forward, 4 promotion options
-        board.setPiece(whitePawnPos, Piece.WHITE_PAWN);
-        assertEquals(4, Piece.WHITE_PAWN.getLegalMoves(board, whitePawnPos).size());
+        assertEquals(4, Piece.WHITE_PAWN.getLegalMoves(board, 6, 5).size());
 
         // 1 moves forward, 1 diagonal, 4 promotions each
         board.setPiece(7, 6, Piece.BLACK_QUEEN);
-        assertEquals(8, Piece.WHITE_PAWN.getLegalMoves(board, whitePawnPos).size());
+        assertEquals(8, Piece.WHITE_PAWN.getLegalMoves(board, 6, 5).size());
 
         // pawn blocked on the front, 1 move diagonal
         board.setPiece(7, 5, Piece.BLACK_QUEEN);
-        assertEquals(4, Piece.WHITE_PAWN.getLegalMoves(board, whitePawnPos).size());
+        assertEquals(4, Piece.WHITE_PAWN.getLegalMoves(board, 6, 5).size());
 
         // Pawn is pinned to the king, blocked on the front and no moves diagonal
         board.setPiece(5, 5, Piece.WHITE_KING);
-        assertEquals(0, Piece.WHITE_PAWN.getLegalMoves(board, whitePawnPos).size());
+        assertEquals(0, Piece.WHITE_PAWN.getLegalMoves(board, 6, 5).size());
     }
 }
