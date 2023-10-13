@@ -25,10 +25,11 @@ public class Pawn extends Piece {
 
         Move move = new Move(startPos, this, endPos);
 
-        if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
-            if(board.getPiece(endPos).equals(Piece.NO_PIECE)) {
-                legalMoves.add(move);
-            }
+        if(Position.isValid(endPos) &&
+            !move.checksOwnKing(board) &&
+            board.getPiece(endPos).equals(Piece.NO_PIECE)
+        ) {
+            legalMoves.add(move);
         }
 
         // Left attacking move
@@ -39,10 +40,11 @@ public class Pawn extends Piece {
 
         move = new Move(startPos, this, endPos);
 
-        if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
-            if(!board.getPiece(endPos).equals(Piece.NO_PIECE) && board.getPiece(endPos).colour != this.colour) {
-                legalMoves.add(move);
-            }
+        if(Position.isValid(endPos) &&
+            board.getPiece(endPos).colour == this.colour.getOther() &&
+            !move.checksOwnKing(board)
+        ) {
+            legalMoves.add(move);
         }
 
         // Right attacking move
@@ -53,9 +55,32 @@ public class Pawn extends Piece {
 
         move = new Move(startPos, this, endPos);
 
-        if(Position.isValid(endPos) && !move.checksOwnKing(board)) {
-            if(!board.getPiece(endPos).equals(Piece.NO_PIECE) && board.getPiece(endPos).colour != this.colour) {
-                legalMoves.add(move);
+        if(Position.isValid(endPos) &&
+            board.getPiece(endPos).colour == this.colour.getOther() &&
+            !move.checksOwnKing(board)
+        ) {
+            legalMoves.add(move);
+        }
+
+        // Check for promotions
+        if(endPos.rank == Board.MIN_RANK || endPos.rank == Board.MAX_RANK) {
+            int originalSize = legalMoves.size();
+
+            for(int i = 0; i < originalSize; i++) {
+                move = legalMoves.pop();
+
+                if(this.colour == Colour.WHITE) {
+                    legalMoves.add(new Move(move.startPos, Piece.WHITE_BISHOP, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.WHITE_ROOK, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.WHITE_KNIGHT, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.WHITE_QUEEN, move.endPos));
+                }
+                else {
+                    legalMoves.add(new Move(move.startPos, Piece.BLACK_BISHOP, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.BLACK_ROOK, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.BLACK_KNIGHT, move.endPos));
+                    legalMoves.add(new Move(move.startPos, Piece.BLACK_QUEEN, move.endPos));
+                }
             }
         }
 
