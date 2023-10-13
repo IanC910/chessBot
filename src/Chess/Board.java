@@ -3,6 +3,8 @@ package Chess;
 import Chess.Pieces.Piece;
 import Common.Debug;
 
+import Chess.Pieces.*;
+
 public class Board {
 
     // Static Constants
@@ -122,6 +124,15 @@ public class Board {
             Debug.fatal("Board.setPiece()", "Null piece");
         }
 
+        // If current piece is a king
+        if(this.pieces[rank][file].equals(Piece.WHITE_KING)) {
+            whiteKingPosition = null;
+        }
+        else if(this.pieces[rank][file].equals(Piece.BLACK_KING)) {
+            blackKingPosition = null;
+        }
+
+        // If new piece is a king
         if(piece.equals(Piece.WHITE_KING)) {
             whiteKingPosition = new Position(rank, file);
         }

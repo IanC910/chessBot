@@ -40,6 +40,10 @@ public class Move {
         // Check if piece is initially on a valid pin line
         Piece.Colour thisColour = this.endPiece.colour;
         Position kingPos = board.getKingPos(thisColour);
+        if(kingPos == null) {
+            return false;
+        }
+        
         int startDirRank = this.startPos.rank - kingPos.rank;
         int startDirFile = this.startPos.file - kingPos.file;
 
