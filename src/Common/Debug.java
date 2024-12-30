@@ -21,6 +21,18 @@ public class Debug {
         }
     }
 
+    public static void info(String context, String message) {
+        log(Severity.INFO, context, message);
+    }
+
+    public static void warning(String context, String message) {
+        log(Severity.WARNING, context, message);
+    }
+
+    public static void error(String context, String message) {
+        log(Severity.ERROR, context, message);
+    }
+
     public static void fatal(String context, String message) {
         log(Severity.FATAL, context, message);
     }

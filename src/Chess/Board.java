@@ -1,6 +1,9 @@
 package Chess;
 
+import Chess.Pieces.Piece;
 import Common.Debug;
+
+import Chess.Pieces.*;
 
 public class Board {
 
@@ -25,9 +28,11 @@ public class Board {
     // Starting Positions
     public static final int WHITE_START_RANK    = MIN_RANK;
     public static final int BLACK_START_RANK    = MAX_RANK;
+    public static final int[] START_RANK        = {WHITE_START_RANK, BLACK_START_RANK};
 
     public static final int WHITE_FORWARD_DIR   = 1;
     public static final int BLACK_FORWARD_DIR   = -1;
+    public static final int[] FORWARD_DIR       = {WHITE_FORWARD_DIR, BLACK_FORWARD_DIR};
 
     public static final int QUEEN_START_FILE    = 3;
     public static final int KING_START_FILE     = 4;
@@ -42,76 +47,40 @@ public class Board {
     public static final int R_ROOK_START_FILE   = 7;
 
 
-
-    // Static Methods
-
-    public static boolean isPositionValid(int position) {
-        return (position >= MIN_POSITION && position <=MAX_POSITION);
-    }
-
-    public static boolean isPositionValid(int rank, int file) {
-        return (
-            rank >= MIN_RANK &&
-            rank <= MAX_RANK &&
-            file >= MIN_FILE &&
-            file <= MAX_FILE
-        );
-    }
-
-    public static int getRank(int position) {
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return (position / BOARD_WIDTH);
-    }
-
-    public static int getFile(int position) {
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return (position % BOARD_WIDTH);
-    }
-
-    public static int getPosition(int rank, int file) {
-        int position = (rank * BOARD_WIDTH + file);
-        if(!isPositionValid(position)) {
-            return INVALID_POSITION;
-        }
-        return position;
-    }
-
+    
     public static Board createDefaultBoard() {
         Board defaultBoard = new Board();
 
-        // Set King and Queen
-        defaultBoard.setPiece(WHITE_START_RANK, KING_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KING));
-        defaultBoard.setPiece(WHITE_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.QUEEN));
+        // Set Kings
+        defaultBoard.setPiece(WHITE_START_RANK, KING_START_FILE, Piece.WHITE_KING);
+        defaultBoard.setPiece(BLACK_START_RANK, KING_START_FILE, Piece.BLACK_KING);
 
-        defaultBoard.setPiece(BLACK_START_RANK, KING_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KING));
-        defaultBoard.setPiece(BLACK_START_RANK, QUEEN_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.QUEEN));
+        // Set Queens
+        defaultBoard.setPiece(WHITE_START_RANK, QUEEN_START_FILE, Piece.WHITE_QUEEN);
+        defaultBoard.setPiece(BLACK_START_RANK, QUEEN_START_FILE, Piece.BLACK_QUEEN);
 
         // Set Bishops
-        defaultBoard.setPiece(WHITE_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.BISHOP));
-        defaultBoard.setPiece(WHITE_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.BISHOP));
-        defaultBoard.setPiece(BLACK_START_RANK, L_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.BISHOP));
-        defaultBoard.setPiece(BLACK_START_RANK, R_BISHOP_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.BISHOP));
+        defaultBoard.setPiece(WHITE_START_RANK, L_BISHOP_START_FILE, Piece.WHITE_BISHOP);
+        defaultBoard.setPiece(WHITE_START_RANK, R_BISHOP_START_FILE, Piece.WHITE_BISHOP);
+        defaultBoard.setPiece(BLACK_START_RANK, L_BISHOP_START_FILE, Piece.BLACK_BISHOP);
+        defaultBoard.setPiece(BLACK_START_RANK, R_BISHOP_START_FILE, Piece.BLACK_BISHOP);
 
         // Set Knights
-        defaultBoard.setPiece(WHITE_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(WHITE_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(BLACK_START_RANK, L_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KNIGHT));
-        defaultBoard.setPiece(BLACK_START_RANK, R_KNIGHT_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.KNIGHT));
+        defaultBoard.setPiece(WHITE_START_RANK, L_KNIGHT_START_FILE, Piece.WHITE_KNIGHT);
+        defaultBoard.setPiece(WHITE_START_RANK, R_KNIGHT_START_FILE, Piece.WHITE_KNIGHT);
+        defaultBoard.setPiece(BLACK_START_RANK, L_KNIGHT_START_FILE, Piece.BLACK_KNIGHT);
+        defaultBoard.setPiece(BLACK_START_RANK, R_KNIGHT_START_FILE, Piece.BLACK_KNIGHT);
 
         // Set Rooks
-        defaultBoard.setPiece(WHITE_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.ROOK));
-        defaultBoard.setPiece(WHITE_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.WHITE, Piece.Type.ROOK));
-        defaultBoard.setPiece(BLACK_START_RANK, L_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.ROOK));
-        defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, new Piece(Piece.Colour.BLACK, Piece.Type.ROOK));
+        defaultBoard.setPiece(WHITE_START_RANK, L_ROOK_START_FILE, Piece.WHITE_ROOK);
+        defaultBoard.setPiece(WHITE_START_RANK, R_ROOK_START_FILE, Piece.WHITE_ROOK);
+        defaultBoard.setPiece(BLACK_START_RANK, L_ROOK_START_FILE, Piece.BLACK_ROOK);
+        defaultBoard.setPiece(BLACK_START_RANK, R_ROOK_START_FILE, Piece.BLACK_ROOK);
 
         // Set Pawns
         for(int f = MIN_FILE; f <= MAX_FILE; f++) {
-            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, f, new Piece(Piece.Colour.WHITE, Piece.Type.PAWN));
-            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, f, new Piece(Piece.Colour.BLACK, Piece.Type.PAWN));
+            defaultBoard.setPiece(WHITE_START_RANK + WHITE_FORWARD_DIR, f, Piece.WHITE_PAWN);
+            defaultBoard.setPiece(BLACK_START_RANK + BLACK_FORWARD_DIR, f, Piece.BLACK_PAWN);
         }
 
         return defaultBoard;
@@ -122,6 +91,8 @@ public class Board {
     // Non-Static Members
 
     private Piece[][] pieces;
+    private Position whiteKingPosition = null;
+    private Position blackKingPosition = null;
 
     public Board() {
         pieces = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
@@ -134,23 +105,65 @@ public class Board {
     }
 
     public Piece getPiece(int rank, int file) {
-        if(!isPositionValid(rank, file)) {
-            Debug.fatal("Board.getPiece()", "Invalid Position");
+        if(!Position.isValid(rank, file)) {
+            return null;
         }
 
         return pieces[rank][file];
     }
 
+    public Piece getPiece(Position position) {
+        return this.getPiece(position.rank, position.file);
+    }
+
     public void setPiece(int rank, int file, Piece piece) {
-        if(!isPositionValid(rank, file)) {
+        if(!Position.isValid(rank, file)) {
             Debug.fatal("Board.setPiece()", "Invalid Position");
         }
         if(piece == null) {
             Debug.fatal("Board.setPiece()", "Null piece");
         }
 
+        // If current piece is a king
+        if(this.pieces[rank][file].equals(Piece.WHITE_KING)) {
+            whiteKingPosition = null;
+        }
+        else if(this.pieces[rank][file].equals(Piece.BLACK_KING)) {
+            blackKingPosition = null;
+        }
+
+        // If new piece is a king
+        if(piece.equals(Piece.WHITE_KING)) {
+            whiteKingPosition = new Position(rank, file);
+        }
+        else if(piece.equals(Piece.BLACK_KING)) {
+            blackKingPosition = new Position(rank, file);
+        }
+
         this.pieces[rank][file] = piece;
     }
+
+    public void setPiece(Position position, Piece piece) {
+        this.setPiece(position.rank, position.file, piece);
+    }
+
+    public Position getKingPos(Colour colour) {
+        if(colour == Colour.NONE) {
+            Debug.warning("Board.getKingPos()", "colour == NONE");
+            return null;
+        }
+
+        if(colour == Colour.WHITE) {
+            return whiteKingPosition;
+        }
+        else {
+            return blackKingPosition;
+        }
+    }
+
+    // Maybe TODO: isPositionChecked(position)
+
+    // Maybe TODO: isKingChecked(colour)
 
     public Board clone() {
         Board board = new Board();
