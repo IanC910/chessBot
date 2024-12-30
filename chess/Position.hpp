@@ -12,9 +12,8 @@ public:
     Position();
     Position(char rank, char file);
     Position(const Position& position);
-    ~Position();
 
     bool isValid();
 
-    bool equals(const Position& position);
+    bool equals(const Position& position) const;
 };

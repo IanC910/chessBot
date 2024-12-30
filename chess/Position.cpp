@@ -30,7 +30,7 @@ bool Position::isValid() {
 	return isValid(this->rank, this->file);
 }
 
-bool Position::equals(const Position& position) {
+bool Position::equals(const Position& position) const {
 	return (
 		this->rank == position.rank &&
 		this->file == position.file

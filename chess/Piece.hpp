@@ -29,6 +29,6 @@ public:
 	Piece();
 	Piece(Colour colour, PieceType type);
 
-	bool equals(const Piece& piece);
+	bool equals(const Piece& piece) const;
 	std::string getSymbol() const;
 };
