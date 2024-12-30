@@ -7,6 +7,9 @@
 #ifndef PCH_H
 #define PCH_H
 
-// add headers that you want to pre-compile here
+#include "../chess/common/log.hpp"
+#include "../chess/Board.hpp"
+#include "../chess/Piece.hpp"
+#include "../chess/Position.hpp"
 
-#endif //PCH_H
+#endif // PCH_H

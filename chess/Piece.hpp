@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <string>
+
 enum Colour {
 	NO_COLOUR	= ' ',
 	WHITE		= 'w',
@@ -22,6 +24,11 @@ public:
 	char colour = NO_COLOUR;
 	char type = NO_TYPE;
 
+	static const Piece NO_PIECE;
+
 	Piece();
 	Piece(Colour colour, PieceType type);
+
+	bool equals(const Piece& piece);
+	std::string getSymbol() const;
 };
