@@ -19,19 +19,17 @@ namespace BoardTests {
 				}
 			}
 
-			board.setPiece(0, 0, Piece(WHITE, ROOK));
-
 			std::cout << board.toString() << std::endl;
 		}
 
 		TEST_METHOD(toStringTest) {
-			Board* board = Board::createDefaultBoard();
+			Board* board = Board::createStartingBoard();
 
 			std::cout << board->toString();
 		}
 
 		TEST_METHOD(copyTest) {
-			Board* board = Board::createDefaultBoard();
+			Board* board = Board::createStartingBoard();
 			Board copy(*board);
 			Assert::IsTrue(board->equals(copy));
 

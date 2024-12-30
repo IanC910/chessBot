@@ -2,6 +2,10 @@
 #include <string>
 #include <sstream>
 
+#include "Move.hpp"
+#include "Position.hpp"
+#include "Piece.hpp"
+
 #include "Board.hpp"
 
 Board::Board() {}
@@ -27,23 +31,24 @@ bool Board::equals(const Board& board) const {
 }
 
 std::string Board::toString() const {
-    const std::string HORIZONTAL_LINE = "-----------------------------------------";
+    const std::string HORIZONTAL_LINE   = "  -----------------------------------------";
+    const std::string FILE_LABELS       = "    a    b    c    d    e    f    g    h";
 
     std::stringstream stream;
 
     stream << HORIZONTAL_LINE;
 
-    for (int r = 7; r >= 0; r--) {
-        stream << "\n|";
+    for (char r = 7; r >= 0; r--) {
+        stream << "\n" << (char)('1' + r) << " |";
 
-        for (int f = 0; f < 8; f++) {
+        for (char f = 0; f < 8; f++) {
             stream << " " << getPiece(r, f).getSymbol() << " |";
         }
 
         stream << "\n" << HORIZONTAL_LINE;
     }
 
-    stream << "\n";
+    stream << "\n" << FILE_LABELS << "\n";
 
     return stream.str();
 }
@@ -56,13 +61,28 @@ Piece Board::getPiece(char rank, char file) const {
     return Piece();
 }
 
+Piece Board::getPiece(Position position) const {
+    return getPiece(position.rank, position.file);
+}
+
 void Board::setPiece(char rank, char file, const Piece& piece) {
     if (Position::isValid(rank, file)) {
         tiles[rank][file] = piece;
     }
 }
 
-Board* Board::createDefaultBoard() {
+void Board::setPiece(Position position, const Piece& piece) {
+    setPiece(position.rank, position.file, piece);
+}
+
+void Board::doMove(const Move& move) {
+    if (move.startPos.isValid() && move.endPos.isValid()) {
+        setPiece(move.startPos, Piece::NO_PIECE);
+        setPiece(move.endPos, move.endPiece);
+    }
+}
+
+Board* Board::createStartingBoard() {
     Board* defaultBoard = new Board();
     
     // Kings

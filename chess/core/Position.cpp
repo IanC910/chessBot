@@ -1,18 +1,6 @@
 
 #include "Position.hpp"
 
-Position::Position() {}
-
-Position::Position(char rank, char file) {
-	this->rank = rank;
-	this->file = file;
-}
-
-Position::Position(const Position& position) {
-	this->rank = position.rank;
-	this->file = position.file;
-}
-
 bool Position::isValid(char rank, char file) {
 	return (
 		rank >= 0 &&
@@ -26,7 +14,17 @@ bool Position::isValid(const Position& position) {
 	return isValid(position.rank, position.file);
 }
 
-bool Position::isValid() {
+Position::Position() {}
+
+Position::Position(char rank, char file) :
+	rank(rank), file(file)
+{}
+
+Position::Position(const Position& position) :
+	rank(position.rank), file(position.file)
+{}
+
+bool Position::isValid() const {
 	return isValid(this->rank, this->file);
 }
 

@@ -13,7 +13,7 @@ public:
     Position(char rank, char file);
     Position(const Position& position);
 
-    bool isValid();
+    bool isValid() const;
 
     bool equals(const Position& position) const;
 };

@@ -134,11 +134,13 @@
     <ClInclude Include="core\Piece.hpp" />
     <ClInclude Include="core\Player.hpp" />
     <ClInclude Include="core\Position.hpp" />
+    <ClInclude Include="core\KeyboardPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Board.cpp" />
     <ClCompile Include="common\log.cpp" />
     <ClCompile Include="core\Game.cpp" />
+    <ClCompile Include="core\KeyboardPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="core\Move.cpp" />
     <ClCompile Include="core\Piece.cpp" />

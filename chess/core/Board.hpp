@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "Move.hpp"
 #include "Position.hpp"
 #include "Piece.hpp"
 
@@ -15,9 +16,13 @@ public:
 	std::string toString() const;
 
 	Piece getPiece(char rank, char file) const;
+	Piece getPiece(Position position) const;
 	void setPiece(char rank, char file, const Piece& piece);
+	void setPiece(Position position, const Piece& piece);
 
-	static Board* createDefaultBoard();
+	void doMove(const Move& move);
+
+	static Board* createStartingBoard();
 
 	//Position getKingPos(Colour colour);
 
