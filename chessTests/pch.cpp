@@ -3,10 +3,8 @@
 #include "pch.h"
 
 #include "../chess/common/log.cpp"
-
-#include "../chess/Position.cpp"
-#include "../chess/Piece.cpp"
-
-#include "../chess/Board.cpp"
+#include "../chess/core/Board.cpp"
+#include "../chess/core/Piece.cpp"
+#include "../chess/core/Position.cpp"
 
 

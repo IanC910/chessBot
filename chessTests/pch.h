@@ -8,8 +8,8 @@
 #define PCH_H
 
 #include "../chess/common/log.hpp"
-#include "../chess/Board.hpp"
-#include "../chess/Piece.hpp"
-#include "../chess/Position.hpp"
+#include "../chess/core/Board.hpp"
+#include "../chess/core/Piece.hpp"
+#include "../chess/core/Position.hpp"
 
 #endif // PCH_H
