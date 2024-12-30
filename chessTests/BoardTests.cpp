@@ -29,5 +29,19 @@ namespace BoardTests {
 
 			std::cout << board->toString();
 		}
+
+		TEST_METHOD(copyTest) {
+			Board* board = Board::createDefaultBoard();
+			Board copy(*board);
+			Assert::IsTrue(board->equals(copy));
+
+			copy.setPiece(4, 4, Piece(WHITE, PAWN));
+			Assert::IsFalse(board->equals(copy));
+
+			board->setPiece(4, 4, Piece(WHITE, PAWN));
+			Assert::IsTrue(board->equals(copy));
+
+			delete board;
+		}
 	};
 }
