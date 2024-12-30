@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "debug.hpp"
+#include "log.hpp"
 
 void log(std::string context, std::string message) {
 	std::string line = "[" + context + "] " + message;
