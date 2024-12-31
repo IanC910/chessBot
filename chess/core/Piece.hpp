@@ -9,6 +9,8 @@ enum Colour {
 	NO_COLOUR	= 2
 };
 
+Colour getOpposite(Colour colour);
+
 const char COLOUR_SYMBOLS[3] = {
 	'w',
 	'b',
@@ -47,8 +49,6 @@ const char PIECE_VALUES[7] = {
 
 class Piece {
 public:
-	char colour : 4;
-	char type	: 4;
 
 	static const Piece NO_PIECE;
 
@@ -56,6 +56,13 @@ public:
 	Piece(const Piece& piece);
 	Piece(Colour colour, PieceType type);
 
+	Colour getColour() const;
+	PieceType getType() const;
+
 	bool equals(const Piece& piece) const;
 	std::string getSymbol() const;
+
+private:
+	char colour : 4;
+	char type	: 4;
 };

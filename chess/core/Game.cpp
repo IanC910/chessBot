@@ -33,6 +33,6 @@ void Game::start() {
 
         board.doMove(move);
 
-        turn = (Colour)(1 - turn);
+        turn = getOpposite(turn);
     }
 }

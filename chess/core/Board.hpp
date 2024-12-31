@@ -20,6 +20,7 @@ public:
 	void setPiece(char rank, char file, const Piece& piece);
 	void setPiece(Position position, const Piece& piece);
 
+	bool doesMoveCheckOwnKing(const Move& move);
 	void doMove(const Move& move);
 
 	Position getKingPos(Colour colour);

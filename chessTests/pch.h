@@ -9,6 +9,7 @@
 
 #include "../chess/common/log.hpp"
 #include "../chess/core/Board.hpp"
+#include "../chess/core/Move.hpp"
 #include "../chess/core/Piece.hpp"
 #include "../chess/core/Position.hpp"
 
