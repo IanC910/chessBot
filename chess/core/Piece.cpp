@@ -3,7 +3,9 @@
 
 const Piece Piece::NO_PIECE(NO_COLOUR, NO_TYPE);
 
-Piece::Piece() {}
+Piece::Piece() :
+    colour(NO_COLOUR), type(NO_TYPE)
+{}
 
 Piece::Piece(const Piece& piece) :
     colour(piece.colour), type(piece.type)

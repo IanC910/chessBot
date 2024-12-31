@@ -47,8 +47,8 @@ const char PIECE_VALUES[7] = {
 
 class Piece {
 public:
-	char colour = NO_COLOUR;
-	char type = NO_TYPE;
+	char colour : 4;
+	char type	: 4;
 
 	static const Piece NO_PIECE;
 
