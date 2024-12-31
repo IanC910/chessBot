@@ -14,7 +14,9 @@ bool Position::isValid(const Position& position) {
 	return isValid(position.rank, position.file);
 }
 
-Position::Position() {}
+Position::Position() :
+	rank(0), file(0)
+{}
 
 Position::Position(char rank, char file) :
 	rank(rank), file(file)

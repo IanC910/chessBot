@@ -22,10 +22,10 @@ public:
 
 	void doMove(const Move& move);
 
+	Position getKingPos(Colour colour);
+
 	void clear();
 	void setToStartingBoard();
-
-	//Position getKingPos(Colour colour);
 
 private:
 	Piece pieces[8][8]; // Row-major (Rank then file)

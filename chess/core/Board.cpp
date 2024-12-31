@@ -81,7 +81,7 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
             whiteKingPos.rank = rank;
             whiteKingPos.file = file;
         }
-        else {
+        else if(piece.colour == BLACK) {
             blackKingPos.rank = rank;
             blackKingPos.file = file;
         }
@@ -99,6 +99,17 @@ void Board::doMove(const Move& move) {
         setPiece(move.startPos, Piece::NO_PIECE);
         setPiece(move.endPos, move.endPiece);
     }
+}
+
+Position Board::getKingPos(Colour colour) {
+    if (colour == WHITE) {
+        return whiteKingPos;
+    }
+    else if (colour == BLACK) {
+        return blackKingPos;
+    }
+    
+    return Position();
 }
 
 void Board::clear() {
