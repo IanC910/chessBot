@@ -36,7 +36,7 @@ bool Board::equals(const Board& board) const {
 
 std::string Board::toString() const {
     const std::string HORIZONTAL_LINE   = "  -----------------------------------------";
-    const std::string FILE_LABELS       = "    a    b    c    d    e    f    g    h";
+    const std::string FILE_LABELS       = "     a    b    c    d    e    f    g    h";
 
     std::stringstream stream;
 
@@ -100,7 +100,7 @@ static int sign(int x) {
 
 bool Board::doesMoveCheckOwnKing(const Move& move) {
     if (move.startPiece.getType() == KING) {
-
+        // TODO
     }
     else {
         // A move can only check it's own king if the piece moved was pinned

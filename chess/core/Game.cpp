@@ -33,6 +33,8 @@ void Game::start() {
 
         board.doMove(move);
 
+        // TODO: Check for win condition
+
         turn = getOpposite(turn);
     }
 }
