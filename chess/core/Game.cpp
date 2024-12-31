@@ -3,13 +3,13 @@
 
 #include "Game.hpp"
 
-Game::Game(Player& whitePlayer, Player& blackPlayer, Board* startingBoard) :
+Game::Game(Player& whitePlayer, Player& blackPlayer) :
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(true)
+{}
+
+Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(startingBoard)
-{
-    if (board == nullptr) {
-        board = Board::createStartingBoard();
-    }
-}
+{}
 
 void Game::start() {
 
@@ -22,11 +22,16 @@ void Game::start() {
     };
 
     while (true) {
-        std::cout << board->toString();
+        std::cout << board.toString();
 
-        Move move = players[turn]->takeTurn(*board, turn);
+        std::string colourString = (turn == WHITE) ? "White" : "Black";
+        std::cout << colourString << "'s turn\n";
 
-        board->doMove(move);
+        Move move = players[turn]->takeTurn(board, turn);
+
+        // TODO: validate move
+
+        board.doMove(move);
 
         turn = (Colour)(1 - turn);
     }

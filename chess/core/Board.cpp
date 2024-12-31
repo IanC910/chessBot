@@ -8,7 +8,11 @@
 
 #include "Board.hpp"
 
-Board::Board() {}
+Board::Board(bool startingBoard) {
+    if (startingBoard) {
+        setToStartingBoard();
+    }
+}
 
 Board::Board(const Board& board) {
     for (int r = 0; r < 8; r++) {
@@ -55,7 +59,7 @@ std::string Board::toString() const {
 
 Piece Board::getPiece(char rank, char file) const {
     if (Position::isValid(rank, file)) {
-        return tiles[rank][file];
+        return pieces[rank][file];
     }
 
     return Piece();
@@ -66,9 +70,24 @@ Piece Board::getPiece(Position position) const {
 }
 
 void Board::setPiece(char rank, char file, const Piece& piece) {
-    if (Position::isValid(rank, file)) {
-        tiles[rank][file] = piece;
+    // If position is not valid
+    if (!Position::isValid(rank, file)) {
+        return;
     }
+
+    // If current piece is a king
+    if (piece.type == KING) {
+        if (piece.colour == WHITE) {
+            whiteKingPos.rank = rank;
+            whiteKingPos.file = file;
+        }
+        else {
+            blackKingPos.rank = rank;
+            blackKingPos.file = file;
+        }
+    }
+    
+    pieces[rank][file] = piece;
 }
 
 void Board::setPiece(Position position, const Piece& piece) {
@@ -82,40 +101,46 @@ void Board::doMove(const Move& move) {
     }
 }
 
-Board* Board::createStartingBoard() {
-    Board* defaultBoard = new Board();
-    
+void Board::clear() {
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            setPiece(r, f, Piece::NO_PIECE);
+        }
+    }
+}
+
+void Board::setToStartingBoard() {
+    clear();
+
     // Kings
-    defaultBoard->setPiece(0, 4, Piece(WHITE, KING));
-    defaultBoard->setPiece(7, 4, Piece(BLACK, KING));
+    setPiece(0, 4, Piece(WHITE, KING));
+    setPiece(7, 4, Piece(BLACK, KING));
 
     // Queens
-    defaultBoard->setPiece(0, 3, Piece(WHITE, QUEEN));
-    defaultBoard->setPiece(7, 3, Piece(BLACK, QUEEN));
+    setPiece(0, 3, Piece(WHITE, QUEEN));
+    setPiece(7, 3, Piece(BLACK, QUEEN));
 
     // Bishops
-    defaultBoard->setPiece(0, 2, Piece(WHITE, BISHOP));
-    defaultBoard->setPiece(0, 5, Piece(WHITE, BISHOP));
-    defaultBoard->setPiece(7, 2, Piece(BLACK, BISHOP));
-    defaultBoard->setPiece(7, 5, Piece(BLACK, BISHOP));
+    setPiece(0, 2, Piece(WHITE, BISHOP));
+    setPiece(0, 5, Piece(WHITE, BISHOP));
+    setPiece(7, 2, Piece(BLACK, BISHOP));
+    setPiece(7, 5, Piece(BLACK, BISHOP));
 
     // Knights
-    defaultBoard->setPiece(0, 1, Piece(WHITE, KNIGHT));
-    defaultBoard->setPiece(0, 6, Piece(WHITE, KNIGHT));
-    defaultBoard->setPiece(7, 1, Piece(BLACK, KNIGHT));
-    defaultBoard->setPiece(7, 6, Piece(BLACK, KNIGHT));
+    setPiece(0, 1, Piece(WHITE, KNIGHT));
+    setPiece(0, 6, Piece(WHITE, KNIGHT));
+    setPiece(7, 1, Piece(BLACK, KNIGHT));
+    setPiece(7, 6, Piece(BLACK, KNIGHT));
 
     // Rooks
-    defaultBoard->setPiece(0, 0, Piece(WHITE, ROOK));
-    defaultBoard->setPiece(0, 7, Piece(WHITE, ROOK));
-    defaultBoard->setPiece(7, 0, Piece(BLACK, ROOK));
-    defaultBoard->setPiece(7, 7, Piece(BLACK, ROOK));
+    setPiece(0, 0, Piece(WHITE, ROOK));
+    setPiece(0, 7, Piece(WHITE, ROOK));
+    setPiece(7, 0, Piece(BLACK, ROOK));
+    setPiece(7, 7, Piece(BLACK, ROOK));
 
     // Pawns
     for (int f = 0; f < 8; f++) {
-        defaultBoard->setPiece(1, f, Piece(WHITE, PAWN));
-        defaultBoard->setPiece(6, f, Piece(BLACK, PAWN));
+        setPiece(1, f, Piece(WHITE, PAWN));
+        setPiece(6, f, Piece(BLACK, PAWN));
     }
-
-    return defaultBoard;
 }

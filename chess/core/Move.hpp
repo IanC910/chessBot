@@ -8,8 +8,9 @@ class Move {
 public:
     Position startPos;
     Position endPos;
+    Piece startPiece;
     Piece endPiece;
 
-    Move(Position startPos, Position endPos, Piece endPiece);
+    Move(Position startPos, Position endPos, Piece startPiece, Piece endPiece);
 };
 

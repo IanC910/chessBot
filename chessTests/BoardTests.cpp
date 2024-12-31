@@ -23,23 +23,20 @@ namespace BoardTests {
 		}
 
 		TEST_METHOD(toStringTest) {
-			Board* board = Board::createStartingBoard();
-
-			std::cout << board->toString();
+			Board board(true);
+			std::cout << board.toString();
 		}
 
 		TEST_METHOD(copyTest) {
-			Board* board = Board::createStartingBoard();
-			Board copy(*board);
-			Assert::IsTrue(board->equals(copy));
+			Board board(true);
+			Board copy(board);
+			Assert::IsTrue(board.equals(copy));
 
 			copy.setPiece(4, 4, Piece(WHITE, PAWN));
-			Assert::IsFalse(board->equals(copy));
+			Assert::IsFalse(board.equals(copy));
 
-			board->setPiece(4, 4, Piece(WHITE, PAWN));
-			Assert::IsTrue(board->equals(copy));
-
-			delete board;
+			board.setPiece(4, 4, Piece(WHITE, PAWN));
+			Assert::IsTrue(board.equals(copy));
 		}
 	};
 }

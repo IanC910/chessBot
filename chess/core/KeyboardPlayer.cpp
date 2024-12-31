@@ -14,20 +14,16 @@ KeyboardPlayer::KeyboardPlayer() :
 
 Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
     setColour(colour);
-
-    std::string colourString = (getColour() == WHITE) ? "White" : "Black";
-    std::cout << colourString << "'s turn\n";
     
-    std::string startPos;
-    std::string endPos;
+    std::string moveString;
 
     while(true) {
         std::cout << "Type move: ";
-        std::cin >> startPos >> endPos;
+        std::cin >> moveString;
 
-        std::cout << "Your move: " << startPos << " " << endPos << "\n";
+        std::cout << "Your move: " << moveString << "\n";
 
-        if (startPos.length() == 2 && endPos.length() == 2) {
+        if (moveString.length() == 4) {
             char confirmation;
             std::cout << "Confirm [y]: ";
             std::cin >> confirmation;
@@ -40,14 +36,15 @@ Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
         }
     }
 
-    char startFile  = startPos[0] - 'a';
-    char startRank  = startPos[1] - '1';
-    char endFile    = endPos[0] - 'a';
-    char endRank    = endPos[1] - '1';
+    char startFile  = moveString[0] - 'a';
+    char startRank  = moveString[1] - '1';
+    char endFile    = moveString[2] - 'a';
+    char endRank    = moveString[3] - '1';
     
     Move move(
         Position(startRank, startFile),
         Position(endRank, endFile),
+        board.getPiece(startRank, startFile),
         board.getPiece(startRank, startFile)
     );
 

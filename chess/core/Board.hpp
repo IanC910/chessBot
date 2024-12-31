@@ -9,7 +9,7 @@
 
 class Board {
 public:
-	Board();
+	Board(bool startingBoad = false);
 	Board(const Board& board);
 
 	bool equals(const Board& board) const;
@@ -22,10 +22,14 @@ public:
 
 	void doMove(const Move& move);
 
-	static Board* createStartingBoard();
+	void clear();
+	void setToStartingBoard();
 
 	//Position getKingPos(Colour colour);
 
 private:
-	Piece tiles[8][8]; // Row-major (Rank then file)
+	Piece pieces[8][8]; // Row-major (Rank then file)
+
+	Position whiteKingPos;
+	Position blackKingPos;
 };

@@ -6,12 +6,13 @@
 
 class Game {
 public:
-    Game(Player& whitePlayer, Player& blackPlayer, Board* startingBoard = nullptr);
+    Game(Player& whitePlayer, Player& blackPlayer);
+    Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard);
 
     void start();
 
 private:
-    Board* board = nullptr;
+    Board board;
 
     Player& whitePlayer;
     Player& blackPlayer;
