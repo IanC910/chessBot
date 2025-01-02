@@ -297,12 +297,11 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Pi
         return;
     }
 
-    Move noAttackMove(position, noAttackEndPos, piece, piece);
-
-    if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE) && 
-        !doesMoveCheckOwnKing(noAttackMove)
-    ) {
-        legalMoves.push_back(noAttackMove);
+    if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE)) {
+        Move noAttackMove(position, noAttackEndPos, piece, piece);
+        if (!doesMoveCheckOwnKing(noAttackMove)) {
+            legalMoves.push_back(noAttackMove);
+        }
     }
 
     // Left attacking move
@@ -311,13 +310,13 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Pi
         position.file - 1
     );
 
-    Move leftAttackMove(position, leftAttackEndPos, piece, piece);
-
     if (leftAttackEndPos.isValid() &&
-        getPiece(leftAttackEndPos).getColour() == piece.getOppositeColour() &&
-        !doesMoveCheckOwnKing(leftAttackMove)
+        getPiece(leftAttackEndPos).getColour() == piece.getOppositeColour()
     ) {
-        legalMoves.push_back(leftAttackMove);
+        Move leftAttackMove(position, leftAttackEndPos, piece, piece);
+        if(!doesMoveCheckOwnKing(leftAttackMove)) {
+            legalMoves.push_back(leftAttackMove);
+        }
     }
 
     // Right attacking move
@@ -326,13 +325,13 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Pi
         position.file + 1
     );
 
-    Move rightAttackMove(position, rightAttackEndPos, piece, piece);
-
     if (rightAttackEndPos.isValid() &&
-        getPiece(rightAttackEndPos).getColour() == piece.getOppositeColour() &&
-        !doesMoveCheckOwnKing(rightAttackMove)
+        getPiece(rightAttackEndPos).getColour() == piece.getOppositeColour()
     ) {
-        legalMoves.push_back(rightAttackMove);
+        Move rightAttackMove(position, rightAttackEndPos, piece, piece);
+        if (!doesMoveCheckOwnKing(rightAttackMove)) {
+            legalMoves.push_back(rightAttackMove);
+        }
     }
 
     // Check for promotions
