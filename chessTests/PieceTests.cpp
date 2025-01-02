@@ -12,9 +12,6 @@ namespace PieceTests {
     public:
         TEST_METHOD(toStringTest) {
             Piece piece(WHITE, PAWN);
-
-            std::cout << "String: " << piece.getSymbol() << "\n";
-
             Assert::IsTrue(piece.getSymbol() == "wP");
         }
     };
