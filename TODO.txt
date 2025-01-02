@@ -1,2 +1,3 @@
 
-Make position rank and file unsigned and 3 bits each -> enforce validity
+board::isPositionChecked(Position);
+board::isKingChecked(Colour);
