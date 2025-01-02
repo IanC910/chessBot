@@ -31,6 +31,10 @@ PieceType Piece::getType() const {
     return (PieceType)type;
 }
 
+char Piece::getValue() const {
+    return PIECE_VALUES[type];
+}
+
 bool Piece::equals(const Piece& piece) const {
     return (
         this->colour == piece.colour &&

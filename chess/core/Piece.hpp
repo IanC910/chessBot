@@ -58,6 +58,7 @@ public:
 
 	Colour getColour() const;
 	PieceType getType() const;
+	char getValue() const;
 
 	bool equals(const Piece& piece) const;
 	std::string getSymbol() const;
