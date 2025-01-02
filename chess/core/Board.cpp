@@ -72,7 +72,17 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
         return;
     }
 
-    // If current piece is a king
+    // If previous piece is a king
+    if (pieces[rank][file].getType() == KING) {
+        if (pieces[rank][file].getColour() == WHITE) {
+            whiteKingPos = Position::NO_POSITION;
+        }
+        else if (pieces[rank][file].getColour() == BLACK) {
+            blackKingPos = Position::NO_POSITION;
+        }
+    }
+
+    // If new piece is a king
     if (piece.getType() == KING) {
         if (piece.getColour() == WHITE) {
             whiteKingPos.rank = rank;
@@ -89,6 +99,61 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
 
 void Board::setPiece(Position position, const Piece& piece) {
     setPiece(position.rank, position.file, piece);
+}
+
+void Board::clear() {
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            setPiece(r, f, Piece::NO_PIECE);
+        }
+    }
+}
+
+void Board::setToStartingBoard() {
+    clear();
+
+    // Kings
+    setPiece(0, 4, Piece(WHITE, KING));
+    setPiece(7, 4, Piece(BLACK, KING));
+
+    // Queens
+    setPiece(0, 3, Piece(WHITE, QUEEN));
+    setPiece(7, 3, Piece(BLACK, QUEEN));
+
+    // Bishops
+    setPiece(0, 2, Piece(WHITE, BISHOP));
+    setPiece(0, 5, Piece(WHITE, BISHOP));
+    setPiece(7, 2, Piece(BLACK, BISHOP));
+    setPiece(7, 5, Piece(BLACK, BISHOP));
+
+    // Knights
+    setPiece(0, 1, Piece(WHITE, KNIGHT));
+    setPiece(0, 6, Piece(WHITE, KNIGHT));
+    setPiece(7, 1, Piece(BLACK, KNIGHT));
+    setPiece(7, 6, Piece(BLACK, KNIGHT));
+
+    // Rooks
+    setPiece(0, 0, Piece(WHITE, ROOK));
+    setPiece(0, 7, Piece(WHITE, ROOK));
+    setPiece(7, 0, Piece(BLACK, ROOK));
+    setPiece(7, 7, Piece(BLACK, ROOK));
+
+    // Pawns
+    for (int f = 0; f < 8; f++) {
+        setPiece(1, f, Piece(WHITE, PAWN));
+        setPiece(6, f, Piece(BLACK, PAWN));
+    }
+}
+
+Position Board::getKingPos(Colour colour) {
+    switch (colour) {
+        case WHITE:
+            return whiteKingPos;
+        case BLACK:
+            return blackKingPos;
+        default:
+            return Position(-1, -1);
+    }
 }
 
 static int sign(int x) {
@@ -108,6 +173,9 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
         // Check if piece is initially on a valid pin line
         Colour colour = (Colour)move.startPiece.getColour();
         Position kingPos = getKingPos(colour);
+        if (!kingPos.isValid()) {
+            return false;
+        }
 
         // Direction from king to start pos
         int startDirRank = move.startPos.rank - kingPos.rank;
@@ -191,6 +259,16 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
+void Board::getLegalMoves(std::list<Move>& legalMoves, Position position, Piece piece) {
+    switch (piece.getType()) {
+        case PAWN:
+            getLegalPawnMoves(legalMoves, position, piece);
+            break;
+        default:
+            break;
+    }
+}
+
 void Board::doMove(const Move& move) {
     if (move.startPos.isValid() && move.endPos.isValid()) {
         setPiece(move.startPos, Piece::NO_PIECE);
@@ -198,57 +276,74 @@ void Board::doMove(const Move& move) {
     }
 }
 
-Position Board::getKingPos(Colour colour) {
-    if (colour == WHITE) {
-        return whiteKingPos;
-    }
-    else if (colour == BLACK) {
-        return blackKingPos;
-    }
-    
-    return Position();
-}
+void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Piece piece) {
+    legalMoves.clear();
 
-void Board::clear() {
-    for (int r = 0; r < 8; r++) {
-        for (int f = 0; f < 8; f++) {
-            setPiece(r, f, Piece::NO_PIECE);
+    if (piece.getColour() == NO_COLOUR) {
+        return;
+    }
+
+    // Non-attacking move
+    Position noAttackEndPos(
+        position.rank + piece.getForwardDirection(),
+        position.file
+    );
+
+    if (!noAttackEndPos.isValid()) {
+        // Invalid position means off the board. Every other pawn move has the same end rank, so all are invalid
+        return;
+    }
+
+    Move noAttackMove(position, noAttackEndPos, piece, piece);
+
+    if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE) && 
+        !doesMoveCheckOwnKing(noAttackMove)
+    ) {
+        legalMoves.push_back(noAttackMove);
+    }
+
+    // Left attacking move
+    Position leftAttackEndPos(
+        position.rank + piece.getForwardDirection(),
+        position.file - 1
+    );
+
+    Move leftAttackMove(position, leftAttackEndPos, piece, piece);
+
+    if (leftAttackEndPos.isValid() &&
+        getPiece(leftAttackEndPos).getColour() == piece.getOppositeColour() &&
+        !doesMoveCheckOwnKing(leftAttackMove)
+    ) {
+        legalMoves.push_back(leftAttackMove);
+    }
+
+    // Right attacking move
+    Position rightAttackEndPos(
+        position.rank + piece.getForwardDirection(),
+        position.file + 1
+    );
+
+    Move rightAttackMove(position, rightAttackEndPos, piece, piece);
+
+    if (rightAttackEndPos.isValid() &&
+        getPiece(rightAttackEndPos).getColour() == piece.getOppositeColour() &&
+        !doesMoveCheckOwnKing(rightAttackMove)
+    ) {
+        legalMoves.push_back(rightAttackMove);
+    }
+
+    // Check for promotions
+    if (noAttackEndPos.rank == 0 || noAttackEndPos.rank == 7) {
+        int numLegalMoves = legalMoves.size();
+
+        for (int i = 0; i < numLegalMoves; i++) {
+            Move move = legalMoves.front();
+            legalMoves.pop_front();
+
+            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), BISHOP)));
+            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), KNIGHT)));
+            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), ROOK)));
+            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), QUEEN)));
         }
-    }
-}
-
-void Board::setToStartingBoard() {
-    clear();
-
-    // Kings
-    setPiece(0, 4, Piece(WHITE, KING));
-    setPiece(7, 4, Piece(BLACK, KING));
-
-    // Queens
-    setPiece(0, 3, Piece(WHITE, QUEEN));
-    setPiece(7, 3, Piece(BLACK, QUEEN));
-
-    // Bishops
-    setPiece(0, 2, Piece(WHITE, BISHOP));
-    setPiece(0, 5, Piece(WHITE, BISHOP));
-    setPiece(7, 2, Piece(BLACK, BISHOP));
-    setPiece(7, 5, Piece(BLACK, BISHOP));
-
-    // Knights
-    setPiece(0, 1, Piece(WHITE, KNIGHT));
-    setPiece(0, 6, Piece(WHITE, KNIGHT));
-    setPiece(7, 1, Piece(BLACK, KNIGHT));
-    setPiece(7, 6, Piece(BLACK, KNIGHT));
-
-    // Rooks
-    setPiece(0, 0, Piece(WHITE, ROOK));
-    setPiece(0, 7, Piece(WHITE, ROOK));
-    setPiece(7, 0, Piece(BLACK, ROOK));
-    setPiece(7, 7, Piece(BLACK, ROOK));
-
-    // Pawns
-    for (int f = 0; f < 8; f++) {
-        setPiece(1, f, Piece(WHITE, PAWN));
-        setPiece(6, f, Piece(BLACK, PAWN));
     }
 }

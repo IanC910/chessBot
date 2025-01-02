@@ -92,5 +92,42 @@ namespace BoardTests {
             move = Move(Position(6, 3), Position(4, 4), Piece(WHITE, KNIGHT), Piece(WHITE, KNIGHT));
             Assert::IsFalse(board.doesMoveCheckOwnKing(move));
 		}
-	};
+
+        TEST_METHOD(pawnMovesTest) {
+            Board board;
+            std::list<Move> legalMoves;
+
+            Position whitePawnPos(3, 6);
+            Piece whitePawn(WHITE, PAWN);
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(1 == legalMoves.size());
+
+            board.setPiece(4, 6, Piece(BLACK, BISHOP));
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(0 == legalMoves.size());
+
+            board.setPiece(4, 6, Piece(WHITE, BISHOP));
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(0 == legalMoves.size());
+
+            board.setPiece(4, 5, Piece(BLACK, PAWN));
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(1 == legalMoves.size());
+
+            board.setPiece(4, 7, Piece(BLACK, KNIGHT));
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(2 == legalMoves.size());
+
+            board.setPiece(4, 6, Piece::NO_PIECE);
+            board.getLegalMoves(legalMoves, whitePawnPos, whitePawn);
+            Assert::IsTrue(3 == legalMoves.size());
+
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(4, 4, Piece(WHITE, PAWN));
+            board.setPiece(5, 5, Piece(BLACK, QUEEN));
+            board.getLegalMoves(legalMoves, Position(4, 4), whitePawn);
+            Assert::IsTrue(1 == legalMoves.size());
+        }
+    };
 }

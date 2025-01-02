@@ -1,6 +1,8 @@
 
 #include "Position.hpp"
 
+const Position Position::NO_POSITION(-128, -128);
+
 bool Position::isValid(char rank, char file) {
 	return (
 		rank >= 0 &&

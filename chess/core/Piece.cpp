@@ -2,11 +2,14 @@
 #include "Piece.hpp"
 
 Colour getOpposite(Colour colour) {
-    if (colour == NO_COLOUR) {
-        return NO_COLOUR;
+    switch (colour) {
+        case WHITE:
+            return BLACK;
+        case BLACK:
+            return WHITE;
+        default:
+            return NO_COLOUR;
     }
-
-    return (Colour)(1 - colour);
 }
 
 const Piece Piece::NO_PIECE(NO_COLOUR, NO_TYPE);
@@ -27,8 +30,16 @@ Colour Piece::getColour() const {
     return (Colour)colour;
 }
 
+Colour Piece::getOppositeColour() const {
+    return getOpposite((Colour)colour);
+}
+
 PieceType Piece::getType() const {
     return (PieceType)type;
+}
+
+char Piece::getForwardDirection() const {
+    return COLOUR_FORWARD_DIRECTIONS[colour];
 }
 
 char Piece::getValue() const {
