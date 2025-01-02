@@ -1,6 +1,7 @@
 
 #include <string>
 #include <sstream>
+#include <cstring>
 
 #include "Move.hpp"
 #include "Position.hpp"
@@ -15,11 +16,7 @@ Board::Board(bool startingBoard) {
 }
 
 Board::Board(const Board& board) {
-    for (int r = 0; r < 8; r++) {
-        for (int f = 0; f < 8; f++) {
-            this->setPiece(r, f, board.getPiece(r, f));
-        }
-    }
+    memcpy(this->pieces, board.pieces, 64 * sizeof(Piece));
 }
 
 bool Board::equals(const Board& board) const {
