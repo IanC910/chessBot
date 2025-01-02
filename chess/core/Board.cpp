@@ -17,6 +17,9 @@ Board::Board(bool startingBoard) {
 
 Board::Board(const Board& board) {
     memcpy(this->pieces, board.pieces, 64 * sizeof(Piece));
+
+    whiteKingPos = board.whiteKingPos;
+    blackKingPos = board.blackKingPos;
 }
 
 bool Board::equals(const Board& board) const {
