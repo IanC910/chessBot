@@ -92,7 +92,7 @@ namespace BoardTests {
 
         TEST_METHOD(pawnMovesTest) {
             Board board;
-            std::list<Move> legalMoves;
+            std::list<Move> moves;
 
             Position whitePawnPos(3, 6);
             Piece whitePawn(WHITE, PAWN);
@@ -100,38 +100,38 @@ namespace BoardTests {
             // pawn is the only piece on the board.
             // Only 1 legal move: straight forward
             board.setPiece(whitePawnPos, whitePawn);
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(1 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(1 == moves.size());
 
             // Blocking piece of opposite colour
             // No legal moves for the pawn
             board.setPiece(4, 6, Piece(BLACK, BISHOP));
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(0 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(0 == moves.size());
 
             // Blocking piece of same colour
             // No legal moves for the pawn
             board.setPiece(4, 6, Piece(WHITE, BISHOP));
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(0 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(0 == moves.size());
 
             // Blocking piece of same colour, black pawn to the forward right
             // 1 legal move to take the black pawn
             board.setPiece(4, 5, Piece(BLACK, PAWN));
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(1 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(1 == moves.size());
 
             // Additional black piece to the forward left
             // 2 legal moves to take either black piece
             board.setPiece(4, 7, Piece(BLACK, KNIGHT));
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(2 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(2 == moves.size());
 
             // Remove blocker of same colour
             // 3 legal moves: take either black piece or straight forward
             board.setPiece(4, 6, Piece::NO_PIECE);
-            board.getLegalMoves(legalMoves, whitePawnPos);
-            Assert::IsTrue(3 == legalMoves.size());
+            board.getMoves(moves, whitePawnPos);
+            Assert::IsTrue(3 == moves.size());
 
             // Pawn is pinned by queen of opposite colour
             // 1 legal move to take the queen
@@ -139,8 +139,12 @@ namespace BoardTests {
             board.setPiece(4, 4, whitePawn);
             board.setPiece(3, 3, Piece(WHITE, KING));
             board.setPiece(5, 5, Piece(BLACK, QUEEN));
-            board.getLegalMoves(legalMoves, Position(4, 4));
-            Assert::IsTrue(1 == legalMoves.size());
+            board.getMoves(moves, Position(4, 4));
+            Assert::IsTrue(1 == moves.size());
+
+            // 2 moves if self check filter is off
+            board.getMoves(moves, Position(4, 4), false);
+            Assert::IsTrue(2 == moves.size());
 
             // Pawn is pinned by queen of opposite colour
             // 0 legal moves, queen is not takeable
@@ -148,8 +152,12 @@ namespace BoardTests {
             board.setPiece(3, 3, Piece(WHITE, KING));
             board.setPiece(3, 4, whitePawn);
             board.setPiece(3, 5, Piece(BLACK, QUEEN));
-            board.getLegalMoves(legalMoves, Position(3, 4));
-            Assert::IsTrue(0 == legalMoves.size());
+            board.getMoves(moves, Position(3, 4));
+            Assert::IsTrue(0 == moves.size());
+
+            // 1 move if self check filter is off
+            board.getMoves(moves, Position(3, 4), false);
+            Assert::IsTrue(1 == moves.size());
         }
     };
 }

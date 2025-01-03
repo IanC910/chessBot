@@ -262,10 +262,12 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
-void Board::getLegalMoves(std::list<Move>& legalMoves, Position position) {
+void Board::getMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter) {
+    moves.clear();
+
     switch (getPiece(position).getType()) {
         case PAWN:
-            getLegalPawnMoves(legalMoves, position);
+            getPawnMoves(moves, position, useSelfCheckFilter);
             break;
         default:
             break;
@@ -279,9 +281,7 @@ void Board::doMove(const Move& move) {
     }
 }
 
-void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position) {
-    legalMoves.clear();
-
+void Board::getPawnMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter) {
     Piece piece = getPiece(position);
     if (piece.getColour() == NO_COLOUR) {
         return;
@@ -300,8 +300,8 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position) {
 
     if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE)) {
         Move noAttackMove(position, noAttackEndPos, piece, piece);
-        if (!doesMoveCheckOwnKing(noAttackMove)) {
-            legalMoves.push_back(noAttackMove);
+        if (!useSelfCheckFilter || !doesMoveCheckOwnKing(noAttackMove)) {
+            moves.push_back(noAttackMove);
         }
     }
 
@@ -315,8 +315,8 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position) {
         getPiece(leftAttackEndPos).getColour() == piece.getOppositeColour()
     ) {
         Move leftAttackMove(position, leftAttackEndPos, piece, piece);
-        if(!doesMoveCheckOwnKing(leftAttackMove)) {
-            legalMoves.push_back(leftAttackMove);
+        if(!useSelfCheckFilter || !doesMoveCheckOwnKing(leftAttackMove)) {
+            moves.push_back(leftAttackMove);
         }
     }
 
@@ -330,23 +330,23 @@ void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position) {
         getPiece(rightAttackEndPos).getColour() == piece.getOppositeColour()
     ) {
         Move rightAttackMove(position, rightAttackEndPos, piece, piece);
-        if (!doesMoveCheckOwnKing(rightAttackMove)) {
-            legalMoves.push_back(rightAttackMove);
+        if (!useSelfCheckFilter || !doesMoveCheckOwnKing(rightAttackMove)) {
+            moves.push_back(rightAttackMove);
         }
     }
 
     // Check for promotions
     if (noAttackEndPos.rank == 0 || noAttackEndPos.rank == 7) {
-        int numLegalMoves = legalMoves.size();
+        int numLegalMoves = moves.size();
 
         for (int i = 0; i < numLegalMoves; i++) {
-            Move move = legalMoves.front();
-            legalMoves.pop_front();
+            Move move = moves.front();
+            moves.pop_front();
 
-            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), BISHOP)));
-            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), KNIGHT)));
-            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), ROOK)));
-            legalMoves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), QUEEN)));
+            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), BISHOP)));
+            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), KNIGHT)));
+            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), ROOK)));
+            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), QUEEN)));
         }
     }
 }
