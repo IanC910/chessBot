@@ -262,10 +262,10 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
-void Board::getLegalMoves(std::list<Move>& legalMoves, Position position, Piece piece) {
-    switch (piece.getType()) {
+void Board::getLegalMoves(std::list<Move>& legalMoves, Position position) {
+    switch (getPiece(position).getType()) {
         case PAWN:
-            getLegalPawnMoves(legalMoves, position, piece);
+            getLegalPawnMoves(legalMoves, position);
             break;
         default:
             break;
@@ -279,9 +279,10 @@ void Board::doMove(const Move& move) {
     }
 }
 
-void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Piece piece) {
+void Board::getLegalPawnMoves(std::list<Move>& legalMoves, Position position) {
     legalMoves.clear();
 
+    Piece piece = getPiece(position);
     if (piece.getColour() == NO_COLOUR) {
         return;
     }

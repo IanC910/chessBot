@@ -27,7 +27,7 @@ public:
     Position getKingPos(Colour colour);
     bool doesMoveCheckOwnKing(const Move& move);
 
-    void getLegalMoves(std::list<Move>& legalMoves, Position position, Piece piece);
+    void getLegalMoves(std::list<Move>& legalMoves, Position position);
 
     void doMove(const Move& move);
 
@@ -37,5 +37,5 @@ private:
     Position whiteKingPos = Position::NO_POSITION;
     Position blackKingPos = Position::NO_POSITION;
 
-    void getLegalPawnMoves(std::list<Move>& legalMoves, Position position, Piece piece);
+    void getLegalPawnMoves(std::list<Move>& legalMoves, Position position);
 };
