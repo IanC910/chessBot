@@ -4,8 +4,8 @@
 
 #include "../chess/common/log.cpp"
 #include "../chess/core/Board.cpp"
+#include "../chess/core/ChessVector.cpp"
 #include "../chess/core/Move.cpp"
 #include "../chess/core/Piece.cpp"
-#include "../chess/core/Position.cpp"
 
 

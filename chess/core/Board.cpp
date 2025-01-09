@@ -4,7 +4,7 @@
 #include <cstring>
 
 #include "Move.hpp"
-#include "Position.hpp"
+#include "ChessVector.hpp"
 #include "Piece.hpp"
 
 #include "Board.hpp"
@@ -58,30 +58,30 @@ std::string Board::toString() const {
 }
 
 Piece Board::getPiece(char rank, char file) const {
-    if (Position::isValid(rank, file)) {
+    if (ChessVector::isValid(rank, file)) {
         return pieces[rank][file];
     }
 
     return Piece::NO_PIECE;
 }
 
-Piece Board::getPiece(Position position) const {
+Piece Board::getPiece(ChessVector position) const {
     return getPiece(position.rank, position.file);
 }
 
 void Board::setPiece(char rank, char file, const Piece& piece) {
     // If position is not valid
-    if (!Position::isValid(rank, file)) {
+    if (!ChessVector::isValid(rank, file)) {
         return;
     }
 
     // If previous piece is a king
     if (pieces[rank][file].getType() == KING) {
         if (pieces[rank][file].getColour() == WHITE) {
-            whiteKingPos = Position::NO_POSITION;
+            whiteKingPos = ChessVector::INVALID_VEC;
         }
         else if (pieces[rank][file].getColour() == BLACK) {
-            blackKingPos = Position::NO_POSITION;
+            blackKingPos = ChessVector::INVALID_VEC;
         }
     }
 
@@ -100,7 +100,7 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
     pieces[rank][file] = piece;
 }
 
-void Board::setPiece(Position position, const Piece& piece) {
+void Board::setPiece(ChessVector position, const Piece& piece) {
     setPiece(position.rank, position.file, piece);
 }
 
@@ -148,19 +148,95 @@ void Board::setToStartingBoard() {
     }
 }
 
-Position Board::getKingPos(Colour colour) {
+ChessVector Board::getKingPos(Colour colour) {
     switch (colour) {
         case WHITE:
             return whiteKingPos;
         case BLACK:
             return blackKingPos;
         default:
-            return Position(-1, -1);
+            return ChessVector::INVALID_VEC;
     }
 }
 
 static int sign(int x) {
     return (x > 0) - (x < 0);
+}
+
+bool Board::isPiecePinned(ChessVector position) {
+    Piece piece = getPiece(position);
+    if (!position.isValid()) {
+        return false;
+    }
+    
+    // A piece can be pinned by queens, bishops, and rooks, not by knights or pawns
+    // A piece can be pinned only on horizontal, vertical, or 45 degree lines
+    // A piece can be pinned only if it is the only piece between the king and an attacker on a valid pin line
+
+    // Check if piece is on a possible pin line
+    Colour colour = piece.getColour();
+    ChessVector kingPos = getKingPos(colour);
+    if (!kingPos.isValid()) {
+        return false;
+    }
+
+    // Direction from king to piece
+    ChessVector difference = position.subtract(kingPos);
+
+    // Valid pin line if horizontal, vertical, or 45 degrees
+    bool isValidPinLine =
+        (abs(difference.rank) == abs(difference.file)) ||
+        (difference.rank == 0) ||
+        (difference.file == 0);
+
+    if (!isValidPinLine) {
+        return false;
+    }
+
+    // Check if there is an attacker on this line and
+    // if piece is the only piece between its king and the attacker
+    ChessVector directionNormed = difference;
+
+    if (difference.rank != 0) {
+        directionNormed.rank = difference.rank / abs(difference.rank);
+    }
+    if (difference.file != 0) {
+        directionNormed.file = difference.file / abs(difference.file);
+    }
+
+    ChessVector currPos = kingPos;
+
+    while (true) {
+        currPos.increaseBy(directionNormed);
+
+        // Skip over the starting position
+        if (currPos.equals(position)) {
+            continue;
+        }
+
+        if (!currPos.isValid()) {
+            // Off the board: the pin line contains no attackers
+            return false;
+        }
+
+        Piece currPiece = getPiece(currPos);
+        if (currPiece.equals(Piece::NO_PIECE)) {
+            continue;
+        }
+
+        bool isAttacker =
+            (currPiece.getColour() == getOppositeColour(piece.getColour())) &&
+            (currPiece.getType() == QUEEN || currPiece.getType() == BISHOP || currPiece.getType() == ROOK);
+
+        if (isAttacker) {
+            return true;
+        }
+
+        if (currPiece.getType() != NO_TYPE) {
+            // There is another non-attacking piece in the pin line between the king and any attacker
+            return false;
+        }
+    }
 }
 
 bool Board::doesMoveCheckOwnKing(const Move& move) {
@@ -169,13 +245,13 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     }
     else {
         // A move can only check it's own king if the piece moved was pinned
-        // A piece cannot be pinned by queens, bishops, and rooks, not by knights or pawns
+        // A piece can be pinned by queens, bishops, and rooks, not by knights or pawns
         // A piece can be pinned only on horizontal, vertical, or 45 degree lines
         // A piece can be pinned only if it is the only piece between the king and an attacker on a valid pin line
 
         // Check if piece is initially on a valid pin line
         Colour colour = (Colour)move.startPiece.getColour();
-        Position kingPos = getKingPos(colour);
+        ChessVector kingPos = getKingPos(colour);
         if (!kingPos.isValid()) {
             return false;
         }
@@ -207,7 +283,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
             (sign(startDirFile) == sign(endDirFile));
 
         if (endsOnSamePinLine) {
-            // The piece is pinned, but it remains pinned after the move
+            // The piece may be pinned, but it remains pinned after the move
             return false;
         }
 
@@ -234,7 +310,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
                 continue;
             }
 
-            if (!Position::isValid(rank, file)) {
+            if (!ChessVector::isValid(rank, file)) {
                 // Off the board: the pin line contains no attackers
                 return false;
             }
@@ -245,7 +321,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
             }
 
             bool isAttacker =
-                (piece.getColour() == getOpposite(colour)) &&
+                (piece.getColour() == getOppositeColour(colour)) &&
                 (piece.getType() == QUEEN || piece.getType() == BISHOP || piece.getType() == ROOK);
 
             if (isAttacker) {
@@ -262,7 +338,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
-void Board::getMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter) {
+void Board::getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
     moves.clear();
 
     switch (getPiece(position).getType()) {
@@ -281,14 +357,14 @@ void Board::doMove(const Move& move) {
     }
 }
 
-void Board::getPawnMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter) {
+void Board::getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
     Piece piece = getPiece(position);
     if (piece.getColour() == NO_COLOUR) {
         return;
     }
 
     // Non-attacking move
-    Position noAttackEndPos(
+    ChessVector noAttackEndPos(
         position.rank + piece.getForwardDirection(),
         position.file
     );
@@ -306,13 +382,13 @@ void Board::getPawnMoves(std::list<Move>& moves, Position position, bool useSelf
     }
 
     // Left attacking move
-    Position leftAttackEndPos(
+    ChessVector leftAttackEndPos(
         position.rank + piece.getForwardDirection(),
         position.file - 1
     );
 
     if (leftAttackEndPos.isValid() &&
-        getPiece(leftAttackEndPos).getColour() == piece.getOppositeColour()
+        getPiece(leftAttackEndPos).getColour() == getOppositeColour(piece.getColour())
     ) {
         Move leftAttackMove(position, leftAttackEndPos, piece, piece);
         if(!useSelfCheckFilter || !doesMoveCheckOwnKing(leftAttackMove)) {
@@ -321,13 +397,13 @@ void Board::getPawnMoves(std::list<Move>& moves, Position position, bool useSelf
     }
 
     // Right attacking move
-    Position rightAttackEndPos(
+    ChessVector rightAttackEndPos(
         position.rank + piece.getForwardDirection(),
         position.file + 1
     );
 
     if (rightAttackEndPos.isValid() &&
-        getPiece(rightAttackEndPos).getColour() == piece.getOppositeColour()
+        getPiece(rightAttackEndPos).getColour() == getOppositeColour(piece.getColour())
     ) {
         Move rightAttackMove(position, rightAttackEndPos, piece, piece);
         if (!useSelfCheckFilter || !doesMoveCheckOwnKing(rightAttackMove)) {

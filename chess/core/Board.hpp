@@ -5,7 +5,7 @@
 #include <list>
 
 #include "Move.hpp"
-#include "Position.hpp"
+#include "ChessVector.hpp"
 #include "Piece.hpp"
 
 class Board {
@@ -17,25 +17,26 @@ public:
     std::string toString() const;
 
     Piece getPiece(char rank, char file) const;
-    Piece getPiece(Position position) const;
+    Piece getPiece(ChessVector position) const;
     void setPiece(char rank, char file, const Piece& piece);
-    void setPiece(Position position, const Piece& piece);
+    void setPiece(ChessVector position, const Piece& piece);
 
     void clear();
     void setToStartingBoard();
 
-    Position getKingPos(Colour colour);
+    ChessVector getKingPos(Colour colour);
+    bool isPiecePinned(ChessVector position);
     bool doesMoveCheckOwnKing(const Move& move);
 
-    void getMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter = true);
+    void getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter = true);
 
     void doMove(const Move& move);
 
 private:
     Piece pieces[8][8]; // Row-major (Rank then file)
 
-    Position whiteKingPos = Position::NO_POSITION;
-    Position blackKingPos = Position::NO_POSITION;
+    ChessVector whiteKingPos = ChessVector::INVALID_VEC;
+    ChessVector blackKingPos = ChessVector::INVALID_VEC;
 
-    void getPawnMoves(std::list<Move>& moves, Position position, bool useSelfCheckFilter);
+    void getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter);
 };

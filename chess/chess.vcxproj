@@ -133,7 +133,7 @@
     <ClInclude Include="core\Move.hpp" />
     <ClInclude Include="core\Piece.hpp" />
     <ClInclude Include="core\Player.hpp" />
-    <ClInclude Include="core\Position.hpp" />
+    <ClInclude Include="core\ChessVector.hpp" />
     <ClInclude Include="core\KeyboardPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +145,7 @@
     <ClCompile Include="core\Move.cpp" />
     <ClCompile Include="core\Piece.cpp" />
     <ClCompile Include="core\Player.cpp" />
-    <ClCompile Include="core\Position.cpp" />
+    <ClCompile Include="core\ChessVector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,6 +35,6 @@ void Game::start() {
 
         // TODO: Check for win condition
 
-        turn = getOpposite(turn);
+        turn = getOppositeColour(turn);
     }
 }
