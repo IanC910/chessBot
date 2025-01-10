@@ -256,17 +256,21 @@ int Board::getNumChecks(Colour kingColour) {
 
     Piece king = getPiece(kingPos);
     int numChecks = 0;
+    std::list<ChessVector> targetedSquares;
 
     // Pawn checks
-    Piece oppositePawn = Piece(oppositeColour, PAWN);
-    if (getPiece(kingPos.rank + king.getForwardDirection(), kingPos.file + 1).equals(oppositePawn) ||
-        getPiece(kingPos.rank + king.getForwardDirection(), kingPos.file - 1).equals(oppositePawn)
-    ) {
-        numChecks++;
+    addTargetedSquaresByPawn(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == PAWN) {
+                numChecks++;
+            }
+        }
     }
 
     // Diagonal checks
-    std::list<ChessVector> targetedSquares;
+    targetedSquares.clear();
     addTargetedSquaresByBishop(targetedSquares, kingPos);
     for (ChessVector square : targetedSquares) {
         Piece piece = getPiece(square);
