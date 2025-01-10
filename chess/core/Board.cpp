@@ -264,99 +264,40 @@ int Board::getNumChecks(Colour kingColour) {
     ) {
         numChecks++;
     }
-    
+
     // Diagonal checks
-    ChessVector diagonalDirections[4] {
-        {1, 1},
-        {-1, 1},
-        {-1, -1},
-        {1, -1}
-    };
-
-    for (ChessVector direction : diagonalDirections) {
-        ChessVector currPos = kingPos.add(direction);
-
-        for (int i = 0; i < 7; i++) {
-            if (!currPos.isValid()) {
-                break;
+    std::list<ChessVector> targetedSquares;
+    addTargetedSquaresByBishop(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
+                numChecks++;
             }
-
-            Piece piece = getPiece(currPos);
-            Colour pieceColour = piece.getColour();
-
-            if (pieceColour == kingColour) {
-                break;
-            }
-            else if (pieceColour == oppositeColour) {
-                if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
-                    numChecks++;
-                }
-                break;
-            }
-
-            currPos.increaseBy(direction);
         }
     }
 
     // Vertical and horizontal checks
-    ChessVector vertAndHorizDirections[4] {
-        {1, 0},
-        {0, 1},
-        {-1, 0},
-        {0, -1}
-    };
-    
-    for (ChessVector direction : vertAndHorizDirections) {
-        ChessVector currPos = kingPos.add(direction);
-
-        for (int i = 0; i < 7; i++) {
-            if (!currPos.isValid()) {
-                break;
+    targetedSquares.clear();
+    addTargetedSquaresByRook(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == ROOK || piece.getType() == QUEEN) {
+                numChecks++;
             }
-
-            Piece piece = getPiece(currPos);
-            Colour pieceColour = piece.getColour();
-
-            if (pieceColour == kingColour) {
-                break;
-            }
-            else if (pieceColour == oppositeColour) {
-                if (piece.getType() == ROOK || piece.getType() == QUEEN) {
-                    numChecks++;
-                }
-                break;
-            }
-
-            currPos.increaseBy(direction);
         }
     }
 
     // Knight checks
-    ChessVector knightDirections[8] {
-        {2, 1},
-        {1, 2},
-        {-1, 2},
-        {-2, 1},
-        {-2, -1},
-        {-1, -2},
-        {1, -2},
-        {2, -1}
-    };
-
-    Piece oppositeKnight(oppositeColour, KNIGHT);
-
-    for (ChessVector direction : knightDirections) {
-        ChessVector currPos = kingPos.add(direction);
-
-        if (!currPos.isValid()) {
-            continue;
-        }
-
-        Piece piece = getPiece(currPos);
-        Colour pieceColour = piece.getColour();
-
-        if (piece.equals(oppositeKnight)) {
-            numChecks++;
+    targetedSquares.clear();
+    addTargetedSquaresByKnight(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == KNIGHT) {
+                numChecks++;
+            }
         }
     }
 
