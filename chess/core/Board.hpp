@@ -28,6 +28,7 @@ public:
     bool isPiecePinned(ChessVector position);
     bool doesMoveCheckOwnKing(const Move& move);
 
+    void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position);
     void getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter = true);
 
     void doMove(const Move& move);
@@ -37,6 +38,13 @@ private:
 
     ChessVector whiteKingPos = ChessVector::INVALID_VEC;
     ChessVector blackKingPos = ChessVector::INVALID_VEC;
+
+    void getTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void getTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void getTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void getTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void getTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position);
+
 
     void getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter);
 };

@@ -168,13 +168,17 @@ bool Board::isPiecePinned(ChessVector position) {
     if (!position.isValid()) {
         return false;
     }
+
+    Colour colour = piece.getColour();
+    if (colour == NO_COLOUR) {
+        return false;
+    }
     
     // A piece can be pinned by queens, bishops, and rooks, not by knights or pawns
     // A piece can be pinned only on horizontal, vertical, or 45 degree lines
     // A piece can be pinned only if it is the only piece between the king and an attacker on a valid pin line
 
     // Check if piece is on a possible pin line
-    Colour colour = piece.getColour();
     ChessVector kingPos = getKingPos(colour);
     if (!kingPos.isValid()) {
         return false;
@@ -338,6 +342,30 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
+void Board::getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    targetedSquares.clear();
+
+    switch (getPiece(position).getType()) {
+        case PAWN:
+            getTargetedSquaresByPawn(targetedSquares, position);
+            break;
+        case BISHOP:
+            getTargetedSquaresByBishop(targetedSquares, position);
+            break;
+        case KNIGHT:
+            getTargetedSquaresByKnight(targetedSquares, position);
+            break;
+        case ROOK:
+            getTargetedSquaresByRook(targetedSquares, position);
+            break;
+        case QUEEN:
+            getTargetedSquaresByQueen(targetedSquares, position);
+            break;
+        default:
+            break;
+    }
+}
+
 void Board::getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
     moves.clear();
 
@@ -355,6 +383,131 @@ void Board::doMove(const Move& move) {
         setPiece(move.startPos, Piece::NO_PIECE);
         setPiece(move.endPos, move.endPiece);
     }
+}
+
+void Board::getTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    Piece piece = getPiece(position);
+    if (piece.getColour() == NO_COLOUR) {
+        return;
+    }
+
+    ChessVector forwardLeft(
+        position.rank + piece.getForwardDirection(),
+        position.file - 1
+    );
+
+    if (forwardLeft.isValid()) {
+        targetedSquares.push_back(forwardLeft);
+    }
+
+    ChessVector forwardRight(
+        position.rank + piece.getForwardDirection(),
+        position.file + 1
+    );
+
+    if (forwardRight.isValid()) {
+        targetedSquares.push_back(forwardRight);
+    }
+}
+
+void Board::getTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    ChessVector directions[4] {
+        {1, 1},
+        {-1, 1},
+        {-1, -1},
+        {1, -1}
+    };
+
+    for (ChessVector direction : directions) {
+        ChessVector currPos = position.add(direction);
+
+        for(int i = 0; i < 7; i++) {
+            if (!currPos.isValid()) {
+                break;
+            }
+            
+            targetedSquares.push_back(currPos);
+
+            if (!getPiece(currPos).equals(Piece::NO_PIECE)) {
+                break;
+            }
+
+            currPos.increaseBy(direction);
+        }
+    }
+}
+
+void Board::getTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    ChessVector directions[8] {
+        {2, 1},
+        {1, 2},
+        {-1, 2},
+        {-2, 1},
+        {-2, -1},
+        {-1, -2},
+        {1, -2},
+        {2, -1}
+    };
+
+    for (ChessVector direction : directions) {
+        ChessVector currPos = position.add(direction);
+        
+        if (currPos.isValid()) {
+            targetedSquares.push_back(currPos);
+        }
+    }
+}
+
+void Board::getTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    ChessVector directions[4] {
+        {1, 0},
+        {0, 1},
+        {-1, 0},
+        {0, -1}
+    };
+
+    for (ChessVector direction : directions) {
+        ChessVector currPos = position.add(direction);
+
+        for (int i = 0; i < 7; i++) {
+            if (!currPos.isValid()) {
+                break;
+            }
+            
+            targetedSquares.push_back(currPos);
+
+            if (!getPiece(currPos).equals(Piece::NO_PIECE)) {
+                break;
+            }
+
+            currPos.increaseBy(direction);
+        }
+    }
+}
+
+void Board::getTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    getTargetedSquaresByBishop(targetedSquares, position);
+    getTargetedSquaresByRook(targetedSquares, position);
 }
 
 void Board::getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
