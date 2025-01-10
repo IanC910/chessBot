@@ -26,6 +26,8 @@ public:
 
     ChessVector getKingPos(Colour colour);
     bool isPiecePinned(ChessVector position);
+    int getNumChecks(Colour kingColour);
+    bool isKingChecked(Colour kingColour);
     bool doesMoveCheckOwnKing(const Move& move);
 
     void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position);

@@ -243,6 +243,126 @@ bool Board::isPiecePinned(ChessVector position) {
     }
 }
 
+int Board::getNumChecks(Colour kingColour) {
+    if (kingColour == NO_COLOUR) {
+        return 0;
+    }
+
+    Colour oppositeColour = getOppositeColour(kingColour);
+    ChessVector kingPos = getKingPos(kingColour);
+    if (!kingPos.isValid()) {
+        return 0;
+    }
+
+    Piece king = getPiece(kingPos);
+    int numChecks = 0;
+
+    // Pawn checks
+    Piece oppositePawn = Piece(oppositeColour, PAWN);
+    if (getPiece(kingPos.rank - king.getForwardDirection(), kingPos.file + 1).equals(oppositePawn) ||
+        getPiece(kingPos.rank - king.getForwardDirection(), kingPos.file - 1).equals(oppositePawn)
+    ) {
+        numChecks++;
+    }
+    
+    // Diagonal checks
+    ChessVector diagonalDirections[4] {
+        {1, 1},
+        {-1, 1},
+        {-1, -1},
+        {1, -1}
+    };
+
+    for (ChessVector direction : diagonalDirections) {
+        ChessVector currPos = kingPos.add(direction);
+
+        for (int i = 0; i < 7; i++) {
+            if (!currPos.isValid()) {
+                break;
+            }
+
+            Piece piece = getPiece(currPos);
+            Colour pieceColour = piece.getColour();
+
+            if (pieceColour == kingColour) {
+                break;
+            }
+            else if (pieceColour == oppositeColour) {
+                if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
+                    numChecks++;
+                }
+                break;
+            }
+
+            currPos.increaseBy(direction);
+        }
+    }
+
+    // Vertical and horizontal checks
+    ChessVector vertAndHorizDirections[4] {
+        {1, 0},
+        {0, 1},
+        {-1, 0},
+        {0, -1}
+    };
+    
+    for (ChessVector direction : vertAndHorizDirections) {
+        ChessVector currPos = kingPos.add(direction);
+
+        for (int i = 0; i < 7; i++) {
+            if (!currPos.isValid()) {
+                break;
+            }
+
+            Piece piece = getPiece(currPos);
+            Colour pieceColour = piece.getColour();
+
+            if (pieceColour == kingColour) {
+                break;
+            }
+            else if (pieceColour == oppositeColour) {
+                if (piece.getType() == ROOK || piece.getType() == QUEEN) {
+                    numChecks++;
+                }
+                break;
+            }
+
+            currPos.increaseBy(direction);
+        }
+    }
+
+    // Knight checks
+    ChessVector knightDirections[8] {
+        {2, 1},
+        {1, 2},
+        {-1, 2},
+        {-2, 1},
+        {-2, -1},
+        {-1, -2},
+        {1, -2},
+        {2, -1}
+    };
+
+    Piece oppositeKnight(oppositeColour, KNIGHT);
+
+    for (ChessVector direction : knightDirections) {
+        ChessVector currPos = kingPos.add(direction);
+
+        if (!currPos.isValid()) {
+            continue;
+        }
+
+        Piece piece = getPiece(currPos);
+        Colour pieceColour = piece.getColour();
+
+        if (piece.equals(oppositeKnight)) {
+            numChecks++;
+        }
+    }
+
+    return numChecks;
+}
+
 bool Board::doesMoveCheckOwnKing(const Move& move) {
     if (move.startPiece.getType() == KING) {
         // TODO
