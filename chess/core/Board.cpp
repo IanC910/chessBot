@@ -188,12 +188,11 @@ bool Board::isPiecePinned(ChessVector position) {
     ChessVector difference = position.subtract(kingPos);
 
     // Valid pin line if horizontal, vertical, or 45 degrees
-    bool isValidPinLine =
-        (abs(difference.rank) == abs(difference.file)) ||
-        (difference.rank == 0) ||
-        (difference.file == 0);
+    bool isDiagonalPinLine = (abs(difference.rank) == abs(difference.file));
+    bool isVertOrHorizPinLine = (difference.rank == 0) || (difference.file == 0);
 
-    if (!isValidPinLine) {
+    if (!isDiagonalPinLine && !isVertOrHorizPinLine) {
+        // Piece is not a on a valid pin line, can't be pinned
         return false;
     }
 
@@ -228,11 +227,14 @@ bool Board::isPiecePinned(ChessVector position) {
             continue;
         }
 
-        bool isAttacker =
-            (currPiece.getColour() == getOppositeColour(piece.getColour())) &&
-            (currPiece.getType() == QUEEN || currPiece.getType() == BISHOP || currPiece.getType() == ROOK);
+        bool isAttackingColour = (currPiece.getColour() == getOppositeColour(piece.getColour()));
+        bool isAttackingType = (
+            currPiece.getType() == QUEEN ||
+            isDiagonalPinLine && currPiece.getType() == BISHOP ||
+            isVertOrHorizPinLine && currPiece.getType() == ROOK
+        );
 
-        if (isAttacker) {
+        if (isAttackingColour && isAttackingType) {
             return true;
         }
 

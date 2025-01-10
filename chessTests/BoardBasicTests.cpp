@@ -78,6 +78,14 @@ namespace BoardBasicTests {
             board.setPiece(4, 5, Piece(WHITE, KING));
             board.setPiece(6, 3, Piece(WHITE, KNIGHT));
             Assert::IsFalse(board.isPiecePinned(ChessVector(6, 3)));
+
+            // King, same colour pawn, and opposite rook are on the same diagonal
+            // Rook doesn't attack diagonally, pawn is not pinned
+            board.clear();
+            board.setPiece(0, 0, Piece(WHITE, KING));
+            board.setPiece(1, 1, Piece(WHITE, PAWN));
+            board.setPiece(2, 2, Piece(BLACK, ROOK));
+            Assert::IsFalse(board.isPiecePinned(ChessVector(1, 1)));
         }
 
 		TEST_METHOD(checkOwnKingTest) {
