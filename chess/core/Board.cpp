@@ -304,6 +304,11 @@ int Board::getNumChecks(Colour kingColour) {
     return numChecks;
 }
 
+bool Board::isKingChecked(Colour kingColour) {
+    return getNumChecks(kingColour) > 0;
+}
+
+// Old: Refactor or deprecate
 bool Board::doesMoveCheckOwnKing(const Move& move) {
     if (move.startPiece.getType() == KING) {
         // TODO

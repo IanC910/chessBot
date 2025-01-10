@@ -182,6 +182,9 @@ namespace TargetedSquaresTests {
 
             board.setPiece(3, 3, Piece::NO_PIECE);
             Assert::IsTrue(2 == board.getNumChecks(WHITE));
+
+            board.setPiece(3, 3, Piece(WHITE, PAWN));
+            Assert::IsTrue(1 == board.getNumChecks(WHITE));
         }
     };
 }
