@@ -1,6 +1,4 @@
 
-Board::isPositionChecked(Position)
-Board::isKingChecked(Colour)
 Board::doesMoveCheckOwnKing(move) for king moves
 Board::getLegalMoves() needs to account for king of own colour being checked (legal moves consist only of moves that get king out of check)
 
@@ -10,5 +8,3 @@ How to get legal moves of a bishop?
     If king is checked initially, how to only find moves that get the king out of check?
         Moves to get the king out of check either take the checking piece or block the checking piece
         No moves for pieces except the king if it is double checked
-
-How to check if king is checked?
