@@ -259,8 +259,8 @@ int Board::getNumChecks(Colour kingColour) {
 
     // Pawn checks
     Piece oppositePawn = Piece(oppositeColour, PAWN);
-    if (getPiece(kingPos.rank - king.getForwardDirection(), kingPos.file + 1).equals(oppositePawn) ||
-        getPiece(kingPos.rank - king.getForwardDirection(), kingPos.file - 1).equals(oppositePawn)
+    if (getPiece(kingPos.rank + king.getForwardDirection(), kingPos.file + 1).equals(oppositePawn) ||
+        getPiece(kingPos.rank + king.getForwardDirection(), kingPos.file - 1).equals(oppositePawn)
     ) {
         numChecks++;
     }
