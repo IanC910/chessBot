@@ -39,12 +39,12 @@ private:
     ChessVector whiteKingPos = ChessVector::INVALID_VEC;
     ChessVector blackKingPos = ChessVector::INVALID_VEC;
 
-    void getTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void getTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void getTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void getTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void getTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position);
-
+    void addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position);
+    void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position);
+    void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position);
 
     void getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter);
 };

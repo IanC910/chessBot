@@ -6,9 +6,9 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace PieceMoveTests {
+namespace TargetedSquaresTests {
 
-    TEST_CLASS(PieceMoveTests) {
+    TEST_CLASS(TargetedSquaresTests) {
 
         TEST_METHOD(targetedSquaresByPawnTest) {
             Board board;
@@ -134,6 +134,29 @@ namespace PieceMoveTests {
             board.setPiece(0, 1, Piece(WHITE, ROOK));
             board.getTargetedSquares(targetedSquares, ChessVector(0, 0));
             Assert::IsTrue(9 == targetedSquares.size());
+        }
+
+        TEST_METHOD(targetedSquaresByKingTest) {
+            Board board;
+            std::list<ChessVector> targetedSqaures;
+
+            // King in centre of board
+            // Full range of motion
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.getTargetedSquares(targetedSqaures, ChessVector(3, 3));
+            Assert::IsTrue(8 == targetedSqaures.size());
+
+            // King on side of board
+            // Half range of motion
+            board.setPiece(2, 7, Piece(WHITE, KING));
+            board.getTargetedSquares(targetedSqaures, ChessVector(2, 7));
+            Assert::IsTrue(5 == targetedSqaures.size());
+
+            // King in corner
+            // Quarter range of motion
+            board.setPiece(7, 0, Piece(BLACK, KING));
+            board.getTargetedSquares(targetedSqaures, ChessVector(7, 0));
+            Assert::IsTrue(3 == targetedSqaures.size());
         }
         TEST_METHOD(pawnMovesTest) {
             Board board;

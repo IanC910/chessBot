@@ -347,19 +347,22 @@ void Board::getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVec
 
     switch (getPiece(position).getType()) {
         case PAWN:
-            getTargetedSquaresByPawn(targetedSquares, position);
+            addTargetedSquaresByPawn(targetedSquares, position);
             break;
         case BISHOP:
-            getTargetedSquaresByBishop(targetedSquares, position);
+            addTargetedSquaresByBishop(targetedSquares, position);
             break;
         case KNIGHT:
-            getTargetedSquaresByKnight(targetedSquares, position);
+            addTargetedSquaresByKnight(targetedSquares, position);
             break;
         case ROOK:
-            getTargetedSquaresByRook(targetedSquares, position);
+            addTargetedSquaresByRook(targetedSquares, position);
             break;
         case QUEEN:
-            getTargetedSquaresByQueen(targetedSquares, position);
+            addTargetedSquaresByQueen(targetedSquares, position);
+            break;
+        case KING:
+            addTargetedSquaresByKing(targetedSquares, position);
             break;
         default:
             break;
@@ -385,7 +388,7 @@ void Board::doMove(const Move& move) {
     }
 }
 
-void Board::getTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) {
     if (!position.isValid()) {
         return;
     }
@@ -414,7 +417,7 @@ void Board::getTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, Ch
     }
 }
 
-void Board::getTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) {
     if (!position.isValid()) {
         return;
     }
@@ -445,7 +448,7 @@ void Board::getTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, 
     }
 }
 
-void Board::getTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) {
     if (!position.isValid()) {
         return;
     }
@@ -470,7 +473,7 @@ void Board::getTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, 
     }
 }
 
-void Board::getTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) {
     if (!position.isValid()) {
         return;
     }
@@ -501,13 +504,38 @@ void Board::getTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, Ch
     }
 }
 
-void Board::getTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, ChessVector position) {
     if (!position.isValid()) {
         return;
     }
 
-    getTargetedSquaresByBishop(targetedSquares, position);
-    getTargetedSquaresByRook(targetedSquares, position);
+    addTargetedSquaresByBishop(targetedSquares, position);
+    addTargetedSquaresByRook(targetedSquares, position);
+}
+
+void Board::addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) {
+    if (!position.isValid()) {
+        return;
+    }
+
+    ChessVector directions[8] {
+        {1, 0},
+        {1, 1},
+        {0, 1},
+        {-1, 1},
+        {-1, 0},
+        {-1, -1},
+        {0, -1},
+        {1, -1}
+    };
+
+    for (ChessVector direction : directions) {
+        ChessVector currPos = position.add(direction);
+
+        if (currPos.isValid()) {
+            targetedSquares.push_back(currPos);
+        }
+    }
 }
 
 void Board::getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
