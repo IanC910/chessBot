@@ -20,4 +20,5 @@ public:
     ChessVector add(const ChessVector& vec) const;
     ChessVector subtract(const ChessVector& vec) const;
     void increaseBy(const ChessVector& vec);
+    int dotProduct(const ChessVector& vec);
 };

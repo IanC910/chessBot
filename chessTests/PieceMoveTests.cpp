@@ -71,6 +71,24 @@ namespace PieceMoveTests {
             board.setPiece(3, 5, Piece(BLACK, QUEEN));
             board.getMoves(moves, ChessVector(3, 4));
             Assert::IsTrue(0 == moves.size());
+
+            // King is checked
+            // Only move is to block check
+            board.clear();
+            board.setPiece(1, 2, Piece(BLACK, KING));
+            board.setPiece(1, 6, Piece(WHITE, ROOK));
+            board.setPiece(2, 3, Piece(BLACK, PAWN));
+            board.getMoves(moves, ChessVector(2, 3));
+            Assert::IsTrue(1 == moves.size());
+
+            // Same conditions but now there is another option
+            board.clear();
+            board.setPiece(1, 2, Piece(BLACK, KING));
+            board.setPiece(4, 5, Piece(WHITE, BISHOP));
+            board.setPiece(2, 4, Piece(WHITE, BISHOP));
+            board.setPiece(3, 3, Piece(BLACK, PAWN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(1 == moves.size());
         }
 
         TEST_METHOD(getBishopMovesTest) {
@@ -101,6 +119,24 @@ namespace PieceMoveTests {
             board.setPiece(2, 2, Piece(WHITE, QUEEN));
             board.getMoves(moves, ChessVector(3, 3));
             Assert::IsTrue(10 == moves.size());
+
+            // Bishop is pinned but on same diagonal as pinner
+            // Can take or go back 1
+            board.clear();
+            board.setPiece(4, 5, Piece(WHITE, KING));
+            board.setPiece(2, 3, Piece(WHITE, BISHOP));
+            board.setPiece(1, 2, Piece(BLACK, QUEEN));
+            board.getMoves(moves, ChessVector(2, 3));
+            Assert::IsTrue(2 == moves.size());
+
+            // Bishop is not pinned, but king is checked
+            // Only move is to block check
+            board.clear();
+            board.setPiece(4, 5, Piece(WHITE, KING));
+            board.setPiece(1, 4, Piece(WHITE, BISHOP));
+            board.setPiece(1, 2, Piece(BLACK, QUEEN));
+            board.getMoves(moves, ChessVector(1, 4));
+            Assert::IsTrue(1 == moves.size());
         }
     };
 }

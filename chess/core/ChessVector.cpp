@@ -47,3 +47,7 @@ void ChessVector::increaseBy(const ChessVector& vec) {
     rank += vec.rank;
     file += vec.file;
 }
+
+int ChessVector::dotProduct(const ChessVector& vec) {
+    return rank * vec.rank + file * vec.file;
+}

@@ -30,6 +30,7 @@ public:
     ChessVector getPinDirection(ChessVector position) const;
     bool isPiecePinned(ChessVector position) const;
     int getNumChecks(Colour kingColour);
+    const std::list<ChessVector>* getPositionsCheckingKing(Colour kingColour);
     bool isKingChecked(Colour kingColour);
 
     // Deprecated
@@ -46,10 +47,11 @@ private:
     ChessVector whiteKingPos = ChessVector::INVALID_VEC;
     ChessVector blackKingPos = ChessVector::INVALID_VEC;
 
-    char numWhiteKingChecks;
-    char numBlackKingChecks;
+    bool checksCalculated = true;
+    std::list<ChessVector> positionsCheckingWhite;
+    std::list<ChessVector> positionsCheckingBlack;
 
-    void calculateNumChecks(Colour kingColour);
+    void calculateChecks(Colour kingColour);
 
     void addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) const;
     void addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) const;
@@ -57,6 +59,8 @@ private:
     void addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) const;
     void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position) const;
     void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+
+    void filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, ChessVector startPosition);
 
     void addPawnMoves(std::list<Move>& moves, ChessVector position);
     void addBishopMoves(std::list<Move>& moves, ChessVector position);
