@@ -16,6 +16,8 @@ public:
     bool equals(const Board& board) const;
     std::string toString() const;
 
+    void clearCache();
+
     Piece getPiece(char rank, char file) const;
     Piece getPiece(ChessVector position) const;
     void setPiece(char rank, char file, const Piece& piece);

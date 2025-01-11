@@ -62,6 +62,11 @@ std::string Board::toString() const {
     return stream.str();
 }
 
+void Board::clearCache() {
+    numWhiteKingChecks = -1;
+    numBlackKingChecks = -1;
+}
+
 Piece Board::getPiece(char rank, char file) const {
     if (ChessVector::isValid(rank, file)) {
         return pieces[rank][file];
@@ -104,8 +109,7 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
     
     pieces[rank][file] = piece;
 
-    numWhiteKingChecks = -1;
-    numBlackKingChecks = -1;
+    clearCache();
 }
 
 void Board::setPiece(ChessVector position, const Piece& piece) {
