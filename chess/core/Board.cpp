@@ -725,22 +725,18 @@ void Board::getPawnMoves(std::list<Move>& moves, ChessVector position) {
         // TODO
     }
 
-    for (ChessVector endSquare : availableEndSquares) {
-        moves.emplace_back(position, endSquare, piece, piece);
-    }
-
     // Check for promotions
     if (noAttackEndPos.rank == 0 || noAttackEndPos.rank == 7) {
-        int numLegalMoves = moves.size();
-
-        for (int i = 0; i < numLegalMoves; i++) {
-            Move move = moves.front();
-            moves.pop_front();
-
-            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), BISHOP)));
-            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), KNIGHT)));
-            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), ROOK)));
-            moves.push_back(Move(move.startPos, move.endPos, piece, Piece(piece.getColour(), QUEEN)));
+        for (ChessVector endSquare : availableEndSquares) {
+            moves.emplace_back(position, endSquare, piece, Piece(colour, BISHOP));
+            moves.emplace_back(position, endSquare, piece, Piece(colour, KNIGHT));
+            moves.emplace_back(position, endSquare, piece, Piece(colour, ROOK));
+            moves.emplace_back(position, endSquare, piece, Piece(colour, QUEEN));
+        }
+    }
+    else {
+        for (ChessVector endSquare : availableEndSquares) {
+            moves.emplace_back(position, endSquare, piece, piece);
         }
     }
 }
