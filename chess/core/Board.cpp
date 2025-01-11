@@ -737,19 +737,19 @@ void Board::filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, Che
 }
 
 void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
-    Piece piece = getPiece(position);
-    Colour colour = piece.getColour();
-    if (colour == NO_COLOUR) {
+    Piece pawn = getPiece(position);
+    Colour pawnColour = pawn.getColour();
+    if (pawnColour == NO_COLOUR) {
         return;
     }
 
-    int numChecks = getNumChecks(colour);
+    int numChecks = getNumChecks(pawnColour);
     if (numChecks == 2) {
         return;
     }
 
     // Non-attacking move
-    ChessVector noAttackEndPos(position.rank + piece.getForwardDirection(), position.file);
+    ChessVector noAttackEndPos(position.rank + pawn.getForwardDirection(), position.file);
     if (!noAttackEndPos.isValid()) {
         // Invalid position means off the board. Every other pawn move has the same end rank, so all are invalid
         return;
@@ -760,7 +760,7 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
     // Attacking moves, filter by validity
     addTargetedSquaresByPawn(endSquares, position);
     for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
-        if (getPiece(*squareIt).getColour() != getOppositeColour(colour)) {
+        if (getPiece(*squareIt).getColour() != getOppositeColour(pawnColour)) {
             squareIt = endSquares.erase(squareIt);
         }
         else {
@@ -777,24 +777,24 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
     // Check for promotions
     if (noAttackEndPos.rank == 0 || noAttackEndPos.rank == 7) {
         for (ChessVector endSquare : endSquares) {
-            moves.emplace_back(position, endSquare, Piece(colour, BISHOP));
-            moves.emplace_back(position, endSquare, Piece(colour, KNIGHT));
-            moves.emplace_back(position, endSquare, Piece(colour, ROOK));
-            moves.emplace_back(position, endSquare, Piece(colour, QUEEN));
+            moves.emplace_back(position, endSquare, Piece(pawnColour, BISHOP));
+            moves.emplace_back(position, endSquare, Piece(pawnColour, KNIGHT));
+            moves.emplace_back(position, endSquare, Piece(pawnColour, ROOK));
+            moves.emplace_back(position, endSquare, Piece(pawnColour, QUEEN));
         }
     }
     else {
         for (ChessVector endSquare : endSquares) {
-            moves.emplace_back(position, endSquare, piece);
+            moves.emplace_back(position, endSquare, pawn);
         }
     }
 }
 
 void Board::addBishopMoves(std::list<Move>& moves, ChessVector position) {
-    Piece piece = getPiece(position);
-    Colour colour = piece.getColour();
+    Piece bishop = getPiece(position);
+    Colour bishopColour = bishop.getColour();
 
-    int numChecks = getNumChecks(colour);
+    int numChecks = getNumChecks(bishopColour);
     if (numChecks == 2) {
         return;
     }
@@ -802,7 +802,7 @@ void Board::addBishopMoves(std::list<Move>& moves, ChessVector position) {
     std::list<ChessVector> endSquares;
     addTargetedSquaresByBishop(endSquares, position);
     for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
-        if (getPiece(*squareIt).getColour() == colour) {
+        if (getPiece(*squareIt).getColour() == bishopColour) {
             squareIt = endSquares.erase(squareIt);
         }
         else {
@@ -813,6 +813,6 @@ void Board::addBishopMoves(std::list<Move>& moves, ChessVector position) {
     filterEndSquaresByCheckRules(endSquares, position);
 
     for (ChessVector endSquare : endSquares) {
-        moves.emplace_back(position, endSquare, piece);
+        moves.emplace_back(position, endSquare, bishop);
     }
 }
