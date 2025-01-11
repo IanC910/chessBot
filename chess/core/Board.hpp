@@ -37,16 +37,20 @@ public:
 
 private:
     Piece pieces[8][8]; // Row-major (Rank then file)
-
     ChessVector whiteKingPos = ChessVector::INVALID_VEC;
     ChessVector blackKingPos = ChessVector::INVALID_VEC;
 
-    void addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position);
-    void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position);
+    char numWhiteKingChecks;
+    char numBlackKingChecks;
+
+    void calculateNumChecks(Colour kingColour);
+
+    void addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position) const;
+    void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
 
     void getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter);
 };

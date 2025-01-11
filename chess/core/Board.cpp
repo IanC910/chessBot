@@ -9,7 +9,9 @@
 
 #include "Board.hpp"
 
-Board::Board(bool startingBoard) {
+Board::Board(bool startingBoard) :
+    numWhiteKingChecks(-1), numBlackKingChecks(-1)
+{
     if (startingBoard) {
         setToStartingBoard();
     }
@@ -20,6 +22,9 @@ Board::Board(const Board& board) {
 
     whiteKingPos = board.whiteKingPos;
     blackKingPos = board.blackKingPos;
+
+    numWhiteKingChecks = board.numWhiteKingChecks;
+    numBlackKingChecks = board.numBlackKingChecks;
 }
 
 bool Board::equals(const Board& board) const {
@@ -98,6 +103,9 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
     }
     
     pieces[rank][file] = piece;
+
+    numWhiteKingChecks = -1;
+    numBlackKingChecks = -1;
 }
 
 void Board::setPiece(ChessVector position, const Piece& piece) {
@@ -246,68 +254,22 @@ bool Board::isPiecePinned(ChessVector position) {
 }
 
 int Board::getNumChecks(Colour kingColour) {
-    if (kingColour == NO_COLOUR) {
-        return 0;
-    }
-
-    Colour oppositeColour = getOppositeColour(kingColour);
-    ChessVector kingPos = getKingPos(kingColour);
-    if (!kingPos.isValid()) {
-        return 0;
-    }
-
-    Piece king = getPiece(kingPos);
-    int numChecks = 0;
-    std::list<ChessVector> targetedSquares;
-
-    // Pawn checks
-    addTargetedSquaresByPawn(targetedSquares, kingPos);
-    for (ChessVector square : targetedSquares) {
-        Piece piece = getPiece(square);
-        if (piece.getColour() == oppositeColour) {
-            if (piece.getType() == PAWN) {
-                numChecks++;
+    switch (kingColour) {
+        case WHITE: {
+            if (numWhiteKingChecks == -1) {
+                calculateNumChecks(WHITE);
             }
+            return numWhiteKingChecks;
         }
-    }
-
-    // Diagonal checks
-    targetedSquares.clear();
-    addTargetedSquaresByBishop(targetedSquares, kingPos);
-    for (ChessVector square : targetedSquares) {
-        Piece piece = getPiece(square);
-        if (piece.getColour() == oppositeColour) {
-            if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
-                numChecks++;
+        case BLACK: {
+            if (numBlackKingChecks == -1) {
+                calculateNumChecks(BLACK);
             }
+            return numBlackKingChecks;
         }
+        default:
+            return 0;
     }
-
-    // Vertical and horizontal checks
-    targetedSquares.clear();
-    addTargetedSquaresByRook(targetedSquares, kingPos);
-    for (ChessVector square : targetedSquares) {
-        Piece piece = getPiece(square);
-        if (piece.getColour() == oppositeColour) {
-            if (piece.getType() == ROOK || piece.getType() == QUEEN) {
-                numChecks++;
-            }
-        }
-    }
-
-    // Knight checks
-    targetedSquares.clear();
-    addTargetedSquaresByKnight(targetedSquares, kingPos);
-    for (ChessVector square : targetedSquares) {
-        Piece piece = getPiece(square);
-        if (piece.getColour() == oppositeColour) {
-            if (piece.getType() == KNIGHT) {
-                numChecks++;
-            }
-        }
-    }
-
-    return numChecks;
 }
 
 bool Board::isKingChecked(Colour kingColour) {
@@ -443,11 +405,33 @@ void Board::getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVec
 
 void Board::getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
     moves.clear();
+    Piece piece = getPiece(position);
 
-    switch (getPiece(position).getType()) {
-        case PAWN:
+    switch (piece.getType()) {
+        case PAWN: {
             getPawnMoves(moves, position, useSelfCheckFilter);
             break;
+        }
+        case BISHOP: {
+
+            break;
+        }
+        case KNIGHT: {
+
+            break;
+        }
+        case ROOK: {
+
+            break;
+        }
+        case QUEEN: {
+
+            break;
+        }
+        case KING:{
+            
+            break;
+        }
         default:
             break;
     }
@@ -460,7 +444,75 @@ void Board::doMove(const Move& move) {
     }
 }
 
-void Board::addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::calculateNumChecks(Colour kingColour) {
+    if (kingColour == NO_COLOUR) {
+        return;
+    }
+
+    char* numChecks = &numWhiteKingChecks;
+    if (kingColour == BLACK) {
+        numChecks = &numBlackKingChecks;
+    }
+    *numChecks = 0;
+
+    Colour oppositeColour = getOppositeColour(kingColour);
+    ChessVector kingPos = getKingPos(kingColour);
+    if (!kingPos.isValid()) {
+        return;
+    }
+
+    Piece king = getPiece(kingPos);
+    std::list<ChessVector> targetedSquares;
+
+    // Pawn checks
+    addTargetedSquaresByPawn(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == PAWN) {
+                (*numChecks)++;
+            }
+        }
+    }
+
+    // Diagonal checks
+    targetedSquares.clear();
+    addTargetedSquaresByBishop(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
+                (*numChecks)++;
+            }
+        }
+    }
+
+    // Vertical and horizontal checks
+    targetedSquares.clear();
+    addTargetedSquaresByRook(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == ROOK || piece.getType() == QUEEN) {
+                (*numChecks)++;
+            }
+        }
+    }
+
+    // Knight checks
+    targetedSquares.clear();
+    addTargetedSquaresByKnight(targetedSquares, kingPos);
+    for (ChessVector square : targetedSquares) {
+        Piece piece = getPiece(square);
+        if (piece.getColour() == oppositeColour) {
+            if (piece.getType() == KNIGHT) {
+                (*numChecks)++;
+            }
+        }
+    }
+}
+
+void Board::addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -489,7 +541,7 @@ void Board::addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, Ch
     }
 }
 
-void Board::addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) const  {
     if (!position.isValid()) {
         return;
     }
@@ -520,7 +572,7 @@ void Board::addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, 
     }
 }
 
-void Board::addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -545,7 +597,7 @@ void Board::addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, 
     }
 }
 
-void Board::addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -576,7 +628,7 @@ void Board::addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, Ch
     }
 }
 
-void Board::addTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -585,7 +637,7 @@ void Board::addTargetedSquaresByQueen(std::list<ChessVector>& targetedSquares, C
     addTargetedSquaresByRook(targetedSquares, position);
 }
 
-void Board::addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     if (!position.isValid()) {
         return;
     }
