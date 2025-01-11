@@ -24,14 +24,16 @@ public:
     void clear();
     void setToStartingBoard();
 
-    ChessVector getKingPos(Colour colour);
-    ChessVector getPinDirection(ChessVector position);
-    bool isPiecePinned(ChessVector position);
+    ChessVector getKingPos(Colour colour) const;
+    ChessVector getPinDirection(ChessVector position) const;
+    bool isPiecePinned(ChessVector position) const;
     int getNumChecks(Colour kingColour);
     bool isKingChecked(Colour kingColour);
-    bool doesMoveCheckOwnKing(const Move& move);
 
-    void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position);
+    // Deprecated
+    bool doesMoveCheckOwnKing(const Move& move) const;
+
+    void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position) const;
     void addMoves(std::list<Move>& moves, ChessVector position);
     void getMoves(std::list<Move>& moves, ChessVector position);
 

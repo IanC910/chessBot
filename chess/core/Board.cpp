@@ -156,7 +156,7 @@ void Board::setToStartingBoard() {
     }
 }
 
-ChessVector Board::getKingPos(Colour colour) {
+ChessVector Board::getKingPos(Colour colour) const {
     switch (colour) {
         case WHITE:
             return whiteKingPos;
@@ -171,7 +171,7 @@ static int sign(int x) {
     return (x > 0) - (x < 0);
 }
 
-ChessVector Board::getPinDirection(ChessVector position) {
+ChessVector Board::getPinDirection(ChessVector position) const {
     Piece piece = getPiece(position);
     if (!position.isValid()) {
         return ChessVector(0, 0);
@@ -253,7 +253,7 @@ ChessVector Board::getPinDirection(ChessVector position) {
     }
 }
 
-bool Board::isPiecePinned(ChessVector position) {
+bool Board::isPiecePinned(ChessVector position) const {
     return !getPinDirection(position).equals(ChessVector(0, 0));
 }
 
@@ -281,7 +281,7 @@ bool Board::isKingChecked(Colour kingColour) {
 }
 
 // Old: Refactor or deprecate
-bool Board::doesMoveCheckOwnKing(const Move& move) {
+bool Board::doesMoveCheckOwnKing(const Move& move) const {
     if (move.endPiece.getType() == KING) {
         // TODO
     }
@@ -380,7 +380,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
     return false;
 }
 
-void Board::getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position) {
+void Board::getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position) const {
     targetedSquares.clear();
 
     switch (getPiece(position).getType()) {
