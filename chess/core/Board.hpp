@@ -54,4 +54,5 @@ private:
     void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
 
     void getPawnMoves(std::list<Move>& moves, ChessVector position);
+    void getBishopMoves(std::list<Move>& moves, ChessVector position);
 };

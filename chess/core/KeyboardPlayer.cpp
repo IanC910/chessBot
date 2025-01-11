@@ -44,7 +44,6 @@ Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
     Move move(
         ChessVector(startRank, startFile),
         ChessVector(endRank, endFile),
-        board.getPiece(startRank, startFile),
         board.getPiece(startRank, startFile)
     );
 

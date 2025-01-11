@@ -111,7 +111,7 @@ namespace BoardBasicTests {
             Board board;
             board.setPiece(0, 0, Piece(WHITE, KING));
             board.setPiece(5, 5, Piece(BLACK, BISHOP));
-            Move move(ChessVector(1, 1), ChessVector(2, 1), Piece(WHITE, PAWN), Piece(WHITE, PAWN));
+            Move move(ChessVector(1, 1), ChessVector(2, 1), Piece(WHITE, PAWN));
             Assert::IsTrue(board.doesMoveCheckOwnKing(move));
 
             // Horizontal pin line
@@ -119,7 +119,7 @@ namespace BoardBasicTests {
             board.clear();
             board.setPiece(7, 7, Piece(BLACK, KING));
             board.setPiece(7, 0, Piece(WHITE, ROOK));
-            move = Move(ChessVector(7, 6), ChessVector(6, 6), Piece(BLACK, ROOK), Piece(BLACK, ROOK));
+            move = Move(ChessVector(7, 6), ChessVector(6, 6), Piece(BLACK, ROOK));
             Assert::IsTrue(board.doesMoveCheckOwnKing(move));
 
             // Horizontal pin line
@@ -127,7 +127,7 @@ namespace BoardBasicTests {
             board.clear();
             board.setPiece(7, 7, Piece(BLACK, KING));
             board.setPiece(7, 0, Piece(WHITE, ROOK));
-            move = Move(ChessVector(7, 6), ChessVector(7, 5), Piece(BLACK, ROOK), Piece(BLACK, ROOK));
+            move = Move(ChessVector(7, 6), ChessVector(7, 5), Piece(BLACK, ROOK));
             Assert::IsFalse(board.doesMoveCheckOwnKing(move));
 
             // Vertical pin line
@@ -137,7 +137,7 @@ namespace BoardBasicTests {
             board.setPiece(0, 5, Piece(WHITE, KING));
             board.setPiece(1, 5, Piece(WHITE, KNIGHT));
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
-            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN), Piece(WHITE, QUEEN));
+            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN));
             Assert::IsFalse(board.doesMoveCheckOwnKing(move));
 
             // Vertical pin line
@@ -147,14 +147,14 @@ namespace BoardBasicTests {
             board.setPiece(0, 5, Piece(WHITE, KING));
             board.setPiece(1, 5, Piece(BLACK, KNIGHT));
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
-            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN), Piece(WHITE, QUEEN));
+            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN));
             Assert::IsFalse(board.doesMoveCheckOwnKing(move));
 
             // Diagonal pin line
             // No Attacker, so move does not check own king
             board.clear();
             board.setPiece(4, 5, Piece(WHITE, KING));
-            move = Move(ChessVector(6, 3), ChessVector(4, 4), Piece(WHITE, KNIGHT), Piece(WHITE, KNIGHT));
+            move = Move(ChessVector(6, 3), ChessVector(4, 4), Piece(WHITE, KNIGHT));
             Assert::IsFalse(board.doesMoveCheckOwnKing(move));
 		}
     };

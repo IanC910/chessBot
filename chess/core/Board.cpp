@@ -282,7 +282,7 @@ bool Board::isKingChecked(Colour kingColour) {
 
 // Old: Refactor or deprecate
 bool Board::doesMoveCheckOwnKing(const Move& move) {
-    if (move.startPiece.getType() == KING) {
+    if (move.endPiece.getType() == KING) {
         // TODO
     }
     else {
@@ -292,7 +292,7 @@ bool Board::doesMoveCheckOwnKing(const Move& move) {
         // A piece can be pinned only if it is the only piece between the king and an attacker on a valid pin line
 
         // Check if piece is initially on a valid pin line
-        Colour colour = (Colour)move.startPiece.getColour();
+        Colour colour = (Colour)move.endPiece.getColour();
         ChessVector kingPos = getKingPos(colour);
         if (!kingPos.isValid()) {
             return false;
@@ -685,37 +685,35 @@ void Board::getPawnMoves(std::list<Move>& moves, ChessVector position) {
         return;
     }
 
-    std::list<ChessVector> availableEndSquares;
+    std::list<ChessVector> endSquares;
 
     // Attacking moves, filter by validity
-    addTargetedSquaresByPawn(availableEndSquares, position);
-    int numAvailableEndSquares = availableEndSquares.size();
-    for (int i = 0; i < numAvailableEndSquares; i++) {
-        ChessVector square = availableEndSquares.front();
-        availableEndSquares.pop_front();
-
-        if (getPiece(square).getColour() == getOppositeColour(colour)) {
-            availableEndSquares.push_back(square);
+    addTargetedSquaresByPawn(endSquares, position);
+    for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
+        if (getPiece(*squareIt).getColour() != getOppositeColour(colour)) {
+            squareIt = endSquares.erase(squareIt);
+        }
+        else {
+            ++squareIt;
         }
     }
 
     if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE)) {
-        availableEndSquares.push_back(noAttackEndPos);
+        endSquares.push_back(noAttackEndPos);
     }
 
     // Check for pins, filter
     ChessVector pinDirection = getPinDirection(position);
     if (!pinDirection.equals(ChessVector(0, 0))) {
-        int numAvailableEndSquares = availableEndSquares.size();
-        for (int i = 0; i < numAvailableEndSquares; i++) {
-            ChessVector endSquare = availableEndSquares.front();
-            availableEndSquares.pop_front();
-            ChessVector diff = endSquare.subtract(position);
-            
-            // Valid move if ends on same pin line
-            // I.e. if diff direction equals pin direction (same slopes)
-            if (diff.file * pinDirection.rank == pinDirection.file * diff.rank) {
-                availableEndSquares.push_back(endSquare);
+        for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
+            // Invalid move if doesn't end on same pin line
+            // I.e. if diff direction != pin direction (different slopes)
+            ChessVector diff = (*squareIt).subtract(position);
+            if (diff.file * pinDirection.rank != pinDirection.file * diff.rank) {
+                squareIt = endSquares.erase(squareIt);
+            }
+            else {
+                ++squareIt;
             }
         }
     }
@@ -727,16 +725,29 @@ void Board::getPawnMoves(std::list<Move>& moves, ChessVector position) {
 
     // Check for promotions
     if (noAttackEndPos.rank == 0 || noAttackEndPos.rank == 7) {
-        for (ChessVector endSquare : availableEndSquares) {
-            moves.emplace_back(position, endSquare, piece, Piece(colour, BISHOP));
-            moves.emplace_back(position, endSquare, piece, Piece(colour, KNIGHT));
-            moves.emplace_back(position, endSquare, piece, Piece(colour, ROOK));
-            moves.emplace_back(position, endSquare, piece, Piece(colour, QUEEN));
+        for (ChessVector endSquare : endSquares) {
+            moves.emplace_back(position, endSquare, Piece(colour, BISHOP));
+            moves.emplace_back(position, endSquare, Piece(colour, KNIGHT));
+            moves.emplace_back(position, endSquare, Piece(colour, ROOK));
+            moves.emplace_back(position, endSquare, Piece(colour, QUEEN));
         }
     }
     else {
-        for (ChessVector endSquare : availableEndSquares) {
-            moves.emplace_back(position, endSquare, piece, piece);
+        for (ChessVector endSquare : endSquares) {
+            moves.emplace_back(position, endSquare, piece);
         }
     }
+}
+
+void Board::getBishopMoves(std::list<Move>& moves, ChessVector position) {
+    Piece piece = getPiece(position);
+    Colour colour = piece.getColour();
+
+    int numChecks = getNumChecks(colour);
+    if (numChecks == 2) {
+        return;
+    }
+
+    std::list<ChessVector> availableEndSquares;
+    addTargetedSquaresByBishop(availableEndSquares, position);
 }
