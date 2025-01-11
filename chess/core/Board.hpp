@@ -32,7 +32,8 @@ public:
     bool doesMoveCheckOwnKing(const Move& move);
 
     void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position);
-    void getMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter = true);
+    void addMoves(std::list<Move>& moves, ChessVector position);
+    void getMoves(std::list<Move>& moves, ChessVector position);
 
     void doMove(const Move& move);
 
@@ -53,6 +54,6 @@ private:
     void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position) const;
     void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
 
-    void getPawnMoves(std::list<Move>& moves, ChessVector position);
-    void getBishopMoves(std::list<Move>& moves, ChessVector position);
+    void addPawnMoves(std::list<Move>& moves, ChessVector position);
+    void addBishopMoves(std::list<Move>& moves, ChessVector position);
 };

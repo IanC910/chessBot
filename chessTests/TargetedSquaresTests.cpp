@@ -10,7 +10,7 @@ namespace TargetedSquaresTests {
 
     TEST_CLASS(TargetedSquaresTests) {
 
-        TEST_METHOD(targetedSquaresByPawnTest) {
+        TEST_METHOD(getTargetedSquaresByPawnTest) {
             Board board;
             std::list<ChessVector> targetedSquares;
 
@@ -41,7 +41,7 @@ namespace TargetedSquaresTests {
             Assert::IsTrue(1 == targetedSquares.size());
         }
 
-        TEST_METHOD(targetedSquaresByBishopTest) {
+        TEST_METHOD(getTargetedSquaresByBishopTest) {
             Board board;
             std::list<ChessVector> targetedSquares;
 
@@ -69,7 +69,7 @@ namespace TargetedSquaresTests {
             Assert::IsTrue(9 == targetedSquares.size());
         }
 
-        TEST_METHOD(targetedSquaresByKnightTest) {
+        TEST_METHOD(getTargetedSquaresByKnightTest) {
             Board board;
             std::list<ChessVector> targetedSquares;
 
@@ -92,7 +92,7 @@ namespace TargetedSquaresTests {
             Assert::IsTrue(2 == targetedSquares.size());
         }
 
-        TEST_METHOD(targetedSquaresByRookTest) {
+        TEST_METHOD(getTargetedSquaresByRookTest) {
             Board board;
             std::list<ChessVector> targetedSquares;
 
@@ -112,7 +112,7 @@ namespace TargetedSquaresTests {
             Assert::IsTrue(13 == targetedSquares.size());
         }
 
-        TEST_METHOD(targetedSquaresByQueenTest) {
+        TEST_METHOD(getTargetedSquaresByQueenTest) {
             Board board;
             std::list<ChessVector> targetedSquares;
 
@@ -136,7 +136,7 @@ namespace TargetedSquaresTests {
             Assert::IsTrue(9 == targetedSquares.size());
         }
 
-        TEST_METHOD(targetedSquaresByKingTest) {
+        TEST_METHOD(getTargetedSquaresByKingTest) {
             Board board;
             std::list<ChessVector> targetedSqaures;
 
@@ -158,7 +158,7 @@ namespace TargetedSquaresTests {
             board.getTargetedSquares(targetedSqaures, ChessVector(7, 0));
             Assert::IsTrue(3 == targetedSqaures.size());
         }
-        TEST_METHOD(numChecksTest) {
+        TEST_METHOD(getNumChecksTest) {
             Board board;
 
             board.setPiece(0, 0, Piece(WHITE, KING));
