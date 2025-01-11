@@ -25,6 +25,7 @@ public:
     void setToStartingBoard();
 
     ChessVector getKingPos(Colour colour);
+    ChessVector getPinDirection(ChessVector position);
     bool isPiecePinned(ChessVector position);
     int getNumChecks(Colour kingColour);
     bool isKingChecked(Colour kingColour);
@@ -52,5 +53,5 @@ private:
     void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position) const;
     void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
 
-    void getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter);
+    void getPawnMoves(std::list<Move>& moves, ChessVector position);
 };

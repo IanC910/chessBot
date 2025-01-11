@@ -171,15 +171,15 @@ static int sign(int x) {
     return (x > 0) - (x < 0);
 }
 
-bool Board::isPiecePinned(ChessVector position) {
+ChessVector Board::getPinDirection(ChessVector position) {
     Piece piece = getPiece(position);
     if (!position.isValid()) {
-        return false;
+        return ChessVector(0, 0);
     }
 
     Colour colour = piece.getColour();
     if (colour == NO_COLOUR) {
-        return false;
+        return ChessVector(0, 0);
     }
     
     // A piece can be pinned by queens, bishops, and rooks, not by knights or pawns
@@ -189,7 +189,7 @@ bool Board::isPiecePinned(ChessVector position) {
     // Check if piece is on a possible pin line
     ChessVector kingPos = getKingPos(colour);
     if (!kingPos.isValid()) {
-        return false;
+        return ChessVector(0, 0);
     }
 
     // Direction from king to piece
@@ -201,7 +201,7 @@ bool Board::isPiecePinned(ChessVector position) {
 
     if (!isDiagonalPinLine && !isVertOrHorizPinLine) {
         // Piece is not a on a valid pin line, can't be pinned
-        return false;
+        return ChessVector(0, 0);
     }
 
     // Check if there is an attacker on this line and
@@ -227,7 +227,7 @@ bool Board::isPiecePinned(ChessVector position) {
 
         if (!currPos.isValid()) {
             // Off the board: the pin line contains no attackers
-            return false;
+            return ChessVector(0, 0);
         }
 
         Piece currPiece = getPiece(currPos);
@@ -243,14 +243,18 @@ bool Board::isPiecePinned(ChessVector position) {
         );
 
         if (isAttackingColour && isAttackingType) {
-            return true;
+            return directionNormed;
         }
 
         if (currPiece.getType() != NO_TYPE) {
             // There is another non-attacking piece in the pin line between the king and any attacker
-            return false;
+            return ChessVector(0, 0);
         }
     }
+}
+
+bool Board::isPiecePinned(ChessVector position) {
+    return !getPinDirection(position).equals(ChessVector(0, 0));
 }
 
 int Board::getNumChecks(Colour kingColour) {
@@ -409,7 +413,7 @@ void Board::getMoves(std::list<Move>& moves, ChessVector position, bool useSelfC
 
     switch (piece.getType()) {
         case PAWN: {
-            getPawnMoves(moves, position, useSelfCheckFilter);
+            getPawnMoves(moves, position);
             break;
         }
         case BISHOP: {
@@ -662,58 +666,67 @@ void Board::addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, Ch
     }
 }
 
-void Board::getPawnMoves(std::list<Move>& moves, ChessVector position, bool useSelfCheckFilter) {
+void Board::getPawnMoves(std::list<Move>& moves, ChessVector position) {
     Piece piece = getPiece(position);
-    if (piece.getColour() == NO_COLOUR) {
+    Colour colour = piece.getColour();
+    if (colour == NO_COLOUR) {
+        return;
+    }
+
+    int numChecks = getNumChecks(colour);
+    if (numChecks == 2) {
         return;
     }
 
     // Non-attacking move
-    ChessVector noAttackEndPos(
-        position.rank + piece.getForwardDirection(),
-        position.file
-    );
-
+    ChessVector noAttackEndPos(position.rank + piece.getForwardDirection(), position.file);
     if (!noAttackEndPos.isValid()) {
         // Invalid position means off the board. Every other pawn move has the same end rank, so all are invalid
         return;
     }
 
+    std::list<ChessVector> availableEndSquares;
+
+    // Attacking moves, filter by validity
+    addTargetedSquaresByPawn(availableEndSquares, position);
+    int numAvailableEndSquares = availableEndSquares.size();
+    for (int i = 0; i < numAvailableEndSquares; i++) {
+        ChessVector square = availableEndSquares.front();
+        availableEndSquares.pop_front();
+
+        if (getPiece(square).getColour() == getOppositeColour(colour)) {
+            availableEndSquares.push_back(square);
+        }
+    }
+
     if (getPiece(noAttackEndPos).equals(Piece::NO_PIECE)) {
-        Move noAttackMove(position, noAttackEndPos, piece, piece);
-        if (!useSelfCheckFilter || !doesMoveCheckOwnKing(noAttackMove)) {
-            moves.push_back(noAttackMove);
+        availableEndSquares.push_back(noAttackEndPos);
+    }
+
+    // Check for pins, filter
+    ChessVector pinDirection = getPinDirection(position);
+    if (!pinDirection.equals(ChessVector(0, 0))) {
+        int numAvailableEndSquares = availableEndSquares.size();
+        for (int i = 0; i < numAvailableEndSquares; i++) {
+            ChessVector endSquare = availableEndSquares.front();
+            availableEndSquares.pop_front();
+            ChessVector diff = endSquare.subtract(position);
+            
+            // Valid move if ends on same pin line
+            // I.e. if diff direction equals pin direction (same slopes)
+            if (diff.file * pinDirection.rank == pinDirection.file * diff.rank) {
+                availableEndSquares.push_back(endSquare);
+            }
         }
     }
 
-    // Left attacking move
-    ChessVector leftAttackEndPos(
-        position.rank + piece.getForwardDirection(),
-        position.file - 1
-    );
-
-    if (leftAttackEndPos.isValid() &&
-        getPiece(leftAttackEndPos).getColour() == getOppositeColour(piece.getColour())
-    ) {
-        Move leftAttackMove(position, leftAttackEndPos, piece, piece);
-        if(!useSelfCheckFilter || !doesMoveCheckOwnKing(leftAttackMove)) {
-            moves.push_back(leftAttackMove);
-        }
+    // Check for king checks, filter
+    if (numChecks == 1) {
+        // TODO
     }
 
-    // Right attacking move
-    ChessVector rightAttackEndPos(
-        position.rank + piece.getForwardDirection(),
-        position.file + 1
-    );
-
-    if (rightAttackEndPos.isValid() &&
-        getPiece(rightAttackEndPos).getColour() == getOppositeColour(piece.getColour())
-    ) {
-        Move rightAttackMove(position, rightAttackEndPos, piece, piece);
-        if (!useSelfCheckFilter || !doesMoveCheckOwnKing(rightAttackMove)) {
-            moves.push_back(rightAttackMove);
-        }
+    for (ChessVector endSquare : availableEndSquares) {
+        moves.emplace_back(position, endSquare, piece, piece);
     }
 
     // Check for promotions

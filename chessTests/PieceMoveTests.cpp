@@ -21,6 +21,7 @@ namespace PieceMoveTests {
             // Only 1 legal move: straight forward
             board.setPiece(whitePawnPos, whitePawn);
             board.getMoves(moves, whitePawnPos);
+            std::cout << moves.size();
             Assert::IsTrue(1 == moves.size());
 
             // Blocking piece of opposite colour
@@ -62,10 +63,6 @@ namespace PieceMoveTests {
             board.getMoves(moves, ChessVector(4, 4));
             Assert::IsTrue(1 == moves.size());
 
-            // 2 moves if self check filter is off
-            board.getMoves(moves, ChessVector(4, 4), false);
-            Assert::IsTrue(2 == moves.size());
-
             // Pawn is pinned by queen of opposite colour
             // 0 legal moves, queen is not takeable
             board.clear();
@@ -74,10 +71,6 @@ namespace PieceMoveTests {
             board.setPiece(3, 5, Piece(BLACK, QUEEN));
             board.getMoves(moves, ChessVector(3, 4));
             Assert::IsTrue(0 == moves.size());
-
-            // 1 move if self check filter is off
-            board.getMoves(moves, ChessVector(3, 4), false);
-            Assert::IsTrue(1 == moves.size());
         }
     };
 }
