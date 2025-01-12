@@ -137,6 +137,74 @@ namespace PieceMoveTests {
             board.setPiece(1, 2, Piece(BLACK, QUEEN));
             board.getMoves(moves, ChessVector(1, 4));
             Assert::IsTrue(1 == moves.size());
+
+            // Bishop not pinned, king is checked
+            // Bishop can only make it behind the king, can't block
+            // No moves
+            board.clear();
+            board.setPiece(4, 5, Piece(WHITE, KING));
+            board.setPiece(1, 2, Piece(BLACK, QUEEN));
+            board.setPiece(4, 7, Piece(WHITE, BISHOP));
+            board.getMoves(moves, ChessVector(4, 7));
+            Assert::IsTrue(0 == moves.size());
+
+            // Bishop not pinned, king is checked
+            // Bishop can only make it behind the checker, can't block
+            // No moves
+            board.clear();
+            board.setPiece(4, 5, Piece(WHITE, KING));
+            board.setPiece(1, 2, Piece(BLACK, QUEEN));
+            board.setPiece(1, 0, Piece(WHITE, BISHOP));
+            board.getMoves(moves, ChessVector(1, 0));
+            Assert::IsTrue(0 == moves.size());
+        }
+
+        TEST_METHOD(getKnightMovesTest) {
+            Board board;
+            std::list<Move> moves;
+
+            // Knight in centre of board, only piece
+            // Full range of motion
+            board.setPiece(3, 3, Piece(WHITE, KNIGHT));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(8 == moves.size());
+
+            // Same colour pawn in one end square
+            // Can't move there
+            board.setPiece(2, 5, Piece(WHITE, PAWN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(7 == moves.size());
+
+            // Opposute colour pawn in another end square
+            // No effect
+            board.setPiece(4, 5, Piece(BLACK, PAWN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(7 == moves.size());
+
+            // Knight pinned, no moves
+            board.clear();
+            board.setPiece(3, 3, Piece(BLACK, KNIGHT));
+            board.setPiece(2, 2, Piece(BLACK, KING));
+            board.setPiece(4, 4, Piece(WHITE, BISHOP));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(0 == moves.size());
+
+            // King checked
+            // Only move is to take it
+            board.clear();
+            board.setPiece(4, 2, Piece(WHITE, KING));
+            board.setPiece(4, 4, Piece(BLACK, ROOK));
+            board.setPiece(5, 6, Piece(WHITE, KNIGHT));
+            board.getMoves(moves, ChessVector(5, 6));
+            Assert::IsTrue(1 == moves.size());
+
+            // Same as above but now knight can also block
+            board.clear();
+            board.setPiece(4, 2, Piece(WHITE, KING));
+            board.setPiece(4, 5, Piece(BLACK, ROOK));
+            board.setPiece(6, 4, Piece(WHITE, KNIGHT));
+            board.getMoves(moves, ChessVector(6, 4));
+            Assert::IsTrue(2 == moves.size());
         }
     };
 }

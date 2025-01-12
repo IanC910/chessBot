@@ -164,7 +164,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PieceMoveTests.cpp" />
-    <ClCompile Include="TargetedSquaresTests.cpp" />
+    <ClCompile Include="SquaresSeenTests.cpp" />
     <ClCompile Include="PieceTests.cpp" />
   </ItemGroup>
   <ItemGroup>

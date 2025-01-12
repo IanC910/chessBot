@@ -17,8 +17,9 @@ public:
     bool isValid() const;
 
     bool equals(const ChessVector& vec) const;
-    ChessVector add(const ChessVector& vec) const;
-    ChessVector subtract(const ChessVector& vec) const;
+    ChessVector getOpposite() const;
+    ChessVector plus(const ChessVector& vec) const;
+    ChessVector minus(const ChessVector& vec) const;
     void increaseBy(const ChessVector& vec);
     int dotProduct(const ChessVector& vec);
 };

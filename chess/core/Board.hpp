@@ -36,7 +36,7 @@ public:
     // Deprecated
     bool doesMoveCheckOwnKing(const Move& move) const;
 
-    void getTargetedSquares(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void getSquaresSeenByPiece(std::list<ChessVector>& targetedSquares, ChessVector position) const;
     void addMoves(std::list<Move>& moves, ChessVector position);
     void getMoves(std::list<Move>& moves, ChessVector position);
 
@@ -53,15 +53,20 @@ private:
 
     void calculateChecks(Colour kingColour);
 
-    void addTargetedSquaresByPawn(std::list<ChessVector>& targetedSquares, ChessVector position) const;
-    void addTargetedSquaresByBishop(std::list<ChessVector>& targetedSquares, ChessVector position) const;
-    void addTargetedSquaresByKnight(std::list<ChessVector>& targetedSquares, ChessVector position) const;
-    void addTargetedSquaresByRook(std::list<ChessVector>& targetedSquares, ChessVector position) const;
-    void addTargetedSquaresByQueen(std::list<ChessVector>& targeteSquares, ChessVector position) const;
-    void addTargetedSquaresByKing(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addSquaresSeenByPawn(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void addSquaresSeenByBishop(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void addSquaresSeenByKnight(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void addSquaresSeenByRook(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void addSquaresSeenByQueen(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void addSquaresSeenByKing(std::list<ChessVector>& squaresSeen, ChessVector position) const;
 
     void filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, ChessVector startPosition);
-
+    void filterEndSquaresByAvailability(std::list<ChessVector>& endSquares, ChessVector startPosition) const;
+    
     void addPawnMoves(std::list<Move>& moves, ChessVector position);
     void addBishopMoves(std::list<Move>& moves, ChessVector position);
+    void addKnightMoves(std::list<Move>& moves, ChessVector position);
+    void addRookMoves(std::list<Move>& moves, ChessVector position);
+    void addQueenMoves(std::list<Move>& moves, ChessVector position);
+    void addKingMoves(std::list<Move>& moves, ChessVector position);
 };

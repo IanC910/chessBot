@@ -35,11 +35,15 @@ bool ChessVector::equals(const ChessVector& vec) const {
 	);
 }
 
-ChessVector ChessVector::add(const ChessVector& vec) const {
+ChessVector ChessVector::getOpposite() const {
+    return ChessVector(-rank, -file);
+}
+
+ChessVector ChessVector::plus(const ChessVector& vec) const {
     return ChessVector(rank + vec.rank, file + vec.file);
 }
 
-ChessVector ChessVector::subtract(const ChessVector& vec) const {
+ChessVector ChessVector::minus(const ChessVector& vec) const {
     return ChessVector(rank - vec.rank, file - vec.file);
 }
 

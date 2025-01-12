@@ -24,7 +24,7 @@
     <ClCompile Include="PieceTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TargetedSquaresTests.cpp">
+    <ClCompile Include="SquaresSeenTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PieceMoveTests.cpp">
