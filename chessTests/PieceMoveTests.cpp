@@ -206,5 +206,67 @@ namespace PieceMoveTests {
             board.getMoves(moves, ChessVector(6, 4));
             Assert::IsTrue(2 == moves.size());
         }
+
+        TEST_METHOD(getRookMovesTest) {
+            Board board;
+            std::list<Move> moves;
+
+            // Rook in centre of board, only piece
+            // Full range of motion
+            board.setPiece(3, 3, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(14 == moves.size());
+
+            // Opposite colour piece blocks a path
+            board.setPiece(6, 3, Piece(BLACK, PAWN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(13 == moves.size());
+
+            // Same colour piece blocks another path
+            board.setPiece(3, 5, Piece(WHITE, KING));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(10 == moves.size());
+
+            // Rook is pinned diagonally, no moves
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(5, 5, Piece(BLACK, BISHOP));
+            board.setPiece(4, 4, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(4, 4));
+            Assert::IsTrue(0 == moves.size());
+
+            // Rook is pinned horizontally
+            // Some moves, including taking checking piece
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(3, 7, Piece(BLACK, QUEEN));
+            board.setPiece(3, 4, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(3, 4));
+            Assert::IsTrue(3 == moves.size());
+
+            // King is checked, rook can block
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(3, 7, Piece(BLACK, QUEEN));
+            board.setPiece(5, 5, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(5, 5));
+            Assert::IsTrue(1 == moves.size());
+
+            // King is checked, rook can't block as it's behind the king
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(3, 7, Piece(BLACK, QUEEN));
+            board.setPiece(5, 2, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(5, 2));
+            Assert::IsTrue(0 == moves.size());
+
+            // King is checked, only move is to take checker
+            board.clear();
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.setPiece(3, 7, Piece(BLACK, QUEEN));
+            board.setPiece(5, 7, Piece(WHITE, ROOK));
+            board.getMoves(moves, ChessVector(5, 7));
+            Assert::IsTrue(1 == moves.size());
+        }
     };
 }

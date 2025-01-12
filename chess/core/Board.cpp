@@ -446,7 +446,7 @@ void Board::addMoves(std::list<Move>& moves, ChessVector position) {
             break;
         }
         case ROOK: {
-
+            addRookMoves(moves, position);
             break;
         }
         case QUEEN: {
@@ -845,3 +845,22 @@ void Board::addKnightMoves(std::list<Move>& moves, ChessVector position) {
     }
 }
 
+void Board::addRookMoves(std::list<Move>& moves, ChessVector position) {
+    Piece rook = getPiece(position);
+    Colour rookColour = rook.getColour();
+
+    int numChecks = getNumChecks(rookColour);
+    if (numChecks == 2) {
+        return;
+    }
+
+    std::list<ChessVector> endSquares;
+    addSquaresSeenByRook(endSquares, position);
+
+    filterEndSquaresByCheckRules(endSquares, position);
+    filterEndSquaresByAvailability(endSquares, position);
+
+    for (ChessVector endSquare : endSquares) {
+        moves.emplace_back(position, endSquare, rook);
+    }
+}
