@@ -450,7 +450,7 @@ void Board::addMoves(std::list<Move>& moves, ChessVector position) {
             break;
         }
         case QUEEN: {
-
+            addQueenMoves(moves, position);
             break;
         }
         case KING:{
@@ -863,4 +863,9 @@ void Board::addRookMoves(std::list<Move>& moves, ChessVector position) {
     for (ChessVector endSquare : endSquares) {
         moves.emplace_back(position, endSquare, rook);
     }
+}
+
+void Board::addQueenMoves(std::list<Move>& moves, ChessVector position) {
+    addBishopMoves(moves, position);
+    addRookMoves(moves, position);
 }

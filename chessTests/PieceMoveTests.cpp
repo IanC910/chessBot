@@ -268,5 +268,23 @@ namespace PieceMoveTests {
             board.getMoves(moves, ChessVector(5, 7));
             Assert::IsTrue(1 == moves.size());
         }
+
+        TEST_METHOD(getQueenMovesTest) {
+            Board board;
+            std::list<Move> moves;
+
+            // Queen in centre of board, only piece
+            // Full range of motion
+            board.setPiece(3, 3, Piece(WHITE, QUEEN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(27 == moves.size());
+
+            // Queen is forked by kngiht, no moves
+            board.setPiece(3, 3, Piece(WHITE, QUEEN));
+            board.setPiece(3, 5, Piece(WHITE, KING));
+            board.setPiece(5, 4, Piece(BLACK, KNIGHT));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(0 == moves.size());
+        }
     };
 }
