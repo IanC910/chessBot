@@ -67,6 +67,8 @@ public:
 	char getValue() const;
 
 	bool equals(const Piece& piece) const;
+    bool operator==(const Piece& piece) const;
+    bool operator!=(const Piece& piece) const;
 	std::string getSymbol() const;
 
 private:

@@ -3,7 +3,7 @@
 
 const ChessVector ChessVector::INVALID_VEC(-128, -128);
 
-bool ChessVector::isValid(char rank, char file) {
+inline bool ChessVector::isValid(char rank, char file) {
 	return (
 		rank >= 0 &&
 		rank <= 7 &&
@@ -35,6 +35,14 @@ bool ChessVector::equals(const ChessVector& vec) const {
 	);
 }
 
+bool ChessVector::operator==(const ChessVector& vec) const {
+    return equals(vec);
+}
+
+bool ChessVector::operator!=(const ChessVector& vec) const {
+    return !equals(vec);
+}
+
 ChessVector ChessVector::getOpposite() const {
     return ChessVector(-rank, -file);
 }
@@ -43,13 +51,25 @@ ChessVector ChessVector::plus(const ChessVector& vec) const {
     return ChessVector(rank + vec.rank, file + vec.file);
 }
 
+ChessVector ChessVector::operator+(const ChessVector& vec) const {
+    return plus(vec);
+}
+
 ChessVector ChessVector::minus(const ChessVector& vec) const {
     return ChessVector(rank - vec.rank, file - vec.file);
+}
+
+ChessVector ChessVector::operator-(const ChessVector& vec) const {
+    return minus(vec);
 }
 
 void ChessVector::increaseBy(const ChessVector& vec) {
     rank += vec.rank;
     file += vec.file;
+}
+
+void ChessVector::operator+=(const ChessVector& vec) {
+    increaseBy(vec);
 }
 
 int ChessVector::dotProduct(const ChessVector& vec) {

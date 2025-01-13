@@ -49,6 +49,14 @@ bool Piece::equals(const Piece& piece) const {
     );
 }
 
+bool Piece::operator==(const Piece& piece) const {
+    return equals(piece);
+}
+
+bool Piece::operator!=(const Piece& piece) const {
+    return !equals(piece);
+}
+
 std::string Piece::getSymbol() const {
     char symbol[3] = {COLOUR_SYMBOLS[colour], PIECE_TYPE_SYMBOLS[type], 0};
     return std::string(symbol);

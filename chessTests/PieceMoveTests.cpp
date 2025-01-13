@@ -286,5 +286,58 @@ namespace PieceMoveTests {
             board.getMoves(moves, ChessVector(3, 3));
             Assert::IsTrue(0 == moves.size());
         }
+
+        TEST_METHOD(getKingMovesTest) {
+            Board board;
+            std::list<Move> moves;
+
+            // King in centre of board, only piece
+            // Full range of motion
+            board.setPiece(3, 3, Piece(WHITE, KING));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(8 == moves.size());
+
+            // Some same colour pieces next to king, restricting movement
+            board.setPiece(2, 3, Piece(WHITE, PAWN));
+            board.setPiece(3, 4, Piece(WHITE, QUEEN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(6 == moves.size());
+
+            // Some opposite colour pawns next to king
+            // one is checking king
+            // Valid moves to take either of them
+            board.setPiece(2, 4, Piece(BLACK, PAWN));
+            board.setPiece(4, 2, Piece(BLACK, PAWN));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(6 == moves.size());
+
+            // One of the opposite pawns is protected
+            // Can no longer take it
+            board.setPiece(5, 2, Piece(BLACK, ROOK));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(5 == moves.size());
+
+            // Opposite colour bishop protects one of previously available squares
+            board.setPiece(4, 0, Piece(BLACK, BISHOP));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(4 == moves.size());
+
+            // Opposite colour queen protects more squares
+            board.setPiece(4, 6, Piece(BLACK, QUEEN));
+            board.setPiece(5, 2, Piece::NO_PIECE);
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(1 == moves.size());
+
+            // Opposte colour bishop protects the last available square
+            board.setPiece(5, 0, Piece(BLACK, BISHOP));
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(0 == moves.size());
+
+            // All available squares are checked, only move is to take a checker
+            board.setPiece(2, 2, Piece(BLACK, BISHOP));
+            board.setPiece(4, 0, Piece::NO_PIECE);
+            board.getMoves(moves, ChessVector(3, 3));
+            Assert::IsTrue(1 == moves.size());
+        }
     };
 }

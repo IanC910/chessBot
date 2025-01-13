@@ -14,6 +14,8 @@ public:
     Board(const Board& board);
 
     bool equals(const Board& board) const;
+    bool operator==(const Board& board) const;
+    bool operator!=(const Board& board) const;
     std::string toString() const;
 
     void clearCache();
@@ -36,7 +38,8 @@ public:
     // Deprecated
     bool doesMoveCheckOwnKing(const Move& move) const;
 
-    void getSquaresSeenByPiece(std::list<ChessVector>& targetedSquares, ChessVector position) const;
+    void addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+    void getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
     void addMoves(std::list<Move>& moves, ChessVector position);
     void getMoves(std::list<Move>& moves, ChessVector position);
 
