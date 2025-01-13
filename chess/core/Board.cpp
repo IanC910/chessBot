@@ -9,20 +9,16 @@
 
 #include "Board.hpp"
 
-Board::Board(bool startingBoard) {
-    if (startingBoard) {
-        setToStartingBoard();
-    }
-}
+Board::Board() {}
 
 Board::Board(const Board& board) {
     memcpy(this->pieces, board.pieces, 64 * sizeof(Piece));
-
     whiteKingPos = board.whiteKingPos;
     blackKingPos = board.blackKingPos;
 
     positionsCheckingWhite = board.positionsCheckingWhite;
     positionsCheckingBlack = board.positionsCheckingBlack;
+    checksCalculated = board.checksCalculated;
 }
 
 bool Board::equals(const Board& board) const {
@@ -340,7 +336,7 @@ void Board::getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVect
     addSquaresSeenByPiece(squaresSeen, position);
 }
 
-void Board::addMoves(std::list<Move>& moves, ChessVector position) {
+void Board::addMovesForPiece(std::list<Move>& moves, ChessVector position) {
     Piece piece = getPiece(position);
 
     switch (piece.getType()) {
@@ -373,9 +369,22 @@ void Board::addMoves(std::list<Move>& moves, ChessVector position) {
     }
 }
 
-void Board::getMoves(std::list<Move>& moves, ChessVector position) {
+void Board::getMovesForPiece(std::list<Move>& moves, ChessVector position) {
     moves.clear();
-    addMoves(moves, position);
+    addMovesForPiece(moves, position);
+}
+
+void Board::getAllMoves(std::list<Move>& moves, Colour playerColour) {
+    moves.clear();
+
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            Piece piece = getPiece(r, f);
+            if (piece.getColour() == playerColour) {
+                addMovesForPiece(moves, ChessVector(r, f));
+            }
+        }
+    }
 }
 
 void Board::doMove(const Move& move) {

@@ -10,7 +10,7 @@
 
 class Board {
 public:
-    Board(bool startingBoad = false);
+    Board();
     Board(const Board& board);
 
     bool equals(const Board& board) const;
@@ -35,13 +35,11 @@ public:
     const std::list<ChessVector>* getPositionsCheckingKing(Colour kingColour);
     bool isKingChecked(Colour kingColour);
 
-    // Deprecated
-    bool doesMoveCheckOwnKing(const Move& move) const;
-
     void addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
     void getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addMoves(std::list<Move>& moves, ChessVector position);
-    void getMoves(std::list<Move>& moves, ChessVector position);
+    void addMovesForPiece(std::list<Move>& moves, ChessVector position);
+    void getMovesForPiece(std::list<Move>& moves, ChessVector position);
+    void getAllMoves(std::list<Move>& moves, Colour playerColour);
 
     void doMove(const Move& move);
 

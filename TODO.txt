@@ -1,0 +1,2 @@
+Add pawn moving 2 squares if first move
+Add castling

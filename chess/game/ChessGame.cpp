@@ -4,11 +4,11 @@
 #include "ChessGame.hpp"
 
 ChessGame::ChessGame(Player& whitePlayer, Player& blackPlayer) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(true)
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
 ChessGame::ChessGame(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(startingBoard)
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
 void ChessGame::start() {
