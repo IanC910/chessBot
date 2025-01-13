@@ -1,2 +1,0 @@
-
-Board::getLegalMoves() needs to account for king of own colour being checked (legal moves consist only of moves that get king out of check)
