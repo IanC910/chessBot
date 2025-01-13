@@ -4,7 +4,7 @@
 
 #include "Board.hpp"
 #include "Move.hpp"
-#include "Position.hpp"
+#include "ChessVector.hpp"
 
 #include "KeyboardPlayer.hpp"
 
@@ -42,9 +42,8 @@ Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
     char endRank    = moveString[3] - '1';
     
     Move move(
-        Position(startRank, startFile),
-        Position(endRank, endFile),
-        board.getPiece(startRank, startFile),
+        ChessVector(startRank, startFile),
+        ChessVector(endRank, endFile),
         board.getPiece(startRank, startFile)
     );
 

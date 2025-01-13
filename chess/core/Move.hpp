@@ -2,15 +2,14 @@
 #pragma once
 
 #include "Piece.hpp"
-#include "Position.hpp"
+#include "ChessVector.hpp"
 
 class Move {
 public:
-    Position startPos;
-    Position endPos;
-    Piece startPiece;
+    ChessVector startPos;
+    ChessVector endPos;
     Piece endPiece;
 
-    Move(Position startPos, Position endPos, Piece startPiece, Piece endPiece);
+    Move(ChessVector startPos, ChessVector endPos, Piece endPiece);
 };
 

@@ -1,7 +1,7 @@
 
 #include "Piece.hpp"
 
-Colour getOpposite(Colour colour) {
+Colour getOppositeColour(Colour colour) {
     switch (colour) {
         case WHITE:
             return BLACK;
@@ -30,10 +30,6 @@ Colour Piece::getColour() const {
     return (Colour)colour;
 }
 
-Colour Piece::getOppositeColour() const {
-    return getOpposite((Colour)colour);
-}
-
 PieceType Piece::getType() const {
     return (PieceType)type;
 }
@@ -51,6 +47,14 @@ bool Piece::equals(const Piece& piece) const {
         this->colour == piece.colour &&
         this->type == piece.type
     );
+}
+
+bool Piece::operator==(const Piece& piece) const {
+    return equals(piece);
+}
+
+bool Piece::operator!=(const Piece& piece) const {
+    return !equals(piece);
 }
 
 std::string Piece::getSymbol() const {

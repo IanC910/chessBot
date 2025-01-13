@@ -9,7 +9,7 @@ enum Colour {
 	BLACK
 };
 
-Colour getOpposite(Colour colour);
+Colour getOppositeColour(Colour colour);
 
 const char COLOUR_SYMBOLS[3] = {
 	' ',
@@ -62,12 +62,13 @@ public:
 	Piece(Colour colour, PieceType type);
 
 	Colour getColour() const;
-	Colour getOppositeColour() const;
 	PieceType getType() const;
 	char getForwardDirection() const;
 	char getValue() const;
 
 	bool equals(const Piece& piece) const;
+    bool operator==(const Piece& piece) const;
+    bool operator!=(const Piece& piece) const;
 	std::string getSymbol() const;
 
 private:

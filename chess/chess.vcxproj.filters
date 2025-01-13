@@ -18,7 +18,7 @@
     <ClInclude Include="common\log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\Position.hpp">
+    <ClInclude Include="core\ChessVector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Board.hpp">
@@ -50,7 +50,7 @@
     <ClCompile Include="core\Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\Position.cpp">
+    <ClCompile Include="core\ChessVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
