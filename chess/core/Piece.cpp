@@ -58,6 +58,6 @@ bool Piece::operator!=(const Piece& piece) const {
 }
 
 std::string Piece::getSymbol() const {
-    char symbol[3] = {COLOUR_SYMBOLS[colour], PIECE_TYPE_SYMBOLS[type], 0};
+    char symbol[] = {COLOUR_SYMBOLS[colour], PIECE_TYPE_SYMBOLS[type], 0};
     return std::string(symbol);
 }

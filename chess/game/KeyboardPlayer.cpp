@@ -2,9 +2,9 @@
 #include <iostream>
 #include <string>
 
-#include "Board.hpp"
-#include "Move.hpp"
-#include "ChessVector.hpp"
+#include "../core/Board.hpp"
+#include "../core/Move.hpp"
+#include "../core/ChessVector.hpp"
 
 #include "KeyboardPlayer.hpp"
 

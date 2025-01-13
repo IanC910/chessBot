@@ -1,13 +1,13 @@
 
-#include "core/Game.hpp"
-#include "core/KeyboardPlayer.hpp"
+#include "game/ChessGame.hpp"
+#include "game/KeyboardPlayer.hpp"
 
 
 int main() {
     KeyboardPlayer whitePlayer;
     KeyboardPlayer blackPlayer;
 
-    Game game(whitePlayer, blackPlayer);
+    ChessGame game(whitePlayer, blackPlayer);
     
     game.start();
 }

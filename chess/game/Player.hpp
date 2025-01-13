@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "Board.hpp"
-#include "Move.hpp"
-#include "Piece.hpp"
+#include "../core/Board.hpp"
+#include "../core/Move.hpp"
+#include "../core/Piece.hpp"
 
 class Player {
 public:

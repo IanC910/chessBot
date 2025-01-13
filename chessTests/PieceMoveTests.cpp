@@ -21,7 +21,6 @@ namespace PieceMoveTests {
             // Only 1 legal move: straight forward
             board.setPiece(whitePawnPos, whitePawn);
             board.getMoves(moves, whitePawnPos);
-            std::cout << moves.size();
             Assert::IsTrue(1 == moves.size());
 
             // Blocking piece of opposite colour
