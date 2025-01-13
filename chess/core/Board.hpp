@@ -48,7 +48,7 @@ private:
     ChessVector whiteKingPos = ChessVector::INVALID_VEC;
     ChessVector blackKingPos = ChessVector::INVALID_VEC;
 
-    bool checksCalculated = true;
+    bool checksCalculated = false;
     std::list<ChessVector> positionsCheckingWhite;
     std::list<ChessVector> positionsCheckingBlack;
 
