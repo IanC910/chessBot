@@ -345,7 +345,8 @@ namespace PieceMoveTests {
 
             board.setToStartingBoard();
             board.getAllMoves(moves, WHITE);
-            std::cout << moves.size();
+            Assert::IsTrue(20 == moves.size());
+            board.getAllMoves(moves, BLACK);
             Assert::IsTrue(20 == moves.size());
         }
     };

@@ -1,6 +1,3 @@
-Add pawn moving 2 squares if first move
-	Check if pawn is on starting rank
-	No extra memory needed
 Add castling
 	Board needs to remember if kings and rooks have moved yet
 	1 bit each -> 6 bits < 1 byte
