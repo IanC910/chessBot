@@ -683,7 +683,7 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
         return;
     }
 
-    // Non-attacking move
+    // Non-attacking moves
     ChessVector noAttackEndPos(position.rank + pawn.getForwardDirection(), position.file);
     if (!noAttackEndPos.isValid()) {
         // Invalid position means off the board. Every other pawn move has the same end rank, so all are invalid
@@ -705,6 +705,15 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
 
     if (getPiece(noAttackEndPos) == Piece::NO_PIECE) {
         endSquares.push_back(noAttackEndPos);
+
+        if (position.rank == pawn.getStartRank()) {
+            // Above check implies validity
+            ChessVector doubleNoAttackEndPos = noAttackEndPos;
+            doubleNoAttackEndPos.rank += pawn.getForwardDirection();
+            if (getPiece(doubleNoAttackEndPos) == Piece::NO_PIECE) {
+                endSquares.push_back(doubleNoAttackEndPos);
+            }
+        }
     }
 
     filterEndSquaresByCheckRules(endSquares, position);

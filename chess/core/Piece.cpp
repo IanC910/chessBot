@@ -38,6 +38,14 @@ char Piece::getForwardDirection() const {
     return COLOUR_FORWARD_DIRECTIONS[colour];
 }
 
+char Piece::getStartRank() const {
+    char startRank = COLOUR_START_RANK[colour];
+    if (type == PAWN) {
+        startRank += getForwardDirection();
+    }
+    return startRank;
+}
+
 char Piece::getValue() const {
     return PIECE_VALUES[type];
 }

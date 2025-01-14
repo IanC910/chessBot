@@ -11,16 +11,22 @@ enum Colour {
 
 Colour getOppositeColour(Colour colour);
 
-const char COLOUR_SYMBOLS[3] = {
+const char COLOUR_SYMBOLS[] {
 	' ',
 	'w',
 	'b'
 };
 
-const char COLOUR_FORWARD_DIRECTIONS[3] = {
+const char COLOUR_FORWARD_DIRECTIONS[] {
 	0,
 	1,
 	-1
+};
+
+const char COLOUR_START_RANK[] {
+    -1,
+    0,
+    7,
 };
 
 enum PieceType {
@@ -33,7 +39,7 @@ enum PieceType {
 	KING
 };
 
-const char PIECE_TYPE_SYMBOLS[7] = {
+const char PIECE_TYPE_SYMBOLS[7] {
 	' ',
 	'P',
 	'B',
@@ -43,7 +49,7 @@ const char PIECE_TYPE_SYMBOLS[7] = {
 	'K'
 };
 
-const char PIECE_VALUES[7] = {
+const char PIECE_VALUES[7] {
 	0,
 	1,
 	3,
@@ -64,6 +70,7 @@ public:
 	Colour getColour() const;
 	PieceType getType() const;
 	char getForwardDirection() const;
+    char getStartRank() const;
 	char getValue() const;
 
 	bool equals(const Piece& piece) const;
