@@ -349,5 +349,56 @@ namespace PieceMoveTests {
             board.getAllMoves(moves, BLACK);
             Assert::IsTrue(20 == moves.size());
         }
+
+        TEST_METHOD(enPassantTest) {
+            Board board;
+            std::list<Move> moves;
+
+            board.setPiece(4, 5, Piece(WHITE, PAWN));
+            board.setPiece(6, 4, Piece(BLACK, PAWN));
+
+            Assert::IsFalse(board.getEnPassantFlag());
+            board.getMovesForPiece(moves, ChessVector(4, 5));
+            Assert::IsTrue(1 == moves.size());
+            board.getMovesForPiece(moves, ChessVector(6, 4));
+            Assert::IsTrue(2 == moves.size());
+
+            // Check that the double pawn move is available for black
+            Move doublePawnMove(ChessVector(6, 4), ChessVector(4, 4), Piece(BLACK, PAWN));
+            bool movesContainsDoublePawnMove = false;
+            for (Move& move : moves) {
+                if (move == doublePawnMove) {
+                    movesContainsDoublePawnMove = true;
+                }
+            }
+            Assert::IsTrue(movesContainsDoublePawnMove);
+
+            // Do double pawn move, setting up conditions for en passant
+            board.doMove(doublePawnMove);
+            Assert::IsTrue(board.getEnPassantFlag());
+            board.getMovesForPiece(moves, ChessVector(4, 5));
+            Assert::IsTrue(2 == moves.size());
+
+            // Check that the en passant move is available for white
+            Move enPassantMove(ChessVector(4, 5), ChessVector(5, 4), Piece(WHITE, PAWN), EN_PASSANT);
+            bool movesContainsEnPassantMove = false;
+            for (Move& move : moves) {
+                if (move == enPassantMove) {
+                    movesContainsEnPassantMove = true;
+                }
+            }
+            Assert::IsTrue(movesContainsEnPassantMove);
+
+            // Make the white pawn pinned. Check that the en passant move goes away
+            board.setPiece(0, 5, Piece(WHITE, KING));
+            board.setPiece(7, 5, Piece(BLACK, ROOK));
+            board.getMovesForPiece(moves, ChessVector(4, 5));
+            Assert::IsTrue(1 == moves.size());
+
+            // Do en passant (despite being illegal because the white pawn is pinned)
+            // Check that the black pawn is removed from the board
+            board.doMove(enPassantMove);
+            Assert::IsTrue(board.getPiece(4, 4) == Piece::NO_PIECE);
+        }
     };
 }

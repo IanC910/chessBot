@@ -30,7 +30,7 @@ const char COLOUR_START_RANK[] {
 };
 
 enum PieceType {
-	NO_TYPE,
+	NO_PIECE_TYPE,
 	PAWN,
 	BISHOP,
 	KNIGHT,

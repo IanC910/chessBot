@@ -91,10 +91,10 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
     // If previous piece is a king
     if (pieces[rank][file].getType() == KING) {
         if (pieces[rank][file].getColour() == WHITE) {
-            whiteKingPos = ChessVector::INVALID_VEC;
+            whiteKingPos = ChessVector::INVALID;
         }
         else if (pieces[rank][file].getColour() == BLACK) {
-            blackKingPos = ChessVector::INVALID_VEC;
+            blackKingPos = ChessVector::INVALID;
         }
     }
 
@@ -170,7 +170,7 @@ ChessVector Board::getKingPos(Colour colour) const {
         case BLACK:
             return blackKingPos;
         default:
-            return ChessVector::INVALID_VEC;
+            return ChessVector::INVALID;
     }
 }
 
@@ -253,7 +253,7 @@ ChessVector Board::getPinDirection(ChessVector position) const {
             return directionNormed;
         }
 
-        if (currPiece.getType() != NO_TYPE) {
+        if (currPiece.getType() != NO_PIECE_TYPE) {
             // There is another non-attacking piece in the pin line between the king and any attacker
             return ChessVector(0, 0);
         }
@@ -304,6 +304,10 @@ const std::list<ChessVector>* Board::getPositionsCheckingKing(Colour kingColour)
 
 bool Board::isKingChecked(Colour kingColour) {
     return getNumChecks(kingColour) > 0;
+}
+
+bool Board::getEnPassantFlag() {
+    return enPassantFlag;
 }
 
 void Board::addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const {
@@ -391,6 +395,26 @@ void Board::doMove(const Move& move) {
     if (move.startPos.isValid() && move.endPos.isValid()) {
         setPiece(move.startPos, Piece::NO_PIECE);
         setPiece(move.endPos, move.endPiece);
+
+        if (move.specialType == EN_PASSANT) {
+            setPiece(
+                move.endPos.rank - move.endPiece.getForwardDirection(),
+                move.endPos.file,
+                Piece::NO_PIECE
+            );
+        }
+
+        positionOfLastMove = move.endPos;
+        enPassantFlag = false;
+
+        // Set en passant flag
+        bool correctType = (move.endPiece.getType() == PAWN);
+        bool correctStartRank = (move.startPos.rank == move.endPiece.getStartRank());
+        bool correctEndRank = (move.endPos.rank ==
+            move.endPiece.getStartRank() + 2 * move.endPiece.getForwardDirection()
+        );
+
+        enPassantFlag = (correctType && correctStartRank && correctEndRank);
     }
 }
 
@@ -716,6 +740,23 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
         }
     }
 
+    // En passant
+    // Conditions:
+    // Pawn must be on 3rd rank form starting
+    // Last move must be a double pawn move that ends right next to this pawn
+    // TODO
+    ChessVector enPassantEndPos = ChessVector::INVALID;
+    if (enPassantFlag) {
+        bool friendlyOnCorrectRank = (position.rank == pawn.getStartRank() + 3 * pawn.getForwardDirection());
+        ChessVector difference = positionOfLastMove - position;
+        bool enemyOnCorrectSquare = (difference.rank == 0 && abs(difference.file) == 1);
+        if (friendlyOnCorrectRank && enemyOnCorrectSquare) {
+            enPassantEndPos.rank = position.rank + pawn.getForwardDirection();
+            enPassantEndPos.file = positionOfLastMove.file;
+            endSquares.push_back(enPassantEndPos);
+        }
+    }
+
     filterEndSquaresByCheckRules(endSquares, position);
 
     // Check for promotions
@@ -730,7 +771,12 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
     }
     else {
         for (ChessVector& endSquare : endSquares) {
-            moves.emplace_back(position, endSquare, pawn);
+            SpecialMoveType moveType = NO_SPECIAL_MOVE_TYPE;
+            if (endSquare == enPassantEndPos) {
+                moveType = EN_PASSANT;
+            }
+
+            moves.emplace_back(position, endSquare, pawn, moveType);
         }
     }
 }

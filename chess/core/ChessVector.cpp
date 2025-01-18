@@ -1,7 +1,7 @@
 
 #include "ChessVector.hpp"
 
-const ChessVector ChessVector::INVALID_VEC(-128, -128);
+const ChessVector ChessVector::INVALID(-128, -128);
 
 inline bool ChessVector::isValid(char rank, char file) {
 	return (

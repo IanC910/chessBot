@@ -34,6 +34,7 @@ public:
     int getNumChecks(Colour kingColour);
     const std::list<ChessVector>* getPositionsCheckingKing(Colour kingColour);
     bool isKingChecked(Colour kingColour);
+    bool getEnPassantFlag();
 
     void addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
     void getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
@@ -45,8 +46,22 @@ public:
 
 private:
     Piece pieces[8][8]; // Row-major (Rank then file)
-    ChessVector whiteKingPos = ChessVector::INVALID_VEC;
-    ChessVector blackKingPos = ChessVector::INVALID_VEC;
+
+    bool enPassantFlag          = false;
+
+    bool whiteLeftRookMoved     = false;
+    bool whiteRightRookMoved    = false;
+    bool whiteKingMoved         = false;
+
+    bool blackLeftRookMoved     = false;
+    bool blackRightRookMoved    = false;
+    bool blackKingMoved         = false;
+
+    ChessVector positionOfLastMove = ChessVector::INVALID;
+
+
+    ChessVector whiteKingPos = ChessVector::INVALID;
+    ChessVector blackKingPos = ChessVector::INVALID;
 
     bool checksCalculated = false;
     std::list<ChessVector> positionsCheckingWhite;

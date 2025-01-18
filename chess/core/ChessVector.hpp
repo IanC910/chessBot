@@ -5,7 +5,7 @@ class ChessVector {
 public:
     static bool isValid(char rank, char file);
 
-    static const ChessVector INVALID_VEC;
+    static const ChessVector INVALID;
 
     char rank;
     char file;
