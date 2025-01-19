@@ -405,7 +405,6 @@ void Board::doMove(const Move& move) {
         }
 
         positionOfLastMove = move.endPos;
-        enPassantFlag = false;
 
         // Set en passant flag
         bool correctType = (move.endPiece.getType() == PAWN);
@@ -413,7 +412,6 @@ void Board::doMove(const Move& move) {
         bool correctEndRank = (move.endPos.rank ==
             move.endPiece.getStartRank() + 2 * move.endPiece.getForwardDirection()
         );
-
         enPassantFlag = (correctType && correctStartRank && correctEndRank);
     }
 }
@@ -645,15 +643,16 @@ void Board::filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, Che
     // Check for pins, filter
     ChessVector pinDirection = getPinDirection(startPosition);
     if (pinDirection != ChessVector(0, 0)) {
-        for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
+        std::list<ChessVector>::iterator endSquareIt = endSquares.begin();
+        while (endSquareIt != endSquares.end()) {
             // Invalid move if doesn't end on same pin line
             // I.e. if diff direction != pin direction (different slopes)
-            ChessVector diff = *squareIt - startPosition;
+            ChessVector diff = *endSquareIt - startPosition;
             if (diff.file * pinDirection.rank != pinDirection.file * diff.rank) {
-                squareIt = endSquares.erase(squareIt);
+                endSquareIt = endSquares.erase(endSquareIt);
             }
             else {
-                ++squareIt;
+                ++endSquareIt;
             }
         }
     }
@@ -663,20 +662,21 @@ void Board::filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, Che
     if (numChecks == 1) {
         ChessVector checkingPosition = getPositionsCheckingKing(colour)->front();
         ChessVector checkDirection = checkingPosition - getKingPos(colour);
-        for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
+        std::list<ChessVector>::iterator endSquareIt = endSquares.begin();
+        while (endSquareIt != endSquares.end()) {
             // Final position must block or take checking piece
             // I.e. Final positon must be on the check line
             // I.e. diff must have the same slope as the check vector and dot product must be positive
-            ChessVector diffFromKing = *squareIt - getKingPos(colour);
-            ChessVector diffFromChecker = *squareIt - checkingPosition;
+            ChessVector diffFromKing = *endSquareIt - getKingPos(colour);
+            ChessVector diffFromChecker = *endSquareIt - checkingPosition;
             // TODO: Fix same side
             bool sameSlope = (diffFromKing.file * checkDirection.rank == checkDirection.file * diffFromKing.rank);
             bool isBlocking = (diffFromKing.dotProduct(checkDirection) >= 0) && (diffFromChecker.dotProduct(checkDirection.getOpposite()) >= 0);
             if (!sameSlope || !isBlocking) {
-                squareIt = endSquares.erase(squareIt);
+                endSquareIt = endSquares.erase(endSquareIt);
             }
             else {
-                ++squareIt;
+                ++endSquareIt;
             }
         }
     }
@@ -685,12 +685,13 @@ void Board::filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, Che
 void Board::filterEndSquaresByAvailability(std::list<ChessVector>& endSquares, ChessVector startPosition) const {
     Piece piece = getPiece(startPosition);
     Colour colour = piece.getColour();
-    for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
-        if (getPiece(*squareIt).getColour() == colour) {
-            squareIt = endSquares.erase(squareIt);
+    std::list<ChessVector>::iterator endSquareIt = endSquares.begin();
+    while (endSquareIt != endSquares.end()) {
+        if (getPiece(*endSquareIt).getColour() == colour) {
+            endSquareIt = endSquares.erase(endSquareIt);
         }
         else {
-            ++squareIt;
+            ++endSquareIt;
         }
     }
 }
@@ -718,7 +719,8 @@ void Board::addPawnMoves(std::list<Move>& moves, ChessVector position) {
 
     // Attacking moves, filter by validity
     addSquaresSeenByPawn(endSquares, position);
-    for (std::list<ChessVector>::iterator squareIt = endSquares.begin(); squareIt != endSquares.end();) {
+    std::list<ChessVector>::iterator squareIt = endSquares.begin();
+    while (squareIt != endSquares.end()) {
         if (getPiece(*squareIt).getColour() != getOppositeColour(pawnColour)) {
             squareIt = endSquares.erase(squareIt);
         }
@@ -855,10 +857,17 @@ void Board::addKingMoves(std::list<Move>& moves, ChessVector position) {
     // Restrict king from moving to those squares
     // Remove all squares seen by opponent from king's possible end squares
 
+    // Conditions for Castling:
+    // King and rook have not moved
+    // No pieces between king and rook
+    // King is not checked
+    // King does not pass through or end on a square seen by an enemy piece
+
     Piece king = getPiece(position);
     Colour kingColour = king.getColour();
     Colour oppositeColour = getOppositeColour(kingColour);
 
+    // Get all squares seen by enemies
     std::list<ChessVector> squaresSeenByOpponent;
     for (int r = 0; r < 8; r++) {
         for (int f = 0; f < 8; f++) {
@@ -869,13 +878,17 @@ void Board::addKingMoves(std::list<Move>& moves, ChessVector position) {
         }
     }
 
-    for (std::list<ChessVector>::iterator endSquareIt = endSquares.begin(); endSquareIt != endSquares.end();) {
+    // Filter out squares seen by enemies
+    std::list<ChessVector>::iterator endSquareIt = endSquares.begin();
+    while (endSquareIt != endSquares.end()) {
         bool squareInvalid = false;
-        for (std::list<ChessVector>::iterator oppSquareIt = squaresSeenByOpponent.begin(); oppSquareIt != squaresSeenByOpponent.end(); ++oppSquareIt) {
+        std::list<ChessVector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
+        while (oppSquareIt != squaresSeenByOpponent.end()) {
             if ((*endSquareIt) == (*oppSquareIt)) {
                 squareInvalid = true;
                 break;
             }
+            ++oppSquareIt;
         }
 
         if (squareInvalid) {

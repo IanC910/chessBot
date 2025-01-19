@@ -59,7 +59,6 @@ private:
 
     ChessVector positionOfLastMove = ChessVector::INVALID;
 
-
     ChessVector whiteKingPos = ChessVector::INVALID;
     ChessVector blackKingPos = ChessVector::INVALID;
 
