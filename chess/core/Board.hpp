@@ -18,14 +18,13 @@ public:
     bool operator!=(const Board& board) const;
     std::string toString() const;
 
-    void clearCache();
-
     Piece getPiece(char rank, char file) const;
     Piece getPiece(ChessVector position) const;
     void setPiece(char rank, char file, const Piece& piece);
     void setPiece(ChessVector position, const Piece& piece);
 
     void clear();
+
     void setToStartingBoard();
 
     ChessVector getKingPos(Colour colour) const;
@@ -34,7 +33,8 @@ public:
     int getNumChecks(Colour kingColour);
     const std::list<ChessVector>* getPositionsCheckingKing(Colour kingColour);
     bool isKingChecked(Colour kingColour);
-    bool getEnPassantFlag();
+    void clearCalculatedChecks();
+    bool getEnPassantFlag() const;
 
     void addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
     void getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
@@ -49,13 +49,13 @@ private:
 
     bool enPassantFlag          = false;
 
-    bool whiteLeftRookMoved     = false;
-    bool whiteRightRookMoved    = false;
-    bool whiteKingMoved         = false;
+    bool whiteLeftRookMoved     = true;
+    bool whiteRightRookMoved    = true;
+    bool whiteKingMoved         = true;
 
-    bool blackLeftRookMoved     = false;
-    bool blackRightRookMoved    = false;
-    bool blackKingMoved         = false;
+    bool blackLeftRookMoved     = true;
+    bool blackRightRookMoved    = true;
+    bool blackKingMoved         = true;
 
     ChessVector positionOfLastMove = ChessVector::INVALID;
 

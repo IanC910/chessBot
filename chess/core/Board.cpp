@@ -64,12 +64,6 @@ std::string Board::toString() const {
     return stream.str();
 }
 
-void Board::clearCache() {
-    positionsCheckingWhite.clear();
-    positionsCheckingBlack.clear();
-    checksCalculated = false;
-}
-
 Piece Board::getPiece(char rank, char file) const {
     if (ChessVector::isValid(rank, file)) {
         return pieces[rank][file];
@@ -112,7 +106,7 @@ void Board::setPiece(char rank, char file, const Piece& piece) {
     
     pieces[rank][file] = piece;
 
-    clearCache();
+    clearCalculatedChecks();
 }
 
 void Board::setPiece(ChessVector position, const Piece& piece) {
@@ -161,6 +155,19 @@ void Board::setToStartingBoard() {
         setPiece(1, f, Piece(WHITE, PAWN));
         setPiece(6, f, Piece(BLACK, PAWN));
     }
+
+    enPassantFlag       = false;
+
+    whiteLeftRookMoved  = false;
+    whiteRightRookMoved = false;
+    whiteKingMoved      = false;
+
+    blackLeftRookMoved  = false;
+    blackRightRookMoved = false;
+    blackKingMoved      = false;
+
+    positionOfLastMove = ChessVector::INVALID;
+    clearCalculatedChecks();
 }
 
 ChessVector Board::getKingPos(Colour colour) const {
@@ -306,7 +313,13 @@ bool Board::isKingChecked(Colour kingColour) {
     return getNumChecks(kingColour) > 0;
 }
 
-bool Board::getEnPassantFlag() {
+void Board::clearCalculatedChecks() {
+    positionsCheckingWhite.clear();
+    positionsCheckingBlack.clear();
+    checksCalculated = false;
+}
+
+bool Board::getEnPassantFlag() const {
     return enPassantFlag;
 }
 
@@ -396,6 +409,8 @@ void Board::doMove(const Move& move) {
         setPiece(move.startPos, Piece::NO_PIECE);
         setPiece(move.endPos, move.endPiece);
 
+        positionOfLastMove = move.endPos;
+
         if (move.specialType == EN_PASSANT) {
             setPiece(
                 move.endPos.rank - move.endPiece.getForwardDirection(),
@@ -403,8 +418,6 @@ void Board::doMove(const Move& move) {
                 Piece::NO_PIECE
             );
         }
-
-        positionOfLastMove = move.endPos;
 
         // Set en passant flag
         bool correctType = (move.endPiece.getType() == PAWN);
@@ -857,12 +870,6 @@ void Board::addKingMoves(std::list<Move>& moves, ChessVector position) {
     // Restrict king from moving to those squares
     // Remove all squares seen by opponent from king's possible end squares
 
-    // Conditions for Castling:
-    // King and rook have not moved
-    // No pieces between king and rook
-    // King is not checked
-    // King does not pass through or end on a square seen by an enemy piece
-
     Piece king = getPiece(position);
     Colour kingColour = king.getColour();
     Colour oppositeColour = getOppositeColour(kingColour);
@@ -901,5 +908,75 @@ void Board::addKingMoves(std::list<Move>& moves, ChessVector position) {
 
     for (ChessVector& endSquare : endSquares) {
         moves.emplace_back(position, endSquare, king);
+    }
+
+    // Conditions for Castling:
+    // King and rook have not moved
+    // King is not checked
+    // No pieces between king and rook
+    // King does not pass through or end on a square seen by an enemy piece
+    bool kingMoved      = whiteKingMoved;
+    bool rightRookMoved = whiteRightRookMoved;
+    bool leftRookMoved  = whiteLeftRookMoved;
+    if (kingColour == BLACK) {
+        kingMoved       = blackKingMoved;
+        rightRookMoved  = blackRightRookMoved;
+        leftRookMoved   = blackLeftRookMoved;
+    }
+
+    if (!kingMoved && !isKingChecked(kingColour)) {
+        // Short castle
+        if (!rightRookMoved) {
+            // Check for no pieces
+            bool canShortCastle = true;
+            char kingRank = king.getStartRank();
+            for (char f = 5; f <= 6 && canShortCastle; f++) {
+                if (getPiece(kingRank, f) != Piece::NO_PIECE) {
+                    canShortCastle = false;
+                }
+            }
+
+            // Check that the necessary squares are not seen by enemy pieces
+            for (char f = 5; f <= 6 && canShortCastle; f++) {
+                std::list<ChessVector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
+                while (oppSquareIt != squaresSeenByOpponent.end() && canShortCastle) {
+                    if ((*oppSquareIt) == ChessVector(kingRank, f)) {
+                        canShortCastle = false;
+                    }
+                    ++oppSquareIt;
+                }
+            }
+
+            if (canShortCastle) {
+                moves.emplace_back(position, ChessVector(kingRank, 6), king, SHORT_CASTLE);
+            }
+        }
+
+        // Long castle
+        if (!leftRookMoved) {
+            // Check for no pieces
+            bool canLongCastle = true;
+            char kingRank = king.getStartRank();
+            for (char f = 3; f >= 1 && canLongCastle; f--) {
+                if (getPiece(kingRank, f) != Piece::NO_PIECE) {
+                    canLongCastle = false;
+                }
+            }
+
+            // Check that the necessary squares are not seen by enemy pieces
+            for (char f = 3; f >= 2 && canLongCastle; f--) {
+                std::list<ChessVector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
+                while (oppSquareIt != squaresSeenByOpponent.end() && canLongCastle) {
+                    if ((*oppSquareIt) == ChessVector(kingRank, f)) {
+                        canLongCastle = false;
+                    }
+                    ++oppSquareIt;
+                }
+            }
+
+            if (canLongCastle) {
+                moves.emplace_back(position, ChessVector(kingRank, 2), king, LONG_CASTLE);
+            }
+        }
     }
 }

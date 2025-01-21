@@ -400,5 +400,29 @@ namespace PieceMoveTests {
             board.doMove(enPassantMove);
             Assert::IsTrue(board.getPiece(4, 4) == Piece::NO_PIECE);
         }
+
+        TEST_METHOD(castleTest) {
+            Board board;
+            std::list<Move> moves;
+
+            board.setToStartingBoard();
+            for (char f = 0; f < 8; f++) {
+                board.setPiece(1, f, Piece::NO_PIECE);
+                board.setPiece(6, f, Piece::NO_PIECE);
+            }
+            for (char f = 1; f <= 3; f++) {
+                board.setPiece(0, f, Piece::NO_PIECE);
+                board.setPiece(7, f, Piece::NO_PIECE);
+            }
+            for (char f = 5; f <= 6; f++) {
+                board.setPiece(0, f, Piece::NO_PIECE);
+                board.setPiece(7, f, Piece::NO_PIECE);
+            }
+
+            board.getMovesForPiece(moves, ChessVector(0, 4));
+            Assert::IsTrue(7 == moves.size());
+
+
+        }
     };
 }

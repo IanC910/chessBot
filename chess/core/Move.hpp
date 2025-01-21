@@ -7,7 +7,8 @@
 enum SpecialMoveType {
     NO_SPECIAL_MOVE_TYPE,
     EN_PASSANT,
-    CASTLE
+    SHORT_CASTLE,
+    LONG_CASTLE
 };
 
 class Move {
