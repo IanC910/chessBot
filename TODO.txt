@@ -1,2 +1,5 @@
-
-Board::getLegalMoves() needs to account for king of own colour being checked (legal moves consist only of moves that get king out of check)
+Add castling
+	Board needs to remember if kings and rooks have moved yet
+	1 bit each -> 6 bits < 1 byte
+Add en passant
+	Board needs to remember which pawn just moved?

@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace Chess;
 
 namespace BoardBasicTests {
 
@@ -21,12 +22,14 @@ namespace BoardBasicTests {
 		}
 
 		TEST_METHOD(toStringTest) {
-			Board board(true);
+			Board board;
+            board.setToStartingBoard();
 			std::cout << board.toString();
 		}
 
 		TEST_METHOD(copyTest) {
-			Board board(true);
+			Board board;
+            board.setToStartingBoard();
 			Board copy(board);
 			Assert::IsTrue(board.equals(copy));
 
@@ -44,8 +47,8 @@ namespace BoardBasicTests {
             board.setPiece(5, 5, Piece(BLACK, BISHOP));
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(1, 1))
-                .equals(ChessVector(1, 1))
+                board.getPinDirection(Vector(1, 1))
+                .equals(Vector(1, 1))
             );
 
             // Horizontal pin line
@@ -54,8 +57,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 0, Piece(WHITE, ROOK));
             board.setPiece(7, 6, Piece(BLACK, ROOK));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(7, 6))
-                .equals(ChessVector(0, -1))
+                board.getPinDirection(Vector(7, 6))
+                .equals(Vector(0, -1))
             );
 
             // Vertical pin line
@@ -67,8 +70,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(5, 5))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(5, 5))
+                .equals(Vector(0, 0))
             );
 
             // Vertical pin line
@@ -80,8 +83,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(5, 5))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(5, 5))
+                .equals(Vector(0, 0))
             );
 
             // Diagonal pin line
@@ -90,8 +93,8 @@ namespace BoardBasicTests {
             board.setPiece(4, 5, Piece(WHITE, KING));
             board.setPiece(6, 3, Piece(WHITE, KNIGHT));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(6, 3))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(6, 3))
+                .equals(Vector(0, 0))
             );
 
             // King, same colour pawn, and opposite rook are on the same diagonal
@@ -101,61 +104,9 @@ namespace BoardBasicTests {
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             board.setPiece(2, 2, Piece(BLACK, ROOK));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(1, 1))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(1, 1))
+                .equals(Vector(0, 0))
             );
         }
-
-		TEST_METHOD(checkOwnKingTest) {
-            // Defender moves out of way and checks own king
-            Board board;
-            board.setPiece(0, 0, Piece(WHITE, KING));
-            board.setPiece(5, 5, Piece(BLACK, BISHOP));
-            Move move(ChessVector(1, 1), ChessVector(2, 1), Piece(WHITE, PAWN));
-            Assert::IsTrue(board.doesMoveCheckOwnKing(move));
-
-            // Horizontal pin line
-            // Defender moves out of way and checks own king
-            board.clear();
-            board.setPiece(7, 7, Piece(BLACK, KING));
-            board.setPiece(7, 0, Piece(WHITE, ROOK));
-            move = Move(ChessVector(7, 6), ChessVector(6, 6), Piece(BLACK, ROOK));
-            Assert::IsTrue(board.doesMoveCheckOwnKing(move));
-
-            // Horizontal pin line
-            // Defender moves within the pin line, does not check own king
-            board.clear();
-            board.setPiece(7, 7, Piece(BLACK, KING));
-            board.setPiece(7, 0, Piece(WHITE, ROOK));
-            move = Move(ChessVector(7, 6), ChessVector(7, 5), Piece(BLACK, ROOK));
-            Assert::IsFalse(board.doesMoveCheckOwnKing(move));
-
-            // Vertical pin line
-            // Multiple defenders, all of kings colour
-            // One defender moves out of pin line, does not check own king
-            board.clear();
-            board.setPiece(0, 5, Piece(WHITE, KING));
-            board.setPiece(1, 5, Piece(WHITE, KNIGHT));
-            board.setPiece(7, 5, Piece(BLACK, QUEEN));
-            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN));
-            Assert::IsFalse(board.doesMoveCheckOwnKing(move));
-
-            // Vertical pin line
-            // Multiple defenders, not all of kings colour
-            // One defender moves out of pin line, does not check own king
-            board.clear();
-            board.setPiece(0, 5, Piece(WHITE, KING));
-            board.setPiece(1, 5, Piece(BLACK, KNIGHT));
-            board.setPiece(7, 5, Piece(BLACK, QUEEN));
-            move = Move(ChessVector(5, 5), ChessVector(1, 1), Piece(WHITE, QUEEN));
-            Assert::IsFalse(board.doesMoveCheckOwnKing(move));
-
-            // Diagonal pin line
-            // No Attacker, so move does not check own king
-            board.clear();
-            board.setPiece(4, 5, Piece(WHITE, KING));
-            move = Move(ChessVector(6, 3), ChessVector(4, 4), Piece(WHITE, KNIGHT));
-            Assert::IsFalse(board.doesMoveCheckOwnKing(move));
-		}
     };
 }

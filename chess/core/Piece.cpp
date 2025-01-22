@@ -1,7 +1,9 @@
 
 #include "Piece.hpp"
 
-Colour getOppositeColour(Colour colour) {
+using namespace Chess;
+
+Colour Chess::getOppositeColour(Colour colour) {
     switch (colour) {
         case WHITE:
             return BLACK;
@@ -12,10 +14,10 @@ Colour getOppositeColour(Colour colour) {
     }
 }
 
-const Piece Piece::NO_PIECE(NO_COLOUR, NO_TYPE);
+const Piece Piece::NO_PIECE(NO_COLOUR, NO_PIECE_TYPE);
 
 Piece::Piece() :
-    colour(NO_COLOUR), type(NO_TYPE)
+    colour(NO_COLOUR), type(NO_PIECE_TYPE)
 {}
 
 Piece::Piece(const Piece& piece) :
@@ -38,6 +40,14 @@ char Piece::getForwardDirection() const {
     return COLOUR_FORWARD_DIRECTIONS[colour];
 }
 
+char Piece::getStartRank() const {
+    char startRank = COLOUR_START_RANK[colour];
+    if (type == PAWN) {
+        startRank += getForwardDirection();
+    }
+    return startRank;
+}
+
 char Piece::getValue() const {
     return PIECE_VALUES[type];
 }
@@ -58,6 +68,6 @@ bool Piece::operator!=(const Piece& piece) const {
 }
 
 std::string Piece::getSymbol() const {
-    char symbol[3] = {COLOUR_SYMBOLS[colour], PIECE_TYPE_SYMBOLS[type], 0};
+    char symbol[] = {COLOUR_SYMBOLS[colour], PIECE_TYPE_SYMBOLS[type], 0};
     return std::string(symbol);
 }

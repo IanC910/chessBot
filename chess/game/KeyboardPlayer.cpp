@@ -2,11 +2,13 @@
 #include <iostream>
 #include <string>
 
-#include "Board.hpp"
-#include "Move.hpp"
-#include "ChessVector.hpp"
+#include "../core/Board.hpp"
+#include "../core/Move.hpp"
+#include "../core/Vector.hpp"
 
 #include "KeyboardPlayer.hpp"
+
+using namespace Chess;
 
 KeyboardPlayer::KeyboardPlayer() :
     Player()
@@ -42,8 +44,8 @@ Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
     char endRank    = moveString[3] - '1';
     
     Move move(
-        ChessVector(startRank, startFile),
-        ChessVector(endRank, endFile),
+        Vector(startRank, startFile),
+        Vector(endRank, endFile),
         board.getPiece(startRank, startFile)
     );
 

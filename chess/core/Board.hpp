@@ -5,71 +5,84 @@
 #include <list>
 
 #include "Move.hpp"
-#include "ChessVector.hpp"
+#include "Vector.hpp"
 #include "Piece.hpp"
 
-class Board {
-public:
-    Board(bool startingBoad = false);
-    Board(const Board& board);
+namespace Chess {
 
-    bool equals(const Board& board) const;
-    bool operator==(const Board& board) const;
-    bool operator!=(const Board& board) const;
-    std::string toString() const;
+    class Board {
+    public:
+        Board();
+        Board(const Board& board);
 
-    void clearCache();
+        bool equals(const Board& board) const;
+        bool operator==(const Board& board) const;
+        bool operator!=(const Board& board) const;
+        std::string toString() const;
 
-    Piece getPiece(char rank, char file) const;
-    Piece getPiece(ChessVector position) const;
-    void setPiece(char rank, char file, const Piece& piece);
-    void setPiece(ChessVector position, const Piece& piece);
+        Piece getPiece(char rank, char file) const;
+        Piece getPiece(Vector position) const;
+        void setPiece(char rank, char file, const Piece& piece);
+        void setPiece(Vector position, const Piece& piece);
 
-    void clear();
-    void setToStartingBoard();
+        void clear();
 
-    ChessVector getKingPos(Colour colour) const;
-    ChessVector getPinDirection(ChessVector position) const;
-    bool isPiecePinned(ChessVector position) const;
-    int getNumChecks(Colour kingColour);
-    const std::list<ChessVector>* getPositionsCheckingKing(Colour kingColour);
-    bool isKingChecked(Colour kingColour);
+        void setToStartingBoard();
 
-    // Deprecated
-    bool doesMoveCheckOwnKing(const Move& move) const;
+        Vector getKingPos(Colour colour) const;
+        Vector getPinDirection(Vector position) const;
+        bool isPiecePinned(Vector position) const;
+        int getNumChecks(Colour kingColour);
+        const std::list<Vector>* getPositionsCheckingKing(Colour kingColour);
+        bool isKingChecked(Colour kingColour);
+        void clearCalculatedChecks();
+        bool getEnPassantFlag() const;
 
-    void addSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void getSquaresSeenByPiece(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addMoves(std::list<Move>& moves, ChessVector position);
-    void getMoves(std::list<Move>& moves, ChessVector position);
+        void addSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const;
+        void getSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const;
+        void addMovesForPiece(std::list<Move>& moves, Vector position);
+        void getMovesForPiece(std::list<Move>& moves, Vector position);
+        void getAllMoves(std::list<Move>& moves, Colour playerColour);
 
-    void doMove(const Move& move);
+        void doMove(const Move& move);
 
-private:
-    Piece pieces[8][8]; // Row-major (Rank then file)
-    ChessVector whiteKingPos = ChessVector::INVALID_VEC;
-    ChessVector blackKingPos = ChessVector::INVALID_VEC;
+    private:
+        Piece pieces[8][8]; // Row-major (Rank then file)
 
-    bool checksCalculated = true;
-    std::list<ChessVector> positionsCheckingWhite;
-    std::list<ChessVector> positionsCheckingBlack;
+        bool enPassantFlag          = false;
 
-    void calculateChecks(Colour kingColour);
+        bool whiteCanShortCastle    = false;
+        bool whiteCanLongCastle     = false;
 
-    void addSquaresSeenByPawn(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addSquaresSeenByBishop(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addSquaresSeenByKnight(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addSquaresSeenByRook(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addSquaresSeenByQueen(std::list<ChessVector>& squaresSeen, ChessVector position) const;
-    void addSquaresSeenByKing(std::list<ChessVector>& squaresSeen, ChessVector position) const;
+        bool blackCanShortCastle    = false;
+        bool blackCanLongCastle     = false;
 
-    void filterEndSquaresByCheckRules(std::list<ChessVector>& endSquares, ChessVector startPosition);
-    void filterEndSquaresByAvailability(std::list<ChessVector>& endSquares, ChessVector startPosition) const;
+        Vector positionOfLastMove = Vector::INVALID;
+
+        Vector whiteKingPos = Vector::INVALID;
+        Vector blackKingPos = Vector::INVALID;
+
+        bool checksCalculated = false;
+        std::list<Vector> positionsCheckingWhite;
+        std::list<Vector> positionsCheckingBlack;
+
+        void calculateChecks(Colour kingColour);
+
+        void addSquaresSeenByPawn(std::list<Vector>& squaresSeen, Vector position) const;
+        void addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vector position) const;
+        void addSquaresSeenByKnight(std::list<Vector>& squaresSeen, Vector position) const;
+        void addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector position) const;
+        void addSquaresSeenByQueen(std::list<Vector>& squaresSeen, Vector position) const;
+        void addSquaresSeenByKing(std::list<Vector>& squaresSeen, Vector position) const;
+
+        void filterEndSquaresByCheckRules(std::list<Vector>& endSquares, Vector startPosition);
+        void filterEndSquaresByAvailability(std::list<Vector>& endSquares, Vector startPosition) const;
     
-    void addPawnMoves(std::list<Move>& moves, ChessVector position);
-    void addBishopMoves(std::list<Move>& moves, ChessVector position);
-    void addKnightMoves(std::list<Move>& moves, ChessVector position);
-    void addRookMoves(std::list<Move>& moves, ChessVector position);
-    void addQueenMoves(std::list<Move>& moves, ChessVector position);
-    void addKingMoves(std::list<Move>& moves, ChessVector position);
-};
+        void addPawnMoves(std::list<Move>& moves, Vector position);
+        void addBishopMoves(std::list<Move>& moves, Vector position);
+        void addKnightMoves(std::list<Move>& moves, Vector position);
+        void addRookMoves(std::list<Move>& moves, Vector position);
+        void addQueenMoves(std::list<Move>& moves, Vector position);
+        void addKingMoves(std::list<Move>& moves, Vector position);
+    };
+}

@@ -3,75 +3,86 @@
 
 #include <string>
 
-enum Colour {
-	NO_COLOUR,
-	WHITE,
-	BLACK
-};
+namespace Chess {
 
-Colour getOppositeColour(Colour colour);
+    enum Colour {
+	    NO_COLOUR,
+	    WHITE,
+	    BLACK
+    };
 
-const char COLOUR_SYMBOLS[3] = {
-	' ',
-	'w',
-	'b'
-};
+    Colour getOppositeColour(Colour colour);
 
-const char COLOUR_FORWARD_DIRECTIONS[3] = {
-	0,
-	1,
-	-1
-};
+    const char COLOUR_SYMBOLS[] {
+	    ' ',
+	    'w',
+	    'b'
+    };
 
-enum PieceType {
-	NO_TYPE,
-	PAWN,
-	BISHOP,
-	KNIGHT,
-	ROOK,
-	QUEEN,
-	KING
-};
+    const char COLOUR_FORWARD_DIRECTIONS[] {
+	    0,
+	    1,
+	    -1
+    };
 
-const char PIECE_TYPE_SYMBOLS[7] = {
-	' ',
-	'P',
-	'B',
-	'N',
-	'R',
-	'Q',
-	'K'
-};
+    const char COLOUR_START_RANK[] {
+        -1,
+        0,
+        7,
+    };
 
-const char PIECE_VALUES[7] = {
-	0,
-	1,
-	3,
-	3,
-	5,
-	9,
-	100
-};
+    enum PieceType {
+	    NO_PIECE_TYPE,
+	    PAWN,
+	    BISHOP,
+	    KNIGHT,
+	    ROOK,
+	    QUEEN,
+	    KING
+    };
 
-class Piece {
-public:
-	static const Piece NO_PIECE;
+    const char PIECE_TYPE_SYMBOLS[7] {
+	    ' ',
+	    'P',
+	    'B',
+	    'N',
+	    'R',
+	    'Q',
+	    'K'
+    };
 
-	Piece();
-	Piece(const Piece& piece);
-	Piece(Colour colour, PieceType type);
+    const char PIECE_VALUES[7] {
+	    0,
+	    1,
+	    3,
+	    3,
+	    5,
+	    9,
+	    100
+    };
 
-	Colour getColour() const;
-	PieceType getType() const;
-	char getForwardDirection() const;
-	char getValue() const;
+    class Piece {
+    public:
+	    static const Piece NO_PIECE;
 
-	bool equals(const Piece& piece) const;
-    bool operator==(const Piece& piece) const;
-    bool operator!=(const Piece& piece) const;
-	std::string getSymbol() const;
+	    Piece();
+	    Piece(const Piece& piece);
+	    Piece(Colour colour, PieceType type);
 
-private:
-	char colour : 4;
-	char type	: 4;
-};
+	    Colour getColour() const;
+	    PieceType getType() const;
+	    char getForwardDirection() const;
+        char getStartRank() const;
+	    char getValue() const;
+
+	    bool equals(const Piece& piece) const;
+        bool operator==(const Piece& piece) const;
+        bool operator!=(const Piece& piece) const;
+	    std::string getSymbol() const;
+
+    private:
+	    char colour : 4;
+	    char type	: 4;
+    };
+
+}

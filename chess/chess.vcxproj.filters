@@ -18,7 +18,7 @@
     <ClInclude Include="common\log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ChessVector.hpp">
+    <ClInclude Include="core\Vector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Board.hpp">
@@ -27,16 +27,16 @@
     <ClInclude Include="core\Piece.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\Game.hpp">
+    <ClInclude Include="game\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\Player.hpp">
+    <ClInclude Include="game\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Move.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\KeyboardPlayer.hpp">
+    <ClInclude Include="game\KeyboardPlayer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,22 +50,22 @@
     <ClCompile Include="core\Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\ChessVector.cpp">
+    <ClCompile Include="core\Vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\Game.cpp">
+    <ClCompile Include="game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\Player.cpp">
+    <ClCompile Include="game\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\Move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\KeyboardPlayer.cpp">
+    <ClCompile Include="game\KeyboardPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

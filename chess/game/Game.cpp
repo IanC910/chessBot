@@ -3,12 +3,14 @@
 
 #include "Game.hpp"
 
+using namespace Chess;
+
 Game::Game(Player& whitePlayer, Player& blackPlayer) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(true)
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
 Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(startingBoard)
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
 void Game::start() {
@@ -16,18 +18,18 @@ void Game::start() {
 
     Colour turn = WHITE;
 
-    Player* players[2] = {
-        &whitePlayer,
-        &blackPlayer
-    };
-
     while (true) {
         std::cout << board.toString();
 
         std::string colourString = (turn == WHITE) ? "White" : "Black";
         std::cout << colourString << "'s turn\n";
 
-        Move move = players[turn]->takeTurn(board, turn);
+        Player* player = &whitePlayer;
+        if (turn == BLACK) {
+            player = &blackPlayer;
+        }
+
+        Move move = player->takeTurn(board, turn);
 
         // TODO: validate move
 

@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace Chess;
 
 namespace PieceTests {
 
