@@ -419,10 +419,19 @@ namespace PieceMoveTests {
                 board.setPiece(7, f, Piece::NO_PIECE);
             }
 
+            // Check that white king can castle in both directions
             board.getMovesForPiece(moves, ChessVector(0, 4));
             Assert::IsTrue(7 == moves.size());
 
+            // Move long rook. white king can only short castle now
+            board.doMove(Move(ChessVector(0, 0), ChessVector(0, 1), Piece(WHITE, ROOK)));
+            board.getMovesForPiece(moves, ChessVector(0, 4));
+            Assert::IsTrue(6 == moves.size());
 
+            // Move short rook. White king cannot castle now
+            board.doMove(Move(ChessVector(0, 7), ChessVector(1, 7), Piece(WHITE, ROOK)));
+            board.getMovesForPiece(moves, ChessVector(0, 4));
+            Assert::IsTrue(5 == moves.size());
         }
     };
 }

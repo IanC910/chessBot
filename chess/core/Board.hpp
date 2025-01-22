@@ -49,13 +49,11 @@ private:
 
     bool enPassantFlag          = false;
 
-    bool whiteLeftRookMoved     = true;
-    bool whiteRightRookMoved    = true;
-    bool whiteKingMoved         = true;
+    bool whiteCanShortCastle    = false;
+    bool whiteCanLongCastle     = false;
 
-    bool blackLeftRookMoved     = true;
-    bool blackRightRookMoved    = true;
-    bool blackKingMoved         = true;
+    bool blackCanShortCastle    = false;
+    bool blackCanLongCastle     = false;
 
     ChessVector positionOfLastMove = ChessVector::INVALID;
 
