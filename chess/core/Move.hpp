@@ -2,24 +2,28 @@
 #pragma once
 
 #include "Piece.hpp"
-#include "ChessVector.hpp"
+#include "Vector.hpp"
 
-enum SpecialMoveType {
-    NO_SPECIAL_MOVE_TYPE,
-    EN_PASSANT,
-    SHORT_CASTLE,
-    LONG_CASTLE
-};
+namespace Chess {
 
-class Move {
-public:
-    ChessVector startPos;
-    ChessVector endPos;
-    Piece endPiece;
-    SpecialMoveType specialType;
+    enum SpecialMoveType {
+        NO_SPECIAL_MOVE_TYPE,
+        EN_PASSANT,
+        SHORT_CASTLE,
+        LONG_CASTLE
+    };
 
-    Move(ChessVector startPos, ChessVector endPos, Piece endPiece, SpecialMoveType specialType = NO_SPECIAL_MOVE_TYPE);
+    class Move {
+    public:
+        Vector startPos;
+        Vector endPos;
+        Piece endPiece;
+        SpecialMoveType specialType;
 
-    bool operator==(const Move& move);
-};
+        Move(Vector startPos, Vector endPos, Piece endPiece, SpecialMoveType specialType = NO_SPECIAL_MOVE_TYPE);
+
+        bool operator==(const Move& move);
+    };
+
+}
 

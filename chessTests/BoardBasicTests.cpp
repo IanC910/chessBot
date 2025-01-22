@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace Chess;
 
 namespace BoardBasicTests {
 
@@ -46,8 +47,8 @@ namespace BoardBasicTests {
             board.setPiece(5, 5, Piece(BLACK, BISHOP));
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(1, 1))
-                .equals(ChessVector(1, 1))
+                board.getPinDirection(Vector(1, 1))
+                .equals(Vector(1, 1))
             );
 
             // Horizontal pin line
@@ -56,8 +57,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 0, Piece(WHITE, ROOK));
             board.setPiece(7, 6, Piece(BLACK, ROOK));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(7, 6))
-                .equals(ChessVector(0, -1))
+                board.getPinDirection(Vector(7, 6))
+                .equals(Vector(0, -1))
             );
 
             // Vertical pin line
@@ -69,8 +70,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(5, 5))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(5, 5))
+                .equals(Vector(0, 0))
             );
 
             // Vertical pin line
@@ -82,8 +83,8 @@ namespace BoardBasicTests {
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(5, 5))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(5, 5))
+                .equals(Vector(0, 0))
             );
 
             // Diagonal pin line
@@ -92,8 +93,8 @@ namespace BoardBasicTests {
             board.setPiece(4, 5, Piece(WHITE, KING));
             board.setPiece(6, 3, Piece(WHITE, KNIGHT));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(6, 3))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(6, 3))
+                .equals(Vector(0, 0))
             );
 
             // King, same colour pawn, and opposite rook are on the same diagonal
@@ -103,8 +104,8 @@ namespace BoardBasicTests {
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             board.setPiece(2, 2, Piece(BLACK, ROOK));
             Assert::IsTrue(
-                board.getPinDirection(ChessVector(1, 1))
-                .equals(ChessVector(0, 0))
+                board.getPinDirection(Vector(1, 1))
+                .equals(Vector(0, 0))
             );
         }
     };

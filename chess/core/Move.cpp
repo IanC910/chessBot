@@ -1,7 +1,9 @@
 
 #include "Move.hpp"
 
-Move::Move(ChessVector startPos, ChessVector endPos, Piece endPiece, SpecialMoveType specialType) :
+using namespace Chess;
+
+Move::Move(Vector startPos, Vector endPos, Piece endPiece, SpecialMoveType specialType) :
     startPos(startPos), endPos(endPos), endPiece(endPiece), specialType(specialType)
 {}
 

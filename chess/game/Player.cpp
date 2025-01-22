@@ -1,9 +1,11 @@
 
 #include "Player.hpp"
 
+using namespace Chess;
+
 Player::Player() {}
 
-Colour Player::getColour() {
+Colour Player::getColour() const {
     return colour;
 }
 

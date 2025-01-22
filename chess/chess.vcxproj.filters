@@ -18,7 +18,7 @@
     <ClInclude Include="common\log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ChessVector.hpp">
+    <ClInclude Include="core\Vector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Board.hpp">
@@ -27,7 +27,7 @@
     <ClInclude Include="core\Piece.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\ChessGame.hpp">
+    <ClInclude Include="game\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\Player.hpp">
@@ -50,13 +50,13 @@
     <ClCompile Include="core\Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\ChessVector.cpp">
+    <ClCompile Include="core\Vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game\ChessGame.cpp">
+    <ClCompile Include="game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\Player.cpp">

@@ -5,16 +5,20 @@
 #include "../core/Move.hpp"
 #include "../core/Piece.hpp"
 
-class Player {
-public:
-    Player();
+namespace Chess {
 
-    Colour getColour();
-    void setColour(Colour colour);
+    class Player {
+    public:
+        Player();
 
-    virtual Move takeTurn(const Board& board, Colour colour) = 0;
+        Colour getColour() const;
+        void setColour(Colour colour);
 
-private:
-    Colour colour = NO_COLOUR;
-};
+        virtual Move takeTurn(const Board& board, Colour colour) = 0;
+
+    private:
+        Colour colour = NO_COLOUR;
+    };
+
+}
 

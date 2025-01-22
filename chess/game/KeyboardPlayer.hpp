@@ -3,10 +3,14 @@
 
 #include "Player.hpp"
 
-class KeyboardPlayer : public Player {
-public:
-    KeyboardPlayer();
+namespace Chess {
 
-    Move takeTurn(const Board& board, Colour colour) override;
-};
+    class KeyboardPlayer : public Player {
+    public:
+        KeyboardPlayer();
+
+        Move takeTurn(const Board& board, Colour colour) override;
+    };
+
+}
 

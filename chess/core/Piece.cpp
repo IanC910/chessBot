@@ -1,7 +1,9 @@
 
 #include "Piece.hpp"
 
-Colour getOppositeColour(Colour colour) {
+using namespace Chess;
+
+Colour Chess::getOppositeColour(Colour colour) {
     switch (colour) {
         case WHITE:
             return BLACK;

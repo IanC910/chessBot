@@ -1,17 +1,19 @@
 
 #include <iostream>
 
-#include "ChessGame.hpp"
+#include "Game.hpp"
 
-ChessGame::ChessGame(Player& whitePlayer, Player& blackPlayer) :
+using namespace Chess;
+
+Game::Game(Player& whitePlayer, Player& blackPlayer) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
-ChessGame::ChessGame(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
+Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {}
 
-void ChessGame::start() {
+void Game::start() {
 
 
     Colour turn = WHITE;
