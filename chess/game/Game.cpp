@@ -27,9 +27,9 @@ void Game::start() {
             player = &blackPlayer;
         }
 
-        std::list<Move> allMovesAvailable;
-        board.getAllMoves(allMovesAvailable, turnColour);
-        if (allMovesAvailable.empty()) {
+        std::list<Move> allAvailableMoves;
+        board.getAllMoves(allAvailableMoves, turnColour);
+        if (allAvailableMoves.empty()) {
             // Either checkmate or stalemate
             if (board.isKingChecked(turnColour)) {
                 winnerColour = getOppositeColour(turnColour);
@@ -41,22 +41,26 @@ void Game::start() {
         std::string colourString = (turnColour == WHITE) ? "White" : "Black";
         std::cout << colourString << "'s turn\n";
 
-        bool moveIsValid = false;
-        while (!moveIsValid) {
-            Move requestedMove = player->takeTurn(board, turnColour);
-            for (Move& move : allMovesAvailable) {
+        Move requestedMove;
+        while (true) {
+            requestedMove = player->takeTurn(board, turnColour);
+            bool moveIsValid = false;
+            for (Move& move : allAvailableMoves) {
                 if (requestedMove == move) {
                     moveIsValid = true;
-                    board.doMove(requestedMove);
                     break;
                 }
             }
 
-            if (!moveIsValid) {
-                std::cout << "Invalid Move. Try again\n";
+            if (moveIsValid) {
+                break;
+            }
+            else {
+                std::cout << "Invalid move. Try again\n";
             }
         }
 
+        board.doMove(requestedMove);
         turnColour = getOppositeColour(turnColour);
     }
 

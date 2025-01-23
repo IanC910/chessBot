@@ -435,7 +435,13 @@ namespace PieceMoveTests {
             board.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(5 == moves.size());
 
+            // Block the attacking piece
+            board.setPiece(5, 1, Piece(WHITE, PAWN));
+            board.getMovesForPiece(moves, {0, 4});
+            Assert::IsTrue(7 == moves.size());
+
             board.setPiece(6, 0, Piece::NO_PIECE);
+            board.setPiece(5, 1, Piece::NO_PIECE);
 
             // Move long rook. white king can only short castle now
             board.doMove(Move({0, 0}, {0, 1}, Piece(WHITE, ROOK)));
