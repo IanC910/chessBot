@@ -64,7 +64,7 @@ void Game::start() {
         std::cout << "Stalemate\n";
     }
     else {
-        std::string colourString = (turnColour == WHITE) ? "White" : "Black";
+        std::string colourString = (winnerColour == WHITE) ? "White" : "Black";
         std::cout << "Winner: " << colourString << "!\n";
     }
 }
