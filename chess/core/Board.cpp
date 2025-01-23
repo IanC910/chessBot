@@ -18,6 +18,12 @@ Board::Board(const Board& board) {
     whiteKingPos = board.whiteKingPos;
     blackKingPos = board.blackKingPos;
 
+    enPassantFlag       = board.enPassantFlag;
+    whiteCanShortCastle = board.whiteCanShortCastle;
+    whiteCanLongCastle  = board.whiteCanLongCastle;
+    blackCanShortCastle = board.blackCanShortCastle;
+    blackCanLongCastle  = board.blackCanLongCastle;
+
     positionsCheckingWhite = board.positionsCheckingWhite;
     positionsCheckingBlack = board.positionsCheckingBlack;
     checksCalculated = board.checksCalculated;
@@ -987,12 +993,12 @@ void Board::addKingMoves(std::list<Move>& moves, Vector position) {
 
             // Check that the necessary squares are not seen by enemy pieces
             for (char f = 5; f <= 6 && canShortCastle; f++) {
-                std::list<Vector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
-                while (oppSquareIt != squaresSeenByOpponent.end() && canShortCastle) {
-                    if ((*oppSquareIt) == Vector(kingRank, f)) {
+                Vector necessarySquare(kingRank, f);
+                for(Vector& oppSquare : squaresSeenByOpponent) {
+                    if (oppSquare == necessarySquare) {
                         canShortCastle = false;
+                        break;
                     }
-                    ++oppSquareIt;
                 }
             }
 
@@ -1013,12 +1019,12 @@ void Board::addKingMoves(std::list<Move>& moves, Vector position) {
 
             // Check that the necessary squares are not seen by enemy pieces
             for (char f = 3; f >= 2 && canLongCastle; f--) {
-                std::list<Vector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
-                while (oppSquareIt != squaresSeenByOpponent.end() && canLongCastle) {
-                    if ((*oppSquareIt) == Vector(kingRank, f)) {
+                Vector necessarySquare(kingRank, f);
+                for(Vector& oppSquare : squaresSeenByOpponent) {
+                    if (oppSquare == necessarySquare) {
                         canLongCastle = false;
+                        break;
                     }
-                    ++oppSquareIt;
                 }
             }
 

@@ -14,29 +14,61 @@ Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard)
 {}
 
 void Game::start() {
+    board.setToStartingBoard();
 
-
-    Colour turn = WHITE;
+    Colour turnColour = WHITE;
+    Colour winnerColour = NO_COLOUR;
 
     while (true) {
         std::cout << board.toString();
 
-        std::string colourString = (turn == WHITE) ? "White" : "Black";
-        std::cout << colourString << "'s turn\n";
-
         Player* player = &whitePlayer;
-        if (turn == BLACK) {
+        if (turnColour == BLACK) {
             player = &blackPlayer;
         }
 
-        Move move = player->takeTurn(board, turn);
+        std::list<Move> allAvailableMoves;
+        board.getAllMoves(allAvailableMoves, turnColour);
+        if (allAvailableMoves.empty()) {
+            // Either checkmate or stalemate
+            if (board.isKingChecked(turnColour)) {
+                winnerColour = getOppositeColour(turnColour);
+            }
 
-        // TODO: validate move
+            break;
+        }
 
-        board.doMove(move);
+        std::string colourString = (turnColour == WHITE) ? "White" : "Black";
+        std::cout << colourString << "'s turn\n";
 
-        // TODO: Check for win condition
+        Move requestedMove;
+        while (true) {
+            requestedMove = player->takeTurn(board, turnColour);
+            bool moveIsValid = false;
+            for (Move& move : allAvailableMoves) {
+                if (requestedMove == move) {
+                    moveIsValid = true;
+                    break;
+                }
+            }
 
-        turn = getOppositeColour(turn);
+            if (moveIsValid) {
+                break;
+            }
+            else {
+                std::cout << "Invalid move. Try again\n";
+            }
+        }
+
+        board.doMove(requestedMove);
+        turnColour = getOppositeColour(turnColour);
+    }
+
+    if (winnerColour == NO_COLOUR) {
+        std::cout << "Stalemate\n";
+    }
+    else {
+        std::string colourString = (winnerColour == WHITE) ? "White" : "Black";
+        std::cout << "Winner: " << colourString << "!\n";
     }
 }

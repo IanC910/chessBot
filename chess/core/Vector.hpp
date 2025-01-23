@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <string>
+
 class Vector {
 public:
     static bool isValid(char rank, char file);
@@ -32,4 +34,6 @@ public:
     void operator+=(const Vector& vec);
 
     int dotProduct(const Vector& vec);
+
+    std::string toString();
 };

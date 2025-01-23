@@ -75,3 +75,10 @@ void Vector::operator+=(const Vector& vec) {
 int Vector::dotProduct(const Vector& vec) {
     return rank * vec.rank + file * vec.file;
 }
+
+std::string Vector::toString() {
+    std::string vecString = "12";
+    vecString[0] = file + 'a';
+    vecString[1] = rank + '1';
+    return vecString;
+}
