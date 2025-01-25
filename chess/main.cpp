@@ -9,5 +9,5 @@ int main() {
 
     Chess::Game game(whitePlayer, blackPlayer);
     
-    game.start();
+    game.play();
 }
