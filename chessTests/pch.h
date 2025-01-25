@@ -7,10 +7,6 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include "../chess/common/log.hpp"
-#include "../chess/core/Board.hpp"
-#include "../chess/core/Vector.hpp"
-#include "../chess/core/Move.hpp"
-#include "../chess/core/Piece.hpp"
+#include "../chess/chess.hpp"
 
 #endif // PCH_H

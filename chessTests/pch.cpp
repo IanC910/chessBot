@@ -2,7 +2,6 @@
 
 #include "pch.h"
 
-#include "../chess/common/log.cpp"
 #include "../chess/core/Board.cpp"
 #include "../chess/core/Vector.cpp"
 #include "../chess/core/Move.cpp"
