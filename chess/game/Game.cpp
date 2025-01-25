@@ -24,40 +24,48 @@ Colour Game::getCurrentTurn() const {
     return turnColour;
 }
 
-void Game::doNextTurn() {
+void Game::updateAvailableMoves() {
+    if (!movesCalculated) {
+        board.getAllMoves(availableMoves, turnColour);
+    }
+    movesCalculated = true;
+}
+
+bool Game::tryNextTurn() {
+    updateAvailableMoves();
+
     Player* player = &whitePlayer;
     if (turnColour == BLACK) {
         player = &blackPlayer;
     }
 
-    std::list<Move> allAvailableMoves;
-    board.getAllMoves(allAvailableMoves, turnColour);
-    if (allAvailableMoves.empty()) {
+    Move requestedMove = player->takeTurn(board, turnColour);
+    bool moveIsValid = false;
+    for (Move& move : availableMoves) {
+        if (requestedMove == move) {
+            moveIsValid = true;
+            break;
+        }
+    }
+
+    if(!moveIsValid) {
+        return false;
+    }
+
+    board.doMove(requestedMove);
+    turnColour = getOppositeColour(turnColour);
+    movesCalculated = false;
+
+    updateAvailableMoves();
+    if (availableMoves.empty()) {
         gameIsOver = true;
 
-        // Either checkmate or stalemate
-        if (board.isKingChecked(turnColour)) {
+        if(board.isKingChecked(turnColour)) {
             winnerColour = getOppositeColour(turnColour);
         }
-
-        return;
     }
 
-    std::string colourString = (turnColour == WHITE) ? "White" : "Black";
-    std::cout << colourString << "'s turn\n";
-
-    while (true) {
-        Move requestedMove = player->takeTurn(board, turnColour);
-        for (Move& move : allAvailableMoves) {
-            if (requestedMove == move) {
-                board.doMove(requestedMove);
-                turnColour = getOppositeColour(turnColour);
-                break;
-            }
-        }
-        
-        std::cout << "Invalid move. Try again\n";
-    }
+    return true;
 }
 
 bool Game::isGameOver() const {
@@ -71,21 +79,20 @@ Colour Game::getWinnerColour() const {
 void Game::play() {
     init();
 
-    while (true) {
-        std::cout << board.toString();
+    while (!isGameOver()) {
+        std::cout << "\n" << board.toString() << "\n";
 
-        doNextTurn();
+        std::cout << getColourName(turnColour) << "'s turn\n";
 
-        if (isGameOver()) {
-            break;
+        while (!tryNextTurn()) {
+            std::cout << "Invalid move. Try again\n";
         }
     }
 
-    if (winnerColour == NO_COLOUR) {
-        std::cout << "Game Over by Stalemate.\n";
+    if (getWinnerColour() == NO_COLOUR) {
+        std::cout << "\nGame Over by Stalemate.\n";
     }
     else {
-        std::string colourString = (winnerColour == WHITE) ? "White" : "Black";
-        std::cout << "Game Over by Checkmate - Winner: " << colourString << "!\n";
+        std::cout << "\nGame Over by Checkmate - Winner: " << getColourName(getWinnerColour()) << "!\n";
     }
 }

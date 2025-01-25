@@ -14,7 +14,8 @@ namespace Chess {
 
         void init();
         Colour getCurrentTurn() const;
-        void doNextTurn();
+        void updateAvailableMoves();
+        bool tryNextTurn();
 
         bool isGameOver() const;
         Colour getWinnerColour() const;
@@ -23,6 +24,8 @@ namespace Chess {
 
     private:
         Board board;
+        bool movesCalculated = false;
+        std::list<Move> availableMoves;
 
         Player& whitePlayer;
         Player& blackPlayer;
