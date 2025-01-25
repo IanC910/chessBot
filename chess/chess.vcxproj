@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="chess.hpp" />
     <ClInclude Include="core\Board.hpp" />
     <ClInclude Include="common\log.hpp" />
     <ClInclude Include="game\Game.hpp" />

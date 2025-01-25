@@ -1,5 +1,0 @@
-Add castling
-	Board needs to remember if kings and rooks have moved yet
-	1 bit each -> 6 bits < 1 byte
-Add en passant
-	Board needs to remember which pawn just moved?

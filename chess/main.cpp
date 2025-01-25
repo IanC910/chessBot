@@ -1,6 +1,5 @@
 
-#include "game/Game.hpp"
-#include "game/KeyboardPlayer.hpp"
+#include "chess.hpp"
 
 
 int main() {
