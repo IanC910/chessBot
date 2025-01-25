@@ -62,7 +62,8 @@ namespace Chess {
         Vector whiteKingPos = Vector::INVALID;
         Vector blackKingPos = Vector::INVALID;
 
-        bool checksCalculated = false;
+        bool whiteChecksCalculated = false;
+        bool blackChecksCalculated = false;
         std::list<Vector> positionsCheckingWhite;
         std::list<Vector> positionsCheckingBlack;
 
