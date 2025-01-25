@@ -24,6 +24,10 @@ Colour Game::getCurrentTurn() const {
     return turnColour;
 }
 
+const Board& Game::getBoard() const {
+    return board;
+}
+
 void Game::updateAvailableMoves() {
     if (!movesCalculated) {
         board.getAllMoves(availableMoves, turnColour);
@@ -76,7 +80,7 @@ Colour Game::getWinnerColour() const {
     return winnerColour;
 }
 
-void Game::play() {
+void Game::playSimple() {
     init();
 
     while (!isGameOver()) {

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="chess.hpp" />
     <ClInclude Include="core\Board.hpp" />
     <ClInclude Include="common\log.hpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="game\KeyboardPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="app\ChessApp.cpp" />
     <ClCompile Include="core\Board.cpp" />
     <ClCompile Include="common\log.cpp" />
     <ClCompile Include="game\Game.cpp" />

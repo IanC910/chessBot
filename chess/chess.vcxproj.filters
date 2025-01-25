@@ -42,6 +42,9 @@
     <ClInclude Include="chess.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="app\ChessApp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\log.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\KeyboardPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app\ChessApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

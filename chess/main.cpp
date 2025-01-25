@@ -1,12 +1,7 @@
 
-#include "chess.hpp"
-
+#include "app/ChessApp.hpp"
 
 int main() {
-    Chess::KeyboardPlayer whitePlayer;
-    Chess::KeyboardPlayer blackPlayer;
-
-    Chess::Game game(whitePlayer, blackPlayer);
-    
-    game.play();
+    ChessApp app;
+    app.run();
 }

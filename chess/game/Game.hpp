@@ -14,13 +14,14 @@ namespace Chess {
 
         void init();
         Colour getCurrentTurn() const;
+        const Board& getBoard() const;
         void updateAvailableMoves();
         bool tryNextTurn();
 
         bool isGameOver() const;
         Colour getWinnerColour() const;
 
-        void play();
+        void playSimple();
 
     private:
         Board board;
