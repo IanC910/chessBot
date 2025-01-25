@@ -7,4 +7,7 @@
 #include "../chess/core/Move.cpp"
 #include "../chess/core/Piece.cpp"
 
+#include "../chess/game/Game.cpp"
+#include "../chess/game/Player.cpp"
+
 
