@@ -24,7 +24,7 @@ void ChessApp::playGame() {
         Chess::Board board = game.getBoard();
         std::cout << "\n" << board.toString();
 
-        std::cout << Chess::getColourName(game.getCurrentTurn()) << "'s turn\n";
+        std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
 
         while (!game.tryNextTurn()) {
             std::cout << "Invalid move. Try again\n";

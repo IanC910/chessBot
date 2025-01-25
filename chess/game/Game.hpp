@@ -13,9 +13,9 @@ namespace Chess {
         Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard);
 
         void init();
-        Colour getCurrentTurn() const;
+        Colour getTurnColour() const;
         const Board& getBoard() const;
-        void updateAvailableMoves();
+        void ensureAvailableMovesAreRecent();
         bool tryNextTurn();
 
         bool isGameOver() const;

@@ -15,12 +15,15 @@ Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard)
 
 void Game::init() {
     board.setToStartingBoard();
+    movesCalculated = false;
 
-    Colour turnColour = WHITE;
-    Colour winnerColour = NO_COLOUR;
+    turnColour = WHITE;
+
+    gameIsOver = false;
+    winnerColour = NO_COLOUR;
 }
 
-Colour Game::getCurrentTurn() const {
+Colour Game::getTurnColour() const {
     return turnColour;
 }
 
@@ -28,7 +31,7 @@ const Board& Game::getBoard() const {
     return board;
 }
 
-void Game::updateAvailableMoves() {
+void Game::ensureAvailableMovesAreRecent() {
     if (!movesCalculated) {
         board.getAllMoves(availableMoves, turnColour);
     }
@@ -36,7 +39,7 @@ void Game::updateAvailableMoves() {
 }
 
 bool Game::tryNextTurn() {
-    updateAvailableMoves();
+    ensureAvailableMovesAreRecent();
 
     Player* player = &whitePlayer;
     if (turnColour == BLACK) {
@@ -57,10 +60,12 @@ bool Game::tryNextTurn() {
     }
 
     board.doMove(requestedMove);
-    turnColour = getOppositeColour(turnColour);
     movesCalculated = false;
 
-    updateAvailableMoves();
+    turnColour = getOppositeColour(turnColour);
+
+    ensureAvailableMovesAreRecent();
+
     if (availableMoves.empty()) {
         gameIsOver = true;
 
