@@ -1,5 +1,9 @@
 
 #include <iostream>
+#include <string>
+#include <sstream>
+
+#include "ConsoleGraphics.hpp"
 
 #include "ChessApp.hpp"
 
@@ -21,8 +25,8 @@ void ChessApp::playGame() {
     game.init();
 
     while (!game.isGameOver()) {
-        Chess::Board board = game.getBoard();
-        std::cout << "\n" << board.toString();
+        ConsoleGraphics::drawBoard(game.getBoard());
+
 
         std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
 
@@ -30,6 +34,8 @@ void ChessApp::playGame() {
             std::cout << "Invalid move. Try again\n";
         }
     }
+
+    ConsoleGraphics::drawBoard(game.getBoard());
 
     if (game.getWinnerColour() == Chess::NO_COLOUR) {
         std::cout << "\nGame Over by Stalemate.\n";

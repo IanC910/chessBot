@@ -54,7 +54,6 @@ bool Game::tryNextTurn() {
             break;
         }
     }
-
     if(!moveIsValid) {
         return false;
     }
