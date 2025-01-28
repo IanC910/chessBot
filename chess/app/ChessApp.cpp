@@ -20,12 +20,13 @@ void ChessApp::run() {
 void ChessApp::playGame() {
     Chess::KeyboardPlayer whitePlayer;
     Chess::KeyboardPlayer blackPlayer;
+    ConsoleGraphics graphics;
 
     Chess::Game game(whitePlayer, blackPlayer);
     game.init();
 
     while (!game.isGameOver()) {
-        ConsoleGraphics::drawBoard(game.getBoard());
+        graphics.drawBoard(game.getBoard());
 
 
         std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
@@ -35,7 +36,7 @@ void ChessApp::playGame() {
         }
     }
 
-    ConsoleGraphics::drawBoard(game.getBoard());
+    graphics.drawBoard(game.getBoard());
 
     if (game.getWinnerColour() == Chess::NO_COLOUR) {
         std::cout << "\nGame Over by Stalemate.\n";
