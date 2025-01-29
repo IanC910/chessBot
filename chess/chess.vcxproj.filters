@@ -54,6 +54,9 @@
     <ClInclude Include="app\PieceBitMaps.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bots\AlphaBot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\log.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="app\BitMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\AlphaBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
