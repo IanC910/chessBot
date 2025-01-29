@@ -344,7 +344,7 @@ namespace PieceMoveTests {
             Board board;
             std::list<Move> moves;
 
-            board.setToStartingBoard();
+            board.reset();
             board.getAllMoves(moves, WHITE);
             Assert::IsTrue(20 == moves.size());
             board.getAllMoves(moves, BLACK);
@@ -406,7 +406,7 @@ namespace PieceMoveTests {
             Board board;
             std::list<Move> moves;
 
-            board.setToStartingBoard();
+            board.reset();
             for (char f = 0; f < 8; f++) {
                 board.setPiece(1, f, Piece::NO_PIECE);
                 board.setPiece(6, f, Piece::NO_PIECE);
@@ -467,7 +467,7 @@ namespace PieceMoveTests {
             Board board;
             std::list<Move> moves;
 
-            board.setToStartingBoard();
+            board.reset();
             for (char f = 0; f < 8; f++) {
                 board.setPiece(1, f, Piece::NO_PIECE);
                 board.setPiece(6, f, Piece::NO_PIECE);

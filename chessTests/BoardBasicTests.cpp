@@ -23,13 +23,13 @@ namespace BoardBasicTests {
 
 		TEST_METHOD(toStringTest) {
 			Board board;
-            board.setToStartingBoard();
+            board.reset();
 			std::cout << board.toString();
 		}
 
 		TEST_METHOD(copyTest) {
 			Board board;
-            board.setToStartingBoard();
+            board.reset();
 			Board copy(board);
 			Assert::IsTrue(board.equals(copy));
 

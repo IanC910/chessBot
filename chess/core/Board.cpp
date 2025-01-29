@@ -24,9 +24,10 @@ Board::Board(const Board& board) {
     blackCanShortCastle = board.blackCanShortCastle;
     blackCanLongCastle  = board.blackCanLongCastle;
 
+    whiteChecksCalculated = board.whiteChecksCalculated;
+    blackChecksCalculated = board.blackChecksCalculated;
     positionsCheckingWhite = board.positionsCheckingWhite;
     positionsCheckingBlack = board.positionsCheckingBlack;
-    checksCalculated = board.checksCalculated;
 }
 
 bool Board::equals(const Board& board) const {
@@ -129,7 +130,7 @@ void Board::clear() {
     }
 }
 
-void Board::setToStartingBoard() {
+void Board::reset() {
     clear();
 
     // Kings
@@ -278,34 +279,23 @@ bool Board::isPiecePinned(Vector position) const {
 }
 
 int Board::getNumChecks(Colour kingColour) {
-    switch (kingColour) {
-        case WHITE: {
-            if(!checksCalculated) {
-                calculateChecks(WHITE);
-            }
-            return positionsCheckingWhite.size();
-        }
-        case BLACK: {
-            if(!checksCalculated) {
-                calculateChecks(BLACK);
-            }
-            return positionsCheckingBlack.size();
-        }
-        default:
-            return 0;
+    const std::list<Vector>* positionsCheckingKing = getPositionsCheckingKing(kingColour);
+    if (positionsCheckingKing == nullptr) {
+        return 0;
     }
+    return positionsCheckingKing->size();
 }
 
 const std::list<Vector>* Board::getPositionsCheckingKing(Colour kingColour) {
     switch (kingColour) {
         case WHITE: {
-            if(!checksCalculated) {
+            if(!whiteChecksCalculated) {
                 calculateChecks(WHITE);
             }
             return &positionsCheckingWhite;
         }
         case BLACK: {
-            if(!checksCalculated) {
+            if(!blackChecksCalculated) {
                 calculateChecks(BLACK);
             }
             return &positionsCheckingBlack;
@@ -322,7 +312,8 @@ bool Board::isKingChecked(Colour kingColour) {
 void Board::clearCalculatedChecks() {
     positionsCheckingWhite.clear();
     positionsCheckingBlack.clear();
-    checksCalculated = false;
+    whiteChecksCalculated = false;
+    blackChecksCalculated = false;
 }
 
 bool Board::getEnPassantFlag() const {
@@ -488,16 +479,22 @@ void Board::doMove(const Move& move) {
 }
 
 void Board::calculateChecks(Colour kingColour) {
-    if (kingColour == NO_COLOUR) {
-        return;
+    std::list<Vector>* positionsCheckingKing = nullptr;
+    switch (kingColour) {
+        case WHITE: {
+            whiteChecksCalculated = true;
+            positionsCheckingKing = &positionsCheckingWhite;
+            break;
+        }
+        case BLACK: {
+            blackChecksCalculated = true;
+            positionsCheckingKing = &positionsCheckingBlack;
+            break;
+        }
+        default:
+            return;
     }
 
-    checksCalculated = true;
-
-    std::list<Vector>* positionsCheckingKing = &positionsCheckingWhite;
-    if (kingColour == BLACK) {
-        positionsCheckingKing = &positionsCheckingBlack;
-    }
     positionsCheckingKing->clear();
 
     Colour oppositeColour = getOppositeColour(kingColour);

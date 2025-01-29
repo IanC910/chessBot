@@ -7,68 +7,101 @@ using namespace Chess;
 
 Game::Game(Player& whitePlayer, Player& blackPlayer) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
-{}
+{
+    reset();
+}
 
-Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
-{}
+void Game::reset() {
+    board.reset();
+    movesCalculated = false;
 
-void Game::start() {
-    board.setToStartingBoard();
+    whitePlayer.setColour(WHITE);
+    blackPlayer.setColour(BLACK);
 
-    Colour turnColour = WHITE;
-    Colour winnerColour = NO_COLOUR;
+    turnColour = WHITE;
 
-    while (true) {
-        std::cout << board.toString();
+    gameIsOver = false;
+    winnerColour = NO_COLOUR;
+}
 
-        Player* player = &whitePlayer;
-        if (turnColour == BLACK) {
-            player = &blackPlayer;
-        }
+Colour Game::getTurnColour() const {
+    return turnColour;
+}
 
-        std::list<Move> allAvailableMoves;
-        board.getAllMoves(allAvailableMoves, turnColour);
-        if (allAvailableMoves.empty()) {
-            // Either checkmate or stalemate
-            if (board.isKingChecked(turnColour)) {
-                winnerColour = getOppositeColour(turnColour);
-            }
+const Board& Game::getBoard() const {
+    return board;
+}
 
+void Game::ensureAvailableMovesAreRecent() {
+    if (!movesCalculated) {
+        board.getAllMoves(availableMoves, turnColour);
+    }
+    movesCalculated = true;
+}
+
+bool Game::tryNextTurn() {
+    ensureAvailableMovesAreRecent();
+
+    Player* player = &whitePlayer;
+    if (turnColour == BLACK) {
+        player = &blackPlayer;
+    }
+
+    Move requestedMove = player->takeTurn(board);
+    bool moveIsValid = false;
+    for (Move& move : availableMoves) {
+        if (requestedMove == move) {
+            moveIsValid = true;
             break;
         }
-
-        std::string colourString = (turnColour == WHITE) ? "White" : "Black";
-        std::cout << colourString << "'s turn\n";
-
-        Move requestedMove;
-        while (true) {
-            requestedMove = player->takeTurn(board, turnColour);
-            bool moveIsValid = false;
-            for (Move& move : allAvailableMoves) {
-                if (requestedMove == move) {
-                    moveIsValid = true;
-                    break;
-                }
-            }
-
-            if (moveIsValid) {
-                break;
-            }
-            else {
-                std::cout << "Invalid move. Try again\n";
-            }
-        }
-
-        board.doMove(requestedMove);
-        turnColour = getOppositeColour(turnColour);
+    }
+    if(!moveIsValid) {
+        return false;
     }
 
-    if (winnerColour == NO_COLOUR) {
-        std::cout << "Stalemate\n";
+    board.doMove(requestedMove);
+    movesCalculated = false;
+
+    turnColour = getOppositeColour(turnColour);
+
+    ensureAvailableMovesAreRecent();
+
+    if (availableMoves.empty()) {
+        gameIsOver = true;
+
+        if(board.isKingChecked(turnColour)) {
+            winnerColour = getOppositeColour(turnColour);
+        }
+    }
+
+    return true;
+}
+
+bool Game::isGameOver() const {
+    return gameIsOver;
+}
+
+Colour Game::getWinnerColour() const {
+    return winnerColour;
+}
+
+void Game::playSimple() {
+    reset();
+
+    while (!isGameOver()) {
+        std::cout << "\n" << board.toString() << "\n";
+
+        std::cout << getColourName(turnColour) << "'s turn\n";
+
+        while (!tryNextTurn()) {
+            std::cout << "Invalid move. Try again\n";
+        }
+    }
+
+    if (getWinnerColour() == NO_COLOUR) {
+        std::cout << "\nGame Over by Stalemate.\n";
     }
     else {
-        std::string colourString = (winnerColour == WHITE) ? "White" : "Black";
-        std::cout << "Winner: " << colourString << "!\n";
+        std::cout << "\nGame Over by Checkmate - Winner: " << getColourName(getWinnerColour()) << "!\n";
     }
 }

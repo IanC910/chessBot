@@ -14,7 +14,7 @@ namespace Chess {
         Colour getColour() const;
         void setColour(Colour colour);
 
-        virtual Move takeTurn(const Board& board, Colour colour) = 0;
+        virtual Move takeTurn(const Board& board) = 0;
 
     private:
         Colour colour = NO_COLOUR;

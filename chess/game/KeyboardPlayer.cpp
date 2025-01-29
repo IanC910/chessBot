@@ -14,12 +14,10 @@ KeyboardPlayer::KeyboardPlayer() :
     Player()
 {}
 
-Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
-    setColour(colour);
-
+Move KeyboardPlayer::takeTurn(const Board& board) {
     std::list<Move> allAvailableMoves;
     Board boardCopy(board);
-    boardCopy.getAllMoves(allAvailableMoves, colour);
+    boardCopy.getAllMoves(allAvailableMoves, getColour());
     
     std::string moveString;
     while(true) {
@@ -29,26 +27,18 @@ Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
         std::cout << "Your move: " << moveString << "\n";
 
         if (moveString.length() == 4) {
-            char confirmation;
-            std::cout << "Confirm [y/n]: ";
-            std::cin >> confirmation;
-            if (std::tolower(confirmation) == 'y') {
-                char startFile  = moveString[0] - 'a';
-                char startRank  = moveString[1] - '1';
-                char endFile    = moveString[2] - 'a';
-                char endRank    = moveString[3] - '1';
+            char startFile  = moveString[0] - 'a';
+            char startRank  = moveString[1] - '1';
+            char endFile    = moveString[2] - 'a';
+            char endRank    = moveString[3] - '1';
 
-                Vector startPos(startRank, startFile);
-                Vector endPos(endRank, endFile);
+            Vector startPos(startRank, startFile);
+            Vector endPos(endRank, endFile);
 
-                for (Move& move : allAvailableMoves) {
-                    if (startPos == move.startPos && endPos == move.endPos) {
-                        return move;
-                    }
+            for (Move& move : allAvailableMoves) {
+                if (startPos == move.startPos && endPos == move.endPos) {
+                    return move;
                 }
-            }
-            else {
-                std::cout << "Cancelled. Try again\n";
             }
         }
 

@@ -11,7 +11,12 @@ namespace Chess {
 	    BLACK
     };
 
-    Colour getOppositeColour(Colour colour);
+    const std::string COLOUR_NAMES[] {
+        "No Colour",
+        "White",
+        "Black"
+    };
+
 
     const char COLOUR_SYMBOLS[] {
 	    ' ',
@@ -30,6 +35,9 @@ namespace Chess {
         0,
         7,
     };
+
+    Colour getOppositeColour(Colour colour);
+    std::string getColourName(Colour colour);
 
     enum PieceType {
 	    NO_PIECE_TYPE,

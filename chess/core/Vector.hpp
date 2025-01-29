@@ -3,37 +3,40 @@
 
 #include <string>
 
-class Vector {
-public:
-    static bool isValid(char rank, char file);
+namespace Chess {
 
-    static const Vector INVALID;
+    class Vector {
+    public:
+        static bool isValid(char rank, char file);
 
-    char rank;
-    char file;
+        static const Vector INVALID;
 
-    Vector();
-    Vector(char rank, char file);
-    Vector(const Vector& vec);
+        char rank;
+        char file;
 
-    bool isValid() const;
+        Vector();
+        Vector(char rank, char file);
+        Vector(const Vector& vec);
 
-    bool equals(const Vector& vec) const;
-    bool operator==(const Vector& vec) const;
-    bool operator!=(const Vector& vec) const;
+        bool isValid() const;
 
-    Vector getOpposite() const;
+        bool equals(const Vector& vec) const;
+        bool operator==(const Vector& vec) const;
+        bool operator!=(const Vector& vec) const;
 
-    Vector plus(const Vector& vec) const;
-    Vector operator+(const Vector& vec) const;
+        Vector getOpposite() const;
 
-    Vector minus(const Vector& vec) const;
-    Vector operator-(const Vector& vec) const;
+        Vector plus(const Vector& vec) const;
+        Vector operator+(const Vector& vec) const;
 
-    void increaseBy(const Vector& vec);
-    void operator+=(const Vector& vec);
+        Vector minus(const Vector& vec) const;
+        Vector operator-(const Vector& vec) const;
 
-    int dotProduct(const Vector& vec);
+        void increaseBy(const Vector& vec);
+        void operator+=(const Vector& vec);
 
-    std::string toString();
-};
+        int dotProduct(const Vector& vec);
+
+        std::string toString();
+    };
+}

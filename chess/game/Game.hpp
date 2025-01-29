@@ -10,15 +10,30 @@ namespace Chess {
     class Game {
     public:
         Game(Player& whitePlayer, Player& blackPlayer);
-        Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard);
 
-        void start();
+        void reset();
+        Colour getTurnColour() const;
+        const Board& getBoard() const;
+        void ensureAvailableMovesAreRecent();
+        bool tryNextTurn();
+
+        bool isGameOver() const;
+        Colour getWinnerColour() const;
+
+        void playSimple();
 
     private:
         Board board;
+        bool movesCalculated = false;
+        std::list<Move> availableMoves;
 
         Player& whitePlayer;
         Player& blackPlayer;
+
+        Colour turnColour = WHITE;
+
+        bool gameIsOver = false;
+        Colour winnerColour = NO_COLOUR;
     };
 
 }

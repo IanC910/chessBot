@@ -14,6 +14,10 @@ Colour Chess::getOppositeColour(Colour colour) {
     }
 }
 
+std::string Chess::getColourName(Colour colour) {
+    return COLOUR_NAMES[colour];
+}
+
 const Piece Piece::NO_PIECE(NO_COLOUR, NO_PIECE_TYPE);
 
 Piece::Piece() :
