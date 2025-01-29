@@ -26,7 +26,6 @@ void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer) 
     BoardDrawer drawer;
 
     Chess::Game game(whitePlayer, blackPlayer);
-    game.reset();
 
     while (!game.isGameOver()) {
         drawer.drawBoard(game.getBoard());

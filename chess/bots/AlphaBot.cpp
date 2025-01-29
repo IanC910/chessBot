@@ -1,4 +1,6 @@
 
+#include <cstdlib>
+#include <iostream>
 #include <vector>
 
 #include "AlphaBot.hpp"
@@ -7,6 +9,9 @@ Chess::Move AlphaBot::takeTurn(const Chess::Board& board) {
     std::list<Chess::Move> availableMoves;
     Chess::Board boardCopy(board);
     boardCopy.getAllMoves(availableMoves, getColour());
+    if (availableMoves.empty()) {
+        return Chess::Move();
+    }
 
     int modifier = 1;
     if (getColour() == Chess::BLACK) {
@@ -24,9 +29,9 @@ Chess::Move AlphaBot::takeTurn(const Chess::Board& board) {
         ++moveIt;
     }
 
-    int maxValueIndex = 0;
+    int maxValueIndex = rand() % possibleBoards.size();
     int maxValue = modifier * possibleBoards[maxValueIndex]->getMaterialValue();
-    for (int i = 1; i < possibleBoards.size(); i++) {
+    for (int i = 0; i < possibleBoards.size(); i++) {
         int value = modifier * possibleBoards[i]->getMaterialValue();
         if (value > maxValue) {
             maxValueIndex = i;

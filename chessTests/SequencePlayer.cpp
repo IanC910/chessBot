@@ -8,6 +8,6 @@ SequencePlayer::SequencePlayer(std::list<Chess::Move>& moveSequence) :
     moveIt = moveSequence.begin();
 }
 
-Chess::Move SequencePlayer::takeTurn(const Chess::Board& board, Chess::Colour colour) {
+Chess::Move SequencePlayer::takeTurn(const Chess::Board& board) {
     return *(moveIt++);
 }

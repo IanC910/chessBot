@@ -19,6 +19,8 @@ Board::Board(const Board& board) {
     blackKingPos = board.blackKingPos;
 
     enPassantFlag       = board.enPassantFlag;
+    positionOfLastMove  = board.positionOfLastMove;
+
     whiteCanShortCastle = board.whiteCanShortCastle;
     whiteCanLongCastle  = board.whiteCanLongCastle;
     blackCanShortCastle = board.blackCanShortCastle;

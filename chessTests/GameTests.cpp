@@ -25,7 +25,7 @@ namespace GameTests {
 
             Game game(player, player);
 
-            game.init();
+            game.reset();
 
             Assert::IsTrue(!game.isGameOver());
             Assert::IsTrue(game.getWinnerColour() == NO_COLOUR);
