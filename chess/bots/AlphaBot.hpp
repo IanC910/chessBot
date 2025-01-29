@@ -3,7 +3,7 @@
 
 #include "../chess.hpp"
 
-class AlphaBot : Chess::Player {
+class AlphaBot : public Chess::Player {
 
 
     Chess::Move takeTurn(const Chess::Board& board) override;

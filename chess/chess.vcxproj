@@ -131,10 +131,12 @@
     <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="app\BitMap.hpp" />
     <ClInclude Include="app\PieceBitMaps.hpp" />
+    <ClInclude Include="bots\bots.hpp" />
     <ClInclude Include="chess.hpp" />
     <ClInclude Include="app\BoardDrawer.hpp" />
     <ClInclude Include="core\Board.hpp" />
     <ClInclude Include="common\log.hpp" />
+    <ClInclude Include="core\core.hpp" />
     <ClInclude Include="game\Game.hpp" />
     <ClInclude Include="core\Move.hpp" />
     <ClInclude Include="core\Piece.hpp" />

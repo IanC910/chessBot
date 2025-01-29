@@ -478,6 +478,18 @@ void Board::doMove(const Move& move) {
     }
 }
 
+int Board::getMaterialValue() {
+    int materialValue = 0;
+
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            materialValue += getPiece(r, f).getValue();
+        }
+    }
+
+    return materialValue;
+}
+
 void Board::calculateChecks(Colour kingColour) {
     std::list<Vector>* positionsCheckingKing = nullptr;
     switch (kingColour) {

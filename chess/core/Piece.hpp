@@ -36,6 +36,12 @@ namespace Chess {
         7,
     };
 
+    const char COLOUR_VALUE_MODIFIERS[]{
+        0,
+        1,
+        -1
+    };
+
     Colour getOppositeColour(Colour colour);
     std::string getColourName(Colour colour);
 

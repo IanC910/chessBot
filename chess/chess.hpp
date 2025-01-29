@@ -1,10 +1,7 @@
 
 #pragma once
 
-#include "core/Board.hpp"
-#include "core/Move.hpp"
-#include "core/Piece.hpp"
-#include "core/Vector.hpp"
+#include "core/core.hpp"
 
 #include "game/Game.hpp"
 #include "game/KeyboardPlayer.hpp"
