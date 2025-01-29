@@ -1,6 +1,8 @@
 
 #include "Vector.hpp"
 
+using namespace Chess;
+
 const Vector Vector::INVALID(-128, -128);
 
 inline bool Vector::isValid(char rank, char file) {

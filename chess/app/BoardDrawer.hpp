@@ -5,10 +5,13 @@
 
 #include "../chess.hpp"
 
-class ConsoleGraphics {
+class BoardDrawer {
 public:
     const char SQUARE_HEIGHT = 5;
-    const char SQUARE_WIDTH = 9;
+    const char SQUARE_WIDTH = 10;
+
+    const char PIECE_HEIGHT = 3;
+    const char PIECE_WIDTH = 6;
 
     const wchar_t WHITE         = 219;
     const wchar_t LIGHT_GREY    = 178;
@@ -25,9 +28,12 @@ public:
     void drawBoard(const Chess::Board& board);
 
 private:
-    void cacheEmptyBoard();
-
+    const int BOARD_WIDTH = SQUARE_WIDTH * 8 + 3 + 1;
     bool emptyBoardCreated = false;
-    std::wstring emptyBoard;
+    void cacheEmptyBoard();
+    void drawPiece(std::wstring& boardString, char rank, char file, Chess::Piece piece);
+    
+
+    std::wstring emptyBoardString;
 };
 

@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 
-#include "ConsoleGraphics.hpp"
+#include "BoardDrawer.hpp"
 
 #include "ChessApp.hpp"
 
@@ -20,7 +20,7 @@ void ChessApp::run() {
 void ChessApp::playGame() {
     Chess::KeyboardPlayer whitePlayer;
     Chess::KeyboardPlayer blackPlayer;
-    ConsoleGraphics graphics;
+    BoardDrawer graphics;
 
     Chess::Game game(whitePlayer, blackPlayer);
     game.init();

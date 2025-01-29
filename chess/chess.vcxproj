@@ -128,8 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="app\ChessApp.hpp" />
+    <ClInclude Include="app\BitMap.hpp" />
+    <ClInclude Include="app\PieceBitMaps.hpp" />
     <ClInclude Include="chess.hpp" />
-    <ClInclude Include="app\ConsoleGraphics.hpp" />
+    <ClInclude Include="app\BoardDrawer.hpp" />
     <ClInclude Include="core\Board.hpp" />
     <ClInclude Include="common\log.hpp" />
     <ClInclude Include="game\Game.hpp" />
@@ -140,8 +142,9 @@
     <ClInclude Include="game\KeyboardPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="app\BitMap.cpp" />
     <ClCompile Include="app\ChessApp.cpp" />
-    <ClCompile Include="app\ConsoleGraphics.cpp" />
+    <ClCompile Include="app\BoardDrawer.cpp" />
     <ClCompile Include="core\Board.cpp" />
     <ClCompile Include="common\log.cpp" />
     <ClCompile Include="game\Game.cpp" />

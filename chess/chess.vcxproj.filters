@@ -45,7 +45,13 @@
     <ClInclude Include="app\ChessApp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="app\ConsoleGraphics.hpp">
+    <ClInclude Include="app\BoardDrawer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\BitMap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\PieceBitMaps.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,7 +86,10 @@
     <ClCompile Include="app\ChessApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="app\ConsoleGraphics.cpp">
+    <ClCompile Include="app\BoardDrawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app\BitMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
