@@ -53,7 +53,7 @@ char Piece::getStartRank() const {
 }
 
 char Piece::getValue() const {
-    return PIECE_VALUES[type];
+    return COLOUR_VALUE_MODIFIERS[colour] * PIECE_VALUES[type];
 }
 
 bool Piece::equals(const Piece& piece) const {

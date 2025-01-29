@@ -46,18 +46,19 @@ namespace Chess {
 
         void doMove(const Move& move);
 
+        int getMaterialValue();
+
     private:
         Piece pieces[8][8]; // Row-major (Rank then file)
 
         bool enPassantFlag          = false;
+        Vector positionOfLastMove = Vector::INVALID;
 
         bool whiteCanShortCastle    = false;
         bool whiteCanLongCastle     = false;
 
         bool blackCanShortCastle    = false;
         bool blackCanLongCastle     = false;
-
-        Vector positionOfLastMove = Vector::INVALID;
 
         Vector whiteKingPos = Vector::INVALID;
         Vector blackKingPos = Vector::INVALID;

@@ -8,15 +8,22 @@ using namespace Chess;
 Game::Game(Player& whitePlayer, Player& blackPlayer) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {
-    reset();
+    board.reset();
+
+    whitePlayer.setColour(WHITE);
+    blackPlayer.setColour(BLACK);
+}
+
+Game::Game(Player& whitePlayer, Player& blackPlayer, Board& startingBoard, Colour startingTurnColour) :
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(startingBoard), turnColour(startingTurnColour)
+{
+    whitePlayer.setColour(WHITE);
+    blackPlayer.setColour(BLACK);
 }
 
 void Game::reset() {
     board.reset();
     movesCalculated = false;
-
-    whitePlayer.setColour(WHITE);
-    blackPlayer.setColour(BLACK);
 
     turnColour = WHITE;
 

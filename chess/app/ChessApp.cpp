@@ -5,6 +5,8 @@
 
 #include "BoardDrawer.hpp"
 
+#include "../bots/bots.hpp"
+
 #include "ChessApp.hpp"
 
 void ChessApp::run() {
@@ -14,19 +16,19 @@ void ChessApp::run() {
     //  ask for player 2 type
     //  play game
 
-    playGame();
+    Chess::KeyboardPlayer whitePlayer;
+    AlphaBot blackPlayer;
+
+    playGame(whitePlayer, blackPlayer);
 }
 
-void ChessApp::playGame() {
-    Chess::KeyboardPlayer whitePlayer;
-    Chess::KeyboardPlayer blackPlayer;
-    BoardDrawer graphics;
+void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer) {
+    BoardDrawer drawer;
 
     Chess::Game game(whitePlayer, blackPlayer);
-    game.reset();
 
     while (!game.isGameOver()) {
-        graphics.drawBoard(game.getBoard());
+        drawer.drawBoard(game.getBoard());
 
 
         std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
@@ -36,7 +38,7 @@ void ChessApp::playGame() {
         }
     }
 
-    graphics.drawBoard(game.getBoard());
+    drawer.drawBoard(game.getBoard());
 
     if (game.getWinnerColour() == Chess::NO_COLOUR) {
         std::cout << "\nGame Over by Stalemate.\n";

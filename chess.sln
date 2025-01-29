@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chess", "chess\chess.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chessTests", "chessTests\chessTests.vcxproj", "{552D8A77-05F6-47D4-8F3C-DCBF988D026A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botTests", "botTests\botTests.vcxproj", "{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,8 +33,19 @@ Global
 		{552D8A77-05F6-47D4-8F3C-DCBF988D026A}.Release|x64.Build.0 = Release|x64
 		{552D8A77-05F6-47D4-8F3C-DCBF988D026A}.Release|x86.ActiveCfg = Release|Win32
 		{552D8A77-05F6-47D4-8F3C-DCBF988D026A}.Release|x86.Build.0 = Release|Win32
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Debug|x64.ActiveCfg = Debug|x64
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Debug|x64.Build.0 = Debug|x64
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Debug|x86.ActiveCfg = Debug|Win32
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Debug|x86.Build.0 = Debug|Win32
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Release|x64.ActiveCfg = Release|x64
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Release|x64.Build.0 = Release|x64
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Release|x86.ActiveCfg = Release|Win32
+		{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CD8E023-70A9-4F0B-A83C-6F81A9F5BE4A}
 	EndGlobalSection
 EndGlobal

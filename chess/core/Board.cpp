@@ -19,6 +19,8 @@ Board::Board(const Board& board) {
     blackKingPos = board.blackKingPos;
 
     enPassantFlag       = board.enPassantFlag;
+    positionOfLastMove  = board.positionOfLastMove;
+
     whiteCanShortCastle = board.whiteCanShortCastle;
     whiteCanLongCastle  = board.whiteCanLongCastle;
     blackCanShortCastle = board.blackCanShortCastle;
@@ -476,6 +478,18 @@ void Board::doMove(const Move& move) {
                 break;
         }
     }
+}
+
+int Board::getMaterialValue() {
+    int materialValue = 0;
+
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            materialValue += getPiece(r, f).getValue();
+        }
+    }
+
+    return materialValue;
 }
 
 void Board::calculateChecks(Colour kingColour) {
