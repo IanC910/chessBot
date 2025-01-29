@@ -10,9 +10,8 @@ namespace Chess {
     class Game {
     public:
         Game(Player& whitePlayer, Player& blackPlayer);
-        Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard);
 
-        void init();
+        void reset();
         Colour getTurnColour() const;
         const Board& getBoard() const;
         void ensureAvailableMovesAreRecent();

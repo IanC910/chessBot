@@ -14,12 +14,10 @@ KeyboardPlayer::KeyboardPlayer() :
     Player()
 {}
 
-Move KeyboardPlayer::takeTurn(const Board& board, Colour colour) {
-    setColour(colour);
-
+Move KeyboardPlayer::takeTurn(const Board& board) {
     std::list<Move> allAvailableMoves;
     Board boardCopy(board);
-    boardCopy.getAllMoves(allAvailableMoves, colour);
+    boardCopy.getAllMoves(allAvailableMoves, getColour());
     
     std::string moveString;
     while(true) {

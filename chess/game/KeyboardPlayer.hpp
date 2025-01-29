@@ -9,7 +9,7 @@ namespace Chess {
     public:
         KeyboardPlayer();
 
-        Move takeTurn(const Board& board, Colour colour) override;
+        Move takeTurn(const Board& board) override;
     };
 
 }

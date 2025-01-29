@@ -7,15 +7,16 @@ using namespace Chess;
 
 Game::Game(Player& whitePlayer, Player& blackPlayer) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
-{}
+{
+    reset();
+}
 
-Game::Game(Player& whitePlayer, Player& blackPlayer, const Board& startingBoard) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer)
-{}
-
-void Game::init() {
-    board.setToStartingBoard();
+void Game::reset() {
+    board.reset();
     movesCalculated = false;
+
+    whitePlayer.setColour(WHITE);
+    blackPlayer.setColour(BLACK);
 
     turnColour = WHITE;
 
@@ -46,7 +47,7 @@ bool Game::tryNextTurn() {
         player = &blackPlayer;
     }
 
-    Move requestedMove = player->takeTurn(board, turnColour);
+    Move requestedMove = player->takeTurn(board);
     bool moveIsValid = false;
     for (Move& move : availableMoves) {
         if (requestedMove == move) {
@@ -85,7 +86,7 @@ Colour Game::getWinnerColour() const {
 }
 
 void Game::playSimple() {
-    init();
+    reset();
 
     while (!isGameOver()) {
         std::cout << "\n" << board.toString() << "\n";

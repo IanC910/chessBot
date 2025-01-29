@@ -130,7 +130,7 @@ void Board::clear() {
     }
 }
 
-void Board::setToStartingBoard() {
+void Board::reset() {
     clear();
 
     // Kings

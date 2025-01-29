@@ -27,7 +27,7 @@ namespace Chess {
 
         void clear();
 
-        void setToStartingBoard();
+        void reset();
 
         Vector getKingPos(Colour colour) const;
         Vector getPinDirection(Vector position) const;

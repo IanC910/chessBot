@@ -23,7 +23,7 @@ void ChessApp::playGame() {
     BoardDrawer graphics;
 
     Chess::Game game(whitePlayer, blackPlayer);
-    game.init();
+    game.reset();
 
     while (!game.isGameOver()) {
         graphics.drawBoard(game.getBoard());
