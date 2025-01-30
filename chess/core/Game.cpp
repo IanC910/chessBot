@@ -70,7 +70,7 @@ bool Game::tryNextTurn() {
     }
 
     board.doMove(requestedMove);
-    moveCalculator = MoveCalculator(board);
+    moveCalculator.setBoard(board);
     movesCalculated = false;
 
     turnColour = getOppositeColour(turnColour);
