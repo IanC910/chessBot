@@ -129,8 +129,6 @@
   <ItemGroup>
     <ClInclude Include="bots\AlphaBot.hpp" />
     <ClInclude Include="app\ChessApp.hpp" />
-    <ClInclude Include="app\BitMap.hpp" />
-    <ClInclude Include="app\PieceBitMaps.hpp" />
     <ClInclude Include="bots\bots.hpp" />
     <ClInclude Include="chess.hpp" />
     <ClInclude Include="app\BoardDrawer.hpp" />
@@ -146,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bots\AlphaBot.cpp" />
-    <ClCompile Include="app\BitMap.cpp" />
     <ClCompile Include="app\ChessApp.cpp" />
     <ClCompile Include="app\BoardDrawer.cpp" />
     <ClCompile Include="core\Board.cpp" />
