@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include "../core/Board.hpp"
+#include "Board.hpp"
+#include "MoveCalculator.hpp"
 
 #include "Player.hpp"
 
@@ -25,8 +26,6 @@ namespace Chess {
 
     private:
         Board board;
-        bool movesCalculated = false;
-        std::list<Move> availableMoves;
 
         Player& whitePlayer;
         Player& blackPlayer;
@@ -35,6 +34,10 @@ namespace Chess {
 
         bool gameIsOver = false;
         Colour winnerColour = NO_COLOUR;
+
+        MoveCalculator moveCalculator;
+        bool movesCalculated = false;
+        std::list<Move> availableMoves;
     };
 
 }

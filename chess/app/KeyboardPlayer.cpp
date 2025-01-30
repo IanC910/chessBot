@@ -2,9 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "../core/Board.hpp"
-#include "../core/Move.hpp"
-#include "../core/Vector.hpp"
+#include "../core/core.hpp"
 
 #include "KeyboardPlayer.hpp"
 
@@ -15,9 +13,9 @@ KeyboardPlayer::KeyboardPlayer() :
 {}
 
 Move KeyboardPlayer::takeTurn(const Board& board) {
+    Chess::MoveCalculator moveCalculator(board);
     std::list<Move> allAvailableMoves;
-    Board boardCopy(board);
-    boardCopy.getAllMoves(allAvailableMoves, getColour());
+    moveCalculator.getAllMoves(allAvailableMoves, getColour());
     
     std::string moveString;
     while(true) {

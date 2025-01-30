@@ -6,9 +6,9 @@
 #include "AlphaBot.hpp"
 
 Chess::Move AlphaBot::takeTurn(const Chess::Board& board) {
+    Chess::MoveCalculator moveCalculator(board);
     std::list<Chess::Move> availableMoves;
-    Chess::Board boardCopy(board);
-    boardCopy.getAllMoves(availableMoves, getColour());
+    moveCalculator.getAllMoves(availableMoves, getColour());
     if (availableMoves.empty()) {
         return Chess::Move();
     }

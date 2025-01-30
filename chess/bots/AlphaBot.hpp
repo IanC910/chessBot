@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "../chess.hpp"
+#include "../core/core.hpp"
 
 class AlphaBot : public Chess::Player {
 public:
