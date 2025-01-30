@@ -279,18 +279,14 @@ bool Board::isPiecePinned(Vector position) const {
 }
 
 int Board::getNumChecks(Colour kingColour) {
-    const std::list<Vector>* positionsCheckingKing = getPositionsCheckingKing(kingColour);
-    if (positionsCheckingKing == nullptr) {
-        return 0;
-    }
-    return positionsCheckingKing->size();
+    return getPositionsCheckingKing(kingColour).size();
 }
 
-const std::list<Vector>* Board::getPositionsCheckingKing(Colour kingColour) {
+const std::list<Vector>& Board::getPositionsCheckingKing(Colour kingColour) {
     if(kingColour != colourOfCalculatedChecks) {
         calculateChecks(kingColour);
     }
-    return &positionsCheckingKing;
+    return positionsCheckingKing;
 }
 
 bool Board::isKingChecked(Colour kingColour) {
@@ -479,6 +475,10 @@ int Board::getMaterialValue() {
 void Board::calculateChecks(Colour kingColour) {
     colourOfCalculatedChecks = kingColour;
     positionsCheckingKing.clear();
+
+    if (kingColour == NO_COLOUR) {
+        return;
+    }
 
     Colour oppositeColour = getOppositeColour(kingColour);
     Vector kingPos = getKingPos(kingColour);
@@ -711,7 +711,7 @@ void Board::filterEndSquaresByCheckRules(std::list<Vector>& endSquares, Vector s
     // Check for king checks, filter
     int numChecks = getNumChecks(colour);
     if (numChecks == 1) {
-        Vector checkingPosition = getPositionsCheckingKing(colour)->front();
+        Vector checkingPosition = getPositionsCheckingKing(colour).front();
         Vector checkDirection = checkingPosition - getKingPos(colour);
         std::list<Vector>::iterator endSquareIt = endSquares.begin();
         while (endSquareIt != endSquares.end()) {

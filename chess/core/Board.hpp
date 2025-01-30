@@ -33,7 +33,7 @@ namespace Chess {
         Vector getPinDirection(Vector position) const;
         bool isPiecePinned(Vector position) const;
         int getNumChecks(Colour kingColour);
-        const std::list<Vector>* getPositionsCheckingKing(Colour kingColour);
+        const std::list<Vector>& getPositionsCheckingKing(Colour kingColour);
         bool isKingChecked(Colour kingColour);
         void clearCalculatedChecks();
         bool getEnPassantFlag() const;
