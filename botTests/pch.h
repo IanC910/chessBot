@@ -7,7 +7,7 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include "../chess/chess.hpp"
+#include "../chess/core/core.hpp"
 #include "../chess/bots/bots.hpp"
 
 #endif //PCH_H

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../chess.hpp"
+#include "../core/core.hpp"
 
 class BoardDrawer {
 public:

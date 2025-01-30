@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common\log.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\Vector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,19 +24,16 @@
     <ClInclude Include="core\Piece.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\Game.hpp">
+    <ClInclude Include="core\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\Player.hpp">
+    <ClInclude Include="core\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Move.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\KeyboardPlayer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="chess.hpp">
+    <ClInclude Include="app\KeyboardPlayer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="app\ChessApp.hpp">
@@ -57,11 +51,11 @@
     <ClInclude Include="core\core.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\MoveCalculator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="common\log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,16 +68,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game\Game.cpp">
+    <ClCompile Include="core\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game\Player.cpp">
+    <ClCompile Include="core\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\Move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game\KeyboardPlayer.cpp">
+    <ClCompile Include="app\KeyboardPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="app\ChessApp.cpp">
@@ -93,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bots\AlphaBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\MoveCalculator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

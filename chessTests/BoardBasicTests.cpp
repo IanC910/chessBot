@@ -43,11 +43,14 @@ namespace BoardBasicTests {
         TEST_METHOD(pinDirectionTest) {
             // Diagonal pin line
             Board board;
+            MoveCalculator moveCalculator;
+
             board.setPiece(0, 0, Piece(WHITE, KING));
             board.setPiece(5, 5, Piece(BLACK, BISHOP));
             board.setPiece(1, 1, Piece(WHITE, PAWN));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(1, 1))
+                moveCalculator.getPinDirection(Vector(1, 1))
                 .equals(Vector(1, 1))
             );
 
@@ -56,8 +59,9 @@ namespace BoardBasicTests {
             board.setPiece(7, 7, Piece(BLACK, KING));
             board.setPiece(7, 0, Piece(WHITE, ROOK));
             board.setPiece(7, 6, Piece(BLACK, ROOK));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(7, 6))
+                moveCalculator.getPinDirection(Vector(7, 6))
                 .equals(Vector(0, -1))
             );
 
@@ -69,8 +73,9 @@ namespace BoardBasicTests {
             board.setPiece(1, 5, Piece(WHITE, KNIGHT));
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(5, 5))
+                moveCalculator.getPinDirection(Vector(5, 5))
                 .equals(Vector(0, 0))
             );
 
@@ -82,8 +87,9 @@ namespace BoardBasicTests {
             board.setPiece(1, 5, Piece(BLACK, KNIGHT));
             board.setPiece(7, 5, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, QUEEN));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(5, 5))
+                moveCalculator.getPinDirection(Vector(5, 5))
                 .equals(Vector(0, 0))
             );
 
@@ -92,8 +98,9 @@ namespace BoardBasicTests {
             board.clear();
             board.setPiece(4, 5, Piece(WHITE, KING));
             board.setPiece(6, 3, Piece(WHITE, KNIGHT));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(6, 3))
+                moveCalculator.getPinDirection(Vector(6, 3))
                 .equals(Vector(0, 0))
             );
 
@@ -103,8 +110,9 @@ namespace BoardBasicTests {
             board.setPiece(0, 0, Piece(WHITE, KING));
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             board.setPiece(2, 2, Piece(BLACK, ROOK));
+            moveCalculator.setBoard(board);
             Assert::IsTrue(
-                board.getPinDirection(Vector(1, 1))
+                moveCalculator.getPinDirection(Vector(1, 1))
                 .equals(Vector(0, 0))
             );
         }

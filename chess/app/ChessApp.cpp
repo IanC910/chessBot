@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "BoardDrawer.hpp"
+#include "KeyboardPlayer.hpp"
 
 #include "../bots/bots.hpp"
 
@@ -16,7 +17,7 @@ void ChessApp::run() {
     //  ask for player 2 type
     //  play game
 
-    Chess::KeyboardPlayer whitePlayer;
+    KeyboardPlayer whitePlayer;
     AlphaBot blackPlayer;
 
     playGame(whitePlayer, blackPlayer);
@@ -29,7 +30,6 @@ void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer) 
 
     while (!game.isGameOver()) {
         drawer.drawBoard(game.getBoard());
-
 
         std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
 

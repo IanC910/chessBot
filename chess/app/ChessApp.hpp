@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "../chess.hpp"
+#include "../core/core.hpp"
 
 class ChessApp {
 public:

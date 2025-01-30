@@ -8,14 +8,16 @@ using namespace Chess;
 Game::Game(Player& whitePlayer, Player& blackPlayer) :
     whitePlayer(whitePlayer), blackPlayer(blackPlayer)
 {
-    board.reset();
+    reset();
 
     whitePlayer.setColour(WHITE);
     blackPlayer.setColour(BLACK);
 }
 
 Game::Game(Player& whitePlayer, Player& blackPlayer, Board& startingBoard, Colour startingTurnColour) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer), board(startingBoard), turnColour(startingTurnColour)
+    whitePlayer(whitePlayer), blackPlayer(blackPlayer),
+    board(startingBoard), turnColour(startingTurnColour),
+    moveCalculator(startingBoard)
 {
     whitePlayer.setColour(WHITE);
     blackPlayer.setColour(BLACK);
@@ -24,6 +26,7 @@ Game::Game(Player& whitePlayer, Player& blackPlayer, Board& startingBoard, Colou
 void Game::reset() {
     board.reset();
     movesCalculated = false;
+    moveCalculator = MoveCalculator(board);
 
     turnColour = WHITE;
 
@@ -41,7 +44,7 @@ const Board& Game::getBoard() const {
 
 void Game::ensureAvailableMovesAreRecent() {
     if (!movesCalculated) {
-        board.getAllMoves(availableMoves, turnColour);
+        moveCalculator.getAllMoves(availableMoves, turnColour);
     }
     movesCalculated = true;
 }
@@ -67,6 +70,7 @@ bool Game::tryNextTurn() {
     }
 
     board.doMove(requestedMove);
+    moveCalculator = MoveCalculator(board);
     movesCalculated = false;
 
     turnColour = getOppositeColour(turnColour);
@@ -76,7 +80,7 @@ bool Game::tryNextTurn() {
     if (availableMoves.empty()) {
         gameIsOver = true;
 
-        if(board.isKingChecked(turnColour)) {
+        if(moveCalculator.isKingChecked(turnColour)) {
             winnerColour = getOppositeColour(turnColour);
         }
     }
