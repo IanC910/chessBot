@@ -51,8 +51,8 @@ namespace Chess {
     private:
         Piece pieces[8][8]; // Row-major (Rank then file)
 
-        bool enPassantFlag          = false;
         Vector positionOfLastMove = Vector::INVALID;
+        bool enPassantFlag          = false;
 
         bool whiteCanShortCastle    = false;
         bool whiteCanLongCastle     = false;
@@ -63,10 +63,8 @@ namespace Chess {
         Vector whiteKingPos = Vector::INVALID;
         Vector blackKingPos = Vector::INVALID;
 
-        bool whiteChecksCalculated = false;
-        bool blackChecksCalculated = false;
-        std::list<Vector> positionsCheckingWhite;
-        std::list<Vector> positionsCheckingBlack;
+        Colour colourOfCalculatedChecks = NO_COLOUR;
+        std::list<Vector> positionsCheckingKing;
 
         void calculateChecks(Colour kingColour);
 

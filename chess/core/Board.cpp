@@ -26,10 +26,8 @@ Board::Board(const Board& board) {
     blackCanShortCastle = board.blackCanShortCastle;
     blackCanLongCastle  = board.blackCanLongCastle;
 
-    whiteChecksCalculated = board.whiteChecksCalculated;
-    blackChecksCalculated = board.blackChecksCalculated;
-    positionsCheckingWhite = board.positionsCheckingWhite;
-    positionsCheckingBlack = board.positionsCheckingBlack;
+    colourOfCalculatedChecks = board.colourOfCalculatedChecks;
+    positionsCheckingKing = board.positionsCheckingKing;
 }
 
 bool Board::equals(const Board& board) const {
@@ -289,22 +287,10 @@ int Board::getNumChecks(Colour kingColour) {
 }
 
 const std::list<Vector>* Board::getPositionsCheckingKing(Colour kingColour) {
-    switch (kingColour) {
-        case WHITE: {
-            if(!whiteChecksCalculated) {
-                calculateChecks(WHITE);
-            }
-            return &positionsCheckingWhite;
-        }
-        case BLACK: {
-            if(!blackChecksCalculated) {
-                calculateChecks(BLACK);
-            }
-            return &positionsCheckingBlack;
-        }
-        default:
-            return nullptr;
+    if(kingColour != colourOfCalculatedChecks) {
+        calculateChecks(kingColour);
     }
+    return &positionsCheckingKing;
 }
 
 bool Board::isKingChecked(Colour kingColour) {
@@ -312,10 +298,8 @@ bool Board::isKingChecked(Colour kingColour) {
 }
 
 void Board::clearCalculatedChecks() {
-    positionsCheckingWhite.clear();
-    positionsCheckingBlack.clear();
-    whiteChecksCalculated = false;
-    blackChecksCalculated = false;
+    positionsCheckingKing.clear();
+    colourOfCalculatedChecks = NO_COLOUR;
 }
 
 bool Board::getEnPassantFlag() const {
@@ -493,23 +477,8 @@ int Board::getMaterialValue() {
 }
 
 void Board::calculateChecks(Colour kingColour) {
-    std::list<Vector>* positionsCheckingKing = nullptr;
-    switch (kingColour) {
-        case WHITE: {
-            whiteChecksCalculated = true;
-            positionsCheckingKing = &positionsCheckingWhite;
-            break;
-        }
-        case BLACK: {
-            blackChecksCalculated = true;
-            positionsCheckingKing = &positionsCheckingBlack;
-            break;
-        }
-        default:
-            return;
-    }
-
-    positionsCheckingKing->clear();
+    colourOfCalculatedChecks = kingColour;
+    positionsCheckingKing.clear();
 
     Colour oppositeColour = getOppositeColour(kingColour);
     Vector kingPos = getKingPos(kingColour);
@@ -526,7 +495,7 @@ void Board::calculateChecks(Colour kingColour) {
         Piece piece = getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == PAWN) {
-                positionsCheckingKing->push_back(square);
+                positionsCheckingKing.push_back(square);
             }
         }
     }
@@ -538,7 +507,7 @@ void Board::calculateChecks(Colour kingColour) {
         Piece piece = getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
-                positionsCheckingKing->push_back(square);
+                positionsCheckingKing.push_back(square);
             }
         }
     }
@@ -550,7 +519,7 @@ void Board::calculateChecks(Colour kingColour) {
         Piece piece = getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == ROOK || piece.getType() == QUEEN) {
-                positionsCheckingKing->push_back(square);
+                positionsCheckingKing.push_back(square);
             }
         }
     }
@@ -562,7 +531,7 @@ void Board::calculateChecks(Colour kingColour) {
         Piece piece = getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == KNIGHT) {
-                positionsCheckingKing->push_back(square);
+                positionsCheckingKing.push_back(square);
             }
         }
     }
