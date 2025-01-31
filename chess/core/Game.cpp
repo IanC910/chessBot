@@ -42,15 +42,11 @@ const Board& Game::getBoard() const {
     return board;
 }
 
-void Game::ensureAvailableMovesAreRecent() {
+bool Game::tryNextTurn() {
     if (!movesCalculated) {
         moveCalculator.getAllMoves(availableMoves, turnColour);
     }
     movesCalculated = true;
-}
-
-bool Game::tryNextTurn() {
-    ensureAvailableMovesAreRecent();
 
     Player* player = &whitePlayer;
     if (turnColour == BLACK) {
@@ -70,6 +66,7 @@ bool Game::tryNextTurn() {
     }
 
     board.doMove(requestedMove);
+
     moveHistory.push_back(requestedMove);
     boardHistory.push_back(board);
     std::ofstream logFile(GAME_LOG_FILE_NAME, std::ofstream::app);
@@ -77,13 +74,10 @@ bool Game::tryNextTurn() {
     logFile << board.toString() << "\n";
     logFile.close();
 
-    moveCalculator.setBoard(board);
-    movesCalculated = false;
-
     turnColour = getOppositeColour(turnColour);
 
-    ensureAvailableMovesAreRecent();
-
+    moveCalculator.setBoard(board);
+    moveCalculator.getAllMoves(availableMoves, turnColour);
     if (availableMoves.empty()) {
         gameIsOver = true;
 

@@ -17,7 +17,6 @@ namespace Chess {
         void reset();
         Colour getTurnColour() const;
         const Board& getBoard() const;
-        void ensureAvailableMovesAreRecent();
         bool tryNextTurn();
 
         bool isGameOver() const;
