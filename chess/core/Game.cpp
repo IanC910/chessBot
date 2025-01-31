@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 
 #include "Game.hpp"
 
@@ -27,6 +28,9 @@ void Game::reset() {
     moveHistory.clear();
     boardHistory.clear();
     boardHistory.push_back(board);
+
+    std::ofstream logFile(GAME_LOG_FILE_NAME, std::ofstream::trunc);
+    logFile.close();
 }
 
 Colour Game::getTurnColour() const {
@@ -67,6 +71,10 @@ bool Game::tryNextTurn() {
     board.doMove(requestedMove);
     moveHistory.push_back(requestedMove);
     boardHistory.push_back(board);
+    std::ofstream logFile(GAME_LOG_FILE_NAME, std::ofstream::app);
+    logFile << std::to_string(moveHistory.size()) << ": " << requestedMove.toString() << "\n";
+    logFile << board.toString() << "\n";
+    logFile.close();
 
     moveCalculator.setBoard(board);
     movesCalculated = false;

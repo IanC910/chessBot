@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "Board.hpp"
 #include "MoveCalculator.hpp"
 
@@ -43,7 +45,8 @@ namespace Chess {
 
         std::list<Move> moveHistory;
         std::list<Board> boardHistory;
-    };
 
+        const std::string GAME_LOG_FILE_NAME = "game.log";
+    };
 }
 
