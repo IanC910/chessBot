@@ -29,7 +29,8 @@ void Game::reset() {
     boardHistory.clear();
     boardHistory.push_back(board);
 
-    std::ofstream logFile(GAME_LOG_FILE_NAME, std::ofstream::trunc);
+    std::ofstream logFile(GAME_LOG_FILE_NAME);
+    logFile << board.toString() << "\n";
     logFile.close();
 }
 
