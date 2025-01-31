@@ -14,15 +14,6 @@ Game::Game(Player& whitePlayer, Player& blackPlayer) :
     blackPlayer.setColour(BLACK);
 }
 
-Game::Game(Player& whitePlayer, Player& blackPlayer, Board& startingBoard, Colour startingTurnColour) :
-    whitePlayer(whitePlayer), blackPlayer(blackPlayer),
-    board(startingBoard), turnColour(startingTurnColour),
-    moveCalculator(startingBoard)
-{
-    whitePlayer.setColour(WHITE);
-    blackPlayer.setColour(BLACK);
-}
-
 void Game::reset() {
     board.reset();
     movesCalculated = false;
@@ -32,6 +23,10 @@ void Game::reset() {
 
     gameIsOver = false;
     winnerColour = NO_COLOUR;
+
+    moveHistory.clear();
+    boardHistory.clear();
+    boardHistory.push_back(board);
 }
 
 Colour Game::getTurnColour() const {
@@ -70,6 +65,9 @@ bool Game::tryNextTurn() {
     }
 
     board.doMove(requestedMove);
+    moveHistory.push_back(requestedMove);
+    boardHistory.push_back(board);
+
     moveCalculator.setBoard(board);
     movesCalculated = false;
 
@@ -115,4 +113,12 @@ void Game::playSimple() {
     else {
         std::cout << "\nGame Over by Checkmate - Winner: " << getColourName(getWinnerColour()) << "!\n";
     }
+}
+
+const std::list<Move>& Game::getMoveHistory() const {
+    return moveHistory;
+}
+
+const std::list<Board>& Game::getBoardHistory() const {
+    return boardHistory;
 }

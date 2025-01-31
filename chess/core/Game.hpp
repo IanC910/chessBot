@@ -11,7 +11,6 @@ namespace Chess {
     class Game {
     public:
         Game(Player& whitePlayer, Player& blackPlayer);
-        Game(Player& whitePlayer, Player& blackPlayer, Board& startingBoard, Colour startingTurnColour);
 
         void reset();
         Colour getTurnColour() const;
@@ -23,6 +22,9 @@ namespace Chess {
         Colour getWinnerColour() const;
 
         void playSimple();
+
+        const std::list<Move>& getMoveHistory() const;
+        const std::list<Board>& getBoardHistory() const;
 
     private:
         Board board;
@@ -38,6 +40,9 @@ namespace Chess {
         MoveCalculator moveCalculator;
         bool movesCalculated = false;
         std::list<Move> availableMoves;
+
+        std::list<Move> moveHistory;
+        std::list<Board> boardHistory;
     };
 
 }
