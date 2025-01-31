@@ -1,3 +1,1 @@
-Fix King being able to move to squares that aren't seen by opponent piece before the move but are after
-
 Make game stalemate when insufficient material
