@@ -1,0 +1,3 @@
+Fix King being able to move to squares that aren't seen by opponent piece but are still on pin line
+
+Make game stalemate when insufficient material
