@@ -128,7 +128,7 @@ bool MoveCalculator::isPiecePinned(Vector position) const {
 }
 
 int MoveCalculator::getNumChecks(Colour kingColour) {
-    return getPositionsCheckingKing(kingColour).size();
+    return (int)getPositionsCheckingKing(kingColour).size();
 }
 
 const std::list<Vector>& MoveCalculator::getPositionsCheckingKing(Colour kingColour) {

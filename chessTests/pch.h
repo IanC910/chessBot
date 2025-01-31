@@ -10,4 +10,4 @@
 #include "../chess/core/core.hpp"
 #include "../chess/bots/bots.hpp"
 
-#endif //PCH_H
+#endif // PCH_H
