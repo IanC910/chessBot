@@ -383,6 +383,10 @@ void MoveCalculator::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector
         {0, -1}
     };
 
+    Piece thisRook = board.getPiece(position);
+    Colour oppositeColour = getOppositeColour(thisRook.getColour());
+    Piece oppositeKing(oppositeColour, KING);
+
     for (Vector& direction : directions) {
         Vector currPos = position + direction;
 
@@ -393,7 +397,8 @@ void MoveCalculator::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector
             
             squaresSeen.push_back(currPos);
 
-            if (board.getPiece(currPos) != Piece::NO_PIECE) {
+            Piece piece = board.getPiece(currPos);
+            if (piece != Piece::NO_PIECE && piece != oppositeKing) {
                 break;
             }
 
