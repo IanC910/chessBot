@@ -692,7 +692,7 @@ namespace MoveCalculatorTests {
             board.setPiece(6, 4, {BLACK, KING});
             moveCalculator.setBoard(board);
             moveCalculator.getMovesForPiece(moves, {6, 4});
-            Assert::IsTrue(5 == moves.size());
+            Assert::IsTrue(6 == moves.size());
         }
 
         TEST_METHOD(startingMovesTest) {
