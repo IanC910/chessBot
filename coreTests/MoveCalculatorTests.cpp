@@ -367,7 +367,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 3, Piece(WHITE, KING));
             board.setPiece(5, 5, Piece(BLACK, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 4, 4 });
+            moveCalculator.getMovesForPiece(moves, {4, 4});
             Assert::IsTrue(1 == moves.size());
 
             // Pawn is pinned by queen of opposite colour
@@ -377,7 +377,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 4, whitePawn);
             board.setPiece(3, 5, Piece(BLACK, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 4 });
+            moveCalculator.getMovesForPiece(moves, {3, 4});
             Assert::IsTrue(0 == moves.size());
 
             // King is checked
@@ -387,7 +387,7 @@ namespace MoveCalculatorTests {
             board.setPiece(1, 6, Piece(WHITE, ROOK));
             board.setPiece(2, 3, Piece(BLACK, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 2, 3 });
+            moveCalculator.getMovesForPiece(moves, {2, 3});
             Assert::IsTrue(1 == moves.size());
 
             // Same conditions but now there is another option
@@ -397,7 +397,7 @@ namespace MoveCalculatorTests {
             board.setPiece(2, 4, Piece(WHITE, BISHOP));
             board.setPiece(3, 3, Piece(BLACK, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(1 == moves.size());
         }
 
@@ -408,33 +408,33 @@ namespace MoveCalculatorTests {
 
             board.setPiece(0, 0, Piece(WHITE, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 0 });
+            moveCalculator.getMovesForPiece(moves, {0, 0});
             Assert::IsTrue(7 == moves.size());
 
             board.setPiece(1, 1, Piece(WHITE, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 0 });
+            moveCalculator.getMovesForPiece(moves, {0, 0});
             Assert::IsTrue(0 == moves.size());
 
             board.setPiece(1, 1, Piece(BLACK, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 0 });
+            moveCalculator.getMovesForPiece(moves, {0, 0});
             Assert::IsTrue(1 == moves.size());
 
             board.clear();
             board.setPiece(3, 3, Piece(WHITE, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(13 == moves.size());
 
             board.setPiece(1, 1, Piece(BLACK, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(12 == moves.size());
 
             board.setPiece(2, 2, Piece(WHITE, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(10 == moves.size());
 
             // Bishop is pinned but on same diagonal as pinner
@@ -444,7 +444,7 @@ namespace MoveCalculatorTests {
             board.setPiece(2, 3, Piece(WHITE, BISHOP));
             board.setPiece(1, 2, Piece(BLACK, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 2, 3 });
+            moveCalculator.getMovesForPiece(moves, {2, 3});
             Assert::IsTrue(2 == moves.size());
 
             // Bishop is not pinned, but king is checked
@@ -454,7 +454,7 @@ namespace MoveCalculatorTests {
             board.setPiece(1, 4, Piece(WHITE, BISHOP));
             board.setPiece(1, 2, Piece(BLACK, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 1, 4 });
+            moveCalculator.getMovesForPiece(moves, {1, 4});
             Assert::IsTrue(1 == moves.size());
 
             // Bishop not pinned, king is checked
@@ -465,7 +465,7 @@ namespace MoveCalculatorTests {
             board.setPiece(1, 2, Piece(BLACK, QUEEN));
             board.setPiece(4, 7, Piece(WHITE, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 4, 7 });
+            moveCalculator.getMovesForPiece(moves, {4, 7});
             Assert::IsTrue(0 == moves.size());
 
             // Bishop not pinned, king is checked
@@ -476,7 +476,7 @@ namespace MoveCalculatorTests {
             board.setPiece(1, 2, Piece(BLACK, QUEEN));
             board.setPiece(1, 0, Piece(WHITE, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 1, 0 });
+            moveCalculator.getMovesForPiece(moves, {1, 0});
             Assert::IsTrue(0 == moves.size());
         }
 
@@ -489,20 +489,20 @@ namespace MoveCalculatorTests {
             // Full range of motion
             board.setPiece(3, 3, Piece(WHITE, KNIGHT));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(8 == moves.size());
 
             // Same colour pawn in one end square
             // Can't move there
             board.setPiece(2, 5, Piece(WHITE, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(7 == moves.size());
 
             // Opposute colour pawn in another end square
             // No effect
             board.setPiece(4, 5, Piece(BLACK, PAWN));
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(7 == moves.size());
 
             // Knight pinned, no moves
@@ -511,7 +511,7 @@ namespace MoveCalculatorTests {
             board.setPiece(2, 2, Piece(BLACK, KING));
             board.setPiece(4, 4, Piece(WHITE, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(0 == moves.size());
 
             // King checked
@@ -521,7 +521,7 @@ namespace MoveCalculatorTests {
             board.setPiece(4, 4, Piece(BLACK, ROOK));
             board.setPiece(5, 6, Piece(WHITE, KNIGHT));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 5, 6 });
+            moveCalculator.getMovesForPiece(moves, {5, 6});
             Assert::IsTrue(1 == moves.size());
 
             // Same as above but now knight can also block
@@ -530,7 +530,7 @@ namespace MoveCalculatorTests {
             board.setPiece(4, 5, Piece(BLACK, ROOK));
             board.setPiece(6, 4, Piece(WHITE, KNIGHT));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 6, 4 });
+            moveCalculator.getMovesForPiece(moves, {6, 4});
             Assert::IsTrue(2 == moves.size());
         }
 
@@ -543,19 +543,19 @@ namespace MoveCalculatorTests {
             // Full range of motion
             board.setPiece(3, 3, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(14 == moves.size());
 
             // Opposite colour piece blocks a path
             board.setPiece(6, 3, Piece(BLACK, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(13 == moves.size());
 
             // Same colour piece blocks another path
             board.setPiece(3, 5, Piece(WHITE, KING));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(10 == moves.size());
 
             // Rook is pinned diagonally, no moves
@@ -564,7 +564,7 @@ namespace MoveCalculatorTests {
             board.setPiece(5, 5, Piece(BLACK, BISHOP));
             board.setPiece(4, 4, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 4, 4 });
+            moveCalculator.getMovesForPiece(moves, {4, 4});
             Assert::IsTrue(0 == moves.size());
 
             // Rook is pinned horizontally
@@ -574,7 +574,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 7, Piece(BLACK, QUEEN));
             board.setPiece(3, 4, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 4 });
+            moveCalculator.getMovesForPiece(moves, {3, 4});
             Assert::IsTrue(3 == moves.size());
 
             // King is checked, rook can block
@@ -583,7 +583,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 7, Piece(BLACK, QUEEN));
             board.setPiece(5, 5, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 5, 5 });
+            moveCalculator.getMovesForPiece(moves, {5, 5});
             Assert::IsTrue(1 == moves.size());
 
             // King is checked, rook can't block as it's behind the king
@@ -592,7 +592,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 7, Piece(BLACK, QUEEN));
             board.setPiece(5, 2, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 5, 2 });
+            moveCalculator.getMovesForPiece(moves, {5, 2});
             Assert::IsTrue(0 == moves.size());
 
             // King is checked, only move is to take checker
@@ -601,7 +601,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 7, Piece(BLACK, QUEEN));
             board.setPiece(5, 7, Piece(WHITE, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 5, 7 });
+            moveCalculator.getMovesForPiece(moves, {5, 7});
             Assert::IsTrue(1 == moves.size());
         }
 
@@ -614,7 +614,7 @@ namespace MoveCalculatorTests {
             // Full range of motion
             board.setPiece(3, 3, Piece(WHITE, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(27 == moves.size());
 
             // Queen is forked by kngiht, no moves
@@ -622,7 +622,7 @@ namespace MoveCalculatorTests {
             board.setPiece(3, 5, Piece(WHITE, KING));
             board.setPiece(5, 4, Piece(BLACK, KNIGHT));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(0 == moves.size());
         }
 
@@ -635,14 +635,14 @@ namespace MoveCalculatorTests {
             // Full range of motion
             board.setPiece(3, 3, Piece(WHITE, KING));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(8 == moves.size());
 
             // Some same colour pieces next to king, restricting movement
             board.setPiece(2, 3, Piece(WHITE, PAWN));
             board.setPiece(3, 4, Piece(WHITE, QUEEN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(6 == moves.size());
 
             // Some opposite colour pawns next to king
@@ -651,41 +651,48 @@ namespace MoveCalculatorTests {
             board.setPiece(2, 4, Piece(BLACK, PAWN));
             board.setPiece(4, 2, Piece(BLACK, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(6 == moves.size());
 
             // One of the opposite pawns is protected
             // Can no longer take it
             board.setPiece(5, 2, Piece(BLACK, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(5 == moves.size());
 
             // Opposite colour bishop protects one of previously available squares
             board.setPiece(4, 0, Piece(BLACK, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(4 == moves.size());
 
             // Opposite colour queen protects more squares
             board.setPiece(4, 6, Piece(BLACK, QUEEN));
             board.setPiece(5, 2, Piece::NO_PIECE);
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(1 == moves.size());
 
             // Opposte colour bishop protects the last available square
             board.setPiece(5, 0, Piece(BLACK, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(0 == moves.size());
 
             // All available squares are checked, only move is to take a checker
             board.setPiece(2, 2, Piece(BLACK, BISHOP));
             board.setPiece(4, 0, Piece::NO_PIECE);
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 3, 3 });
+            moveCalculator.getMovesForPiece(moves, {3, 3});
             Assert::IsTrue(1 == moves.size());
+
+            board.clear();
+            board.setPiece(4, 4, {WHITE, ROOK});
+            board.setPiece(6, 4, {BLACK, KING});
+            moveCalculator.setBoard(board);
+            moveCalculator.getMovesForPiece(moves, {6, 4});
+            Assert::IsTrue(5 == moves.size());
         }
 
         TEST_METHOD(startingMovesTest) {
@@ -711,13 +718,13 @@ namespace MoveCalculatorTests {
             moveCalculator.setBoard(board);
 
             Assert::IsFalse(board.wasLastMoveDoublePawn());
-            moveCalculator.getMovesForPiece(moves, { 4, 5 });
+            moveCalculator.getMovesForPiece(moves, {4, 5});
             Assert::IsTrue(1 == moves.size());
-            moveCalculator.getMovesForPiece(moves, { 6, 4 });
+            moveCalculator.getMovesForPiece(moves, {6, 4});
             Assert::IsTrue(2 == moves.size());
 
             // Check that the double pawn move is available for black
-            Move doublePawnMove({ 6, 4 }, { 4, 4 }, Piece(BLACK, PAWN));
+            Move doublePawnMove({6, 4}, {4, 4}, Piece(BLACK, PAWN));
             bool movesContainsDoublePawnMove = false;
             for (Move& move : moves) {
                 if (move == doublePawnMove) {
@@ -730,11 +737,11 @@ namespace MoveCalculatorTests {
             board.doMove(doublePawnMove);
             moveCalculator.setBoard(board);
             Assert::IsTrue(board.wasLastMoveDoublePawn());
-            moveCalculator.getMovesForPiece(moves, { 4, 5 });
+            moveCalculator.getMovesForPiece(moves, {4, 5});
             Assert::IsTrue(2 == moves.size());
 
             // Check that the en passant move is available for white
-            Move enPassantMove({ 4, 5 }, { 5, 4 }, Piece(WHITE, PAWN), EN_PASSANT);
+            Move enPassantMove({4, 5}, {5, 4}, Piece(WHITE, PAWN), EN_PASSANT);
             bool movesContainsEnPassantMove = false;
             for (Move& move : moves) {
                 if (move == enPassantMove) {
@@ -747,7 +754,7 @@ namespace MoveCalculatorTests {
             board.setPiece(0, 5, Piece(WHITE, KING));
             board.setPiece(7, 5, Piece(BLACK, ROOK));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 4, 5 });
+            moveCalculator.getMovesForPiece(moves, {4, 5});
             Assert::IsTrue(1 == moves.size());
 
             // Do en passant (despite being illegal because the white pawn is pinned)
@@ -778,52 +785,52 @@ namespace MoveCalculatorTests {
 
             // Check that white king can castle in both directions
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(7 == moves.size());
 
             // Put piece in the way of shortcastling, king can only long castle
             board.setPiece(0, 5, Piece(BLACK, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(5 == moves.size());
 
             // Have an enemy piece be able to see a square needed for castling
             board.setPiece(0, 5, Piece::NO_PIECE);
             board.setPiece(6, 0, Piece(BLACK, BISHOP));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(5 == moves.size());
 
             // Block the attacking piece
             board.setPiece(5, 1, Piece(WHITE, PAWN));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(7 == moves.size());
 
             board.setPiece(6, 0, Piece::NO_PIECE);
             board.setPiece(5, 1, Piece::NO_PIECE);
 
             // Move long rook. white king can only short castle now
-            board.doMove(Move({ 0, 0 }, { 0, 1 }, Piece(WHITE, ROOK)));
+            board.doMove(Move({0, 0}, {0, 1}, Piece(WHITE, ROOK)));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(6 == moves.size());
 
             // Move short rook. White king cannot castle now
-            board.doMove(Move({ 0, 7 }, { 1, 7 }, Piece(WHITE, ROOK)));
+            board.doMove(Move({0, 7}, {1, 7}, Piece(WHITE, ROOK)));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(5 == moves.size());
 
             // Black king can still castle in both directions
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 7, 4 });
+            moveCalculator.getMovesForPiece(moves, {7, 4});
             Assert::IsTrue(7 == moves.size());
 
             // Black king moves, can no longer castle
-            board.doMove(Move({ 7, 4 }, { 7, 3 }, Piece(BLACK, KING)));
+            board.doMove(Move({7, 4}, {7, 3}, Piece(BLACK, KING)));
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 7, 3 });
+            moveCalculator.getMovesForPiece(moves, {7, 3});
             Assert::IsTrue(5 == moves.size());
         }
 
@@ -847,7 +854,7 @@ namespace MoveCalculatorTests {
             }
 
             moveCalculator.setBoard(board);
-            moveCalculator.getMovesForPiece(moves, { 0, 4 });
+            moveCalculator.getMovesForPiece(moves, {0, 4});
             Assert::IsTrue(7 == moves.size());
 
             for (Move& move : moves) {
