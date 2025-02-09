@@ -18,7 +18,7 @@ Game::Game(Player& whitePlayer, Player& blackPlayer) :
 void Game::reset() {
     board.reset();
     movesCalculated = false;
-    moveCalculator = MoveCalculator(board);
+    moveCalculator = BoardAnalyzer(board);
 
     turnColour = WHITE;
 

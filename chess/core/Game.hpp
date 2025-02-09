@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Board.hpp"
-#include "MoveCalculator.hpp"
+#include "BoardAnalyzer.hpp"
 
 #include "Player.hpp"
 
@@ -38,7 +38,7 @@ namespace Chess {
         bool gameIsOver = false;
         Colour winnerColour = NO_COLOUR;
 
-        MoveCalculator moveCalculator;
+        BoardAnalyzer moveCalculator;
         bool movesCalculated = false;
         std::list<Move> availableMoves;
 

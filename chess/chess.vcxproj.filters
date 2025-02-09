@@ -51,7 +51,7 @@
     <ClInclude Include="core\core.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\MoveCalculator.hpp">
+    <ClInclude Include="core\BoardAnalyzer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClCompile Include="bots\AlphaBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\MoveCalculator.cpp">
+    <ClCompile Include="core\BoardAnalyzer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

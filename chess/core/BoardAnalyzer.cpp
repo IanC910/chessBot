@@ -1,5 +1,5 @@
 
-#include "MoveCalculator.hpp"
+#include "BoardAnalyzer.hpp"
 
 using namespace Chess;
 
@@ -7,20 +7,20 @@ static int sign(int x) {
     return (x > 0) - (x < 0);
 }
 
-MoveCalculator::MoveCalculator() {}
+BoardAnalyzer::BoardAnalyzer() {}
 
-MoveCalculator::MoveCalculator(const Board& board) {
+BoardAnalyzer::BoardAnalyzer(const Board& board) {
     setBoard(board);
 }
 
-void MoveCalculator::setBoard(const Board& board) {
+void BoardAnalyzer::setBoard(const Board& board) {
     this->board = board;
     colourOfCalculatedChecks = NO_COLOUR;
 
     findKings();
 }
 
-void MoveCalculator::findKings() {
+void BoardAnalyzer::findKings() {
     for (char r = 0; r < 8; r++) {
         for (char f = 0; f < 8; f++) {
             Piece piece = board.getPiece(r, f);
@@ -36,12 +36,12 @@ void MoveCalculator::findKings() {
     }
 }
 
-Vector MoveCalculator::getKingPos(Colour kingColour) const {
+Vector BoardAnalyzer::getKingPos(Colour kingColour) const {
     Vector kingPositions[] = {Vector::INVALID, whiteKingPos, blackKingPos};
     return kingPositions[kingColour];
 }
 
-Vector MoveCalculator::getPinDirection(Vector position) const {
+Vector BoardAnalyzer::getPinDirection(Vector position) const {
     Piece piece = board.getPiece(position);
     if (!position.isValid()) {
         return Vector(0, 0);
@@ -123,26 +123,26 @@ Vector MoveCalculator::getPinDirection(Vector position) const {
     }
 }
 
-bool MoveCalculator::isPiecePinned(Vector position) const {
+bool BoardAnalyzer::isPiecePinned(Vector position) const {
     return getPinDirection(position) != Vector(0, 0);
 }
 
-int MoveCalculator::getNumChecks(Colour kingColour) {
+int BoardAnalyzer::getNumChecks(Colour kingColour) {
     return (int)getPositionsCheckingKing(kingColour).size();
 }
 
-const std::list<Vector>& MoveCalculator::getPositionsCheckingKing(Colour kingColour) {
+const std::list<Vector>& BoardAnalyzer::getPositionsCheckingKing(Colour kingColour) {
     if(kingColour != colourOfCalculatedChecks) {
         calculateChecks(kingColour);
     }
     return positionsCheckingKing;
 }
 
-bool MoveCalculator::isKingChecked(Colour kingColour) {
+bool BoardAnalyzer::isKingChecked(Colour kingColour) {
     return getNumChecks(kingColour) > 0;
 }
 
-void MoveCalculator::addSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const {
     switch (board.getPiece(position).getType()) {
         case PAWN:
             addSquaresSeenByPawn(squaresSeen, position);
@@ -167,12 +167,12 @@ void MoveCalculator::addSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vecto
     }
 }
 
-void MoveCalculator::getSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::getSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const {
     squaresSeen.clear();
     addSquaresSeenByPiece(squaresSeen, position);
 }
 
-void MoveCalculator::addMovesForPiece(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addMovesForPiece(std::list<Move>& moves, Vector position) {
     Piece piece = board.getPiece(position);
 
     switch (piece.getType()) {
@@ -205,12 +205,12 @@ void MoveCalculator::addMovesForPiece(std::list<Move>& moves, Vector position) {
     }
 }
 
-void MoveCalculator::getMovesForPiece(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::getMovesForPiece(std::list<Move>& moves, Vector position) {
     moves.clear();
     addMovesForPiece(moves, position);
 }
 
-void MoveCalculator::getAllMoves(std::list<Move>& moves, Colour playerColour) {
+void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
     moves.clear();
 
     for (int r = 0; r < 8; r++) {
@@ -221,7 +221,7 @@ void MoveCalculator::getAllMoves(std::list<Move>& moves, Colour playerColour) {
             }
         }
     }
-}void MoveCalculator::calculateChecks(Colour kingColour) {
+}void BoardAnalyzer::calculateChecks(Colour kingColour) {
     colourOfCalculatedChecks = kingColour;
     positionsCheckingKing.clear();
 
@@ -286,7 +286,7 @@ void MoveCalculator::getAllMoves(std::list<Move>& moves, Colour playerColour) {
     }
 }
 
-void MoveCalculator::addSquaresSeenByPawn(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByPawn(std::list<Vector>& squaresSeen, Vector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -315,7 +315,7 @@ void MoveCalculator::addSquaresSeenByPawn(std::list<Vector>& squaresSeen, Vector
     }
 }
 
-void MoveCalculator::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vector position) const  {
+void BoardAnalyzer::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vector position) const  {
     if (!position.isValid()) {
         return;
     }
@@ -346,7 +346,7 @@ void MoveCalculator::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vect
     }
 }
 
-void MoveCalculator::addSquaresSeenByKnight(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByKnight(std::list<Vector>& squaresSeen, Vector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -371,7 +371,7 @@ void MoveCalculator::addSquaresSeenByKnight(std::list<Vector>& squaresSeen, Vect
     }
 }
 
-void MoveCalculator::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -407,7 +407,7 @@ void MoveCalculator::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector
     }
 }
 
-void MoveCalculator::addSquaresSeenByQueen(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByQueen(std::list<Vector>& squaresSeen, Vector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -416,7 +416,7 @@ void MoveCalculator::addSquaresSeenByQueen(std::list<Vector>& squaresSeen, Vecto
     addSquaresSeenByRook(squaresSeen, position);
 }
 
-void MoveCalculator::addSquaresSeenByKing(std::list<Vector>& squaresSeen, Vector position) const {
+void BoardAnalyzer::addSquaresSeenByKing(std::list<Vector>& squaresSeen, Vector position) const {
     if (!position.isValid()) {
         return;
     }
@@ -441,7 +441,7 @@ void MoveCalculator::addSquaresSeenByKing(std::list<Vector>& squaresSeen, Vector
     }
 }
 
-void MoveCalculator::filterEndSquaresByCheckRules(std::list<Vector>& endSquares, Vector startPosition) {
+void BoardAnalyzer::filterEndSquaresByCheckRules(std::list<Vector>& endSquares, Vector startPosition) {
     Piece piece = board.getPiece(startPosition);
     Colour colour = piece.getColour();
 
@@ -487,7 +487,7 @@ void MoveCalculator::filterEndSquaresByCheckRules(std::list<Vector>& endSquares,
     }
 }
 
-void MoveCalculator::filterEndSquaresByAvailability(std::list<Vector>& endSquares, Vector startPosition) const {
+void BoardAnalyzer::filterEndSquaresByAvailability(std::list<Vector>& endSquares, Vector startPosition) const {
     Piece piece = board.getPiece(startPosition);
     Colour colour = piece.getColour();
     std::list<Vector>::iterator endSquareIt = endSquares.begin();
@@ -501,7 +501,7 @@ void MoveCalculator::filterEndSquaresByAvailability(std::list<Vector>& endSquare
     }
 }
 
-void MoveCalculator::addPawnMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
     Piece pawn = board.getPiece(position);
     Colour pawnColour = pawn.getColour();
     if (pawnColour == NO_COLOUR) {
@@ -588,7 +588,7 @@ void MoveCalculator::addPawnMoves(std::list<Move>& moves, Vector position) {
     }
 }
 
-void MoveCalculator::addBishopMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addBishopMoves(std::list<Move>& moves, Vector position) {
     Piece bishop = board.getPiece(position);
     Colour bishopColour = bishop.getColour();
 
@@ -608,7 +608,7 @@ void MoveCalculator::addBishopMoves(std::list<Move>& moves, Vector position) {
     }
 }
 
-void MoveCalculator::addKnightMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addKnightMoves(std::list<Move>& moves, Vector position) {
     Piece knight = board.getPiece(position);
     Colour knightColour = knight.getColour();
 
@@ -628,7 +628,7 @@ void MoveCalculator::addKnightMoves(std::list<Move>& moves, Vector position) {
     }
 }
 
-void MoveCalculator::addRookMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addRookMoves(std::list<Move>& moves, Vector position) {
     Piece rook = board.getPiece(position);
     Colour rookColour = rook.getColour();
 
@@ -648,12 +648,12 @@ void MoveCalculator::addRookMoves(std::list<Move>& moves, Vector position) {
     }
 }
 
-void MoveCalculator::addQueenMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addQueenMoves(std::list<Move>& moves, Vector position) {
     addBishopMoves(moves, position);
     addRookMoves(moves, position);
 }
 
-void MoveCalculator::addKingMoves(std::list<Move>& moves, Vector position) {
+void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     std::list<Vector> endSquares;
     addSquaresSeenByKing(endSquares, position);
     filterEndSquaresByAvailability(endSquares, position);
