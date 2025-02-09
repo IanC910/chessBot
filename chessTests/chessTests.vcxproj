@@ -157,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlphaBotTests.cpp" />
+    <ClCompile Include="GreedoBotTests.cpp" />
     <ClCompile Include="BoardTests.cpp" />
     <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="pch.cpp">

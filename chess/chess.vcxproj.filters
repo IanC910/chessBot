@@ -42,7 +42,7 @@
     <ClInclude Include="app\BoardDrawer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bots\AlphaBot.hpp">
+    <ClInclude Include="bots\GreedoBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bots\bots.hpp">
@@ -86,7 +86,7 @@
     <ClCompile Include="app\BoardDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bots\AlphaBot.cpp">
+    <ClCompile Include="bots\GreedoBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\BoardAnalyzer.cpp">

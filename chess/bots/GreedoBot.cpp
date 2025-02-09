@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 
-#include "AlphaBot.hpp"
+#include "GreedoBot.hpp"
 
-Chess::Move AlphaBot::takeTurn(const Chess::Board& board) {
+Chess::Move GreedoBot::takeTurn(const Chess::Board& board) {
     Chess::BoardAnalyzer moveCalculator(board);
     std::list<Chess::Move> availableMoves;
     moveCalculator.getAllMoves(availableMoves, getColour());

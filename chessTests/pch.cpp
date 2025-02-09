@@ -12,6 +12,6 @@
 #include "../chess/core/Vector.cpp"
 
 // Bots
-#include "../chess/bots/AlphaBot.cpp"
+#include "../chess/bots/GreedoBot.cpp"
 
 

@@ -8,12 +8,12 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Chess;
 
-namespace AlphaBotTests {
+namespace GreedoBotTests {
 
-    TEST_CLASS(AlphaBotTests) {
+    TEST_CLASS(GreedoBotTests) {
         TEST_METHOD(priorityTest) {
             Board board;
-            AlphaBot alphaBot;
+            GreedoBot greedo;
 
             board.setPiece(0, 5, {WHITE, KING});
             board.setPiece(0, 6, {WHITE, ROOK});
@@ -31,8 +31,8 @@ namespace AlphaBotTests {
 
             board.doMove(Move({1, 6}, {3, 6}, {WHITE, PAWN}));
 
-            alphaBot.setColour(BLACK);
-            Move botMove = alphaBot.takeTurn(board);
+            greedo.setColour(BLACK);
+            Move botMove = greedo.takeTurn(board);
 
             Assert::IsTrue(EN_PASSANT == botMove.specialType);
         }

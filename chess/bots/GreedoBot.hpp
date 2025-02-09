@@ -3,7 +3,7 @@
 
 #include "../core/core.hpp"
 
-class AlphaBot : public Chess::Player {
+class GreedoBot : public Chess::Player {
 public:
     Chess::Move takeTurn(const Chess::Board& board) override;
 };

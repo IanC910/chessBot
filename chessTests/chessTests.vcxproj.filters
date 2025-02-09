@@ -33,7 +33,7 @@
     <ClCompile Include="GameTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AlphaBotTests.cpp">
+    <ClCompile Include="GreedoBotTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

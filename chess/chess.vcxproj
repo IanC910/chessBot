@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bots\AlphaBot.hpp" />
+    <ClInclude Include="bots\GreedoBot.hpp" />
     <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="bots\bots.hpp" />
     <ClInclude Include="app\BoardDrawer.hpp" />
@@ -142,7 +142,7 @@
     <ClInclude Include="core\BoardAnalyzer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bots\AlphaBot.cpp" />
+    <ClCompile Include="bots\GreedoBot.cpp" />
     <ClCompile Include="app\ChessApp.cpp" />
     <ClCompile Include="app\BoardDrawer.cpp" />
     <ClCompile Include="core\Board.cpp" />
