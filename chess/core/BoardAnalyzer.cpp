@@ -681,13 +681,11 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     std::list<Vector>::iterator endSquareIt = endSquares.begin();
     while (endSquareIt != endSquares.end()) {
         bool squareInvalid = false;
-        std::list<Vector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
-        while (oppSquareIt != squaresSeenByOpponent.end()) {
-            if ((*endSquareIt) == (*oppSquareIt)) {
+        for (Vector& oppSquare : squaresSeenByOpponent) {
+            if ((*endSquareIt) == oppSquare) {
                 squareInvalid = true;
                 break;
             }
-            ++oppSquareIt;
         }
 
         if (squareInvalid) {
