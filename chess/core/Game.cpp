@@ -76,6 +76,12 @@ bool Game::tryNextTurn() {
 
     turnColour = getOppositeColour(turnColour);
 
+    // Check stop conditions
+    if (board.hasInsufficientMaterial()) {
+        gameIsOver = true;
+        return true;
+    }
+
     moveCalculator.setBoard(board);
     moveCalculator.getAllMoves(availableMoves, turnColour);
     if (availableMoves.empty()) {
