@@ -36,6 +36,8 @@ namespace Chess {
         int getMaterialValue();
         bool hasInsufficientMaterial();
 
+        uint64_t getPositionCode();
+
     private:
         Piece pieces[8][8]; // Row-major (Rank then file)
 

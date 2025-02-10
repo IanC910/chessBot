@@ -306,3 +306,17 @@ bool Board::hasInsufficientMaterial() {
     return whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 }
 
+uint64_t Board::getPositionCode() {
+    uint64_t positionCode = 0;
+
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            Piece piece = getPiece(r, f);
+            uint64_t bit = piece.getColour() != NO_COLOUR;
+            positionCode |= bit << (r * 8 + f);
+        }
+    }
+
+    return positionCode;
+}
+
