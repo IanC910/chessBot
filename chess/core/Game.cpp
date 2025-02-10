@@ -131,3 +131,7 @@ const std::list<Move>& Game::getMoveHistory() const {
 const std::list<Board>& Game::getBoardHistory() const {
     return boardHistory;
 }
+
+Move Game::getLastMove() const {
+    return moveHistory.back();
+}

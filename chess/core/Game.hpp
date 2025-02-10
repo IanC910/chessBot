@@ -27,6 +27,8 @@ namespace Chess {
         const std::list<Move>& getMoveHistory() const;
         const std::list<Board>& getBoardHistory() const;
 
+        Move getLastMove() const;
+
     private:
         Board board;
 

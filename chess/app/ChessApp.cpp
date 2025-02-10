@@ -18,7 +18,7 @@ void ChessApp::run() {
     //  play game
 
     RandallBot whitePlayer;
-    GreedoBot blackPlayer;
+    KeyboardPlayer blackPlayer;
 
     playGame(whitePlayer, blackPlayer);
 }
@@ -36,6 +36,8 @@ void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer) 
         while (!game.tryNextTurn()) {
             std::cout << "Invalid move. Try again\n";
         }
+
+        std::cout << "Move: " << game.getLastMove().toString() << "\n";
     }
 
     drawer.drawBoard(game.getBoard());

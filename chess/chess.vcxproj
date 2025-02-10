@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bots\botDescriptions.hpp" />
     <ClInclude Include="bots\GreedoBot.hpp" />
     <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="bots\bots.hpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="app\KeyboardPlayer.hpp" />
     <ClInclude Include="core\BoardAnalyzer.hpp" />
     <ClInclude Include="bots\RandallBot.hpp" />
+    <ClInclude Include="bots\TreeWizardBot.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bots\GreedoBot.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="core\Vector.cpp" />
     <ClCompile Include="core\BoardAnalyzer.cpp" />
     <ClCompile Include="bots\RandallBot.cpp" />
+    <ClCompile Include="bots\TreeWizardBot.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
