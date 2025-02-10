@@ -20,11 +20,12 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
-    <ProjectGuid>{2FDFE46D-DB3E-4C73-8B33-27AF194A721B}</ProjectGuid>
+    <ProjectGuid>{552D8A77-05F6-47D4-8F3C-DCBF988D026A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>botTests</RootNamespace>
+    <RootNamespace>chessTests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
+    <ProjectName>chessTests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -156,16 +157,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlphaBotTests.cpp" />
+    <ClCompile Include="GreedoBotTests.cpp" />
+    <ClCompile Include="BoardTests.cpp" />
+    <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SequencePlayer.cpp" />
+    <ClCompile Include="BoardAnalyzerTests.cpp" />
+    <ClCompile Include="PieceTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SequencePlayer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\chess\chess.vcxproj">
+      <Project>{2ac090e2-7487-492b-b404-5c8f02cf7e9f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bots\AlphaBot.hpp" />
+    <ClInclude Include="bots\GreedoBot.hpp" />
     <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="bots\bots.hpp" />
     <ClInclude Include="app\BoardDrawer.hpp" />
@@ -139,10 +139,10 @@
     <ClInclude Include="core\Player.hpp" />
     <ClInclude Include="core\Vector.hpp" />
     <ClInclude Include="app\KeyboardPlayer.hpp" />
-    <ClInclude Include="core\MoveCalculator.hpp" />
+    <ClInclude Include="core\BoardAnalyzer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bots\AlphaBot.cpp" />
+    <ClCompile Include="bots\GreedoBot.cpp" />
     <ClCompile Include="app\ChessApp.cpp" />
     <ClCompile Include="app\BoardDrawer.cpp" />
     <ClCompile Include="core\Board.cpp" />
@@ -153,7 +153,7 @@
     <ClCompile Include="core\Piece.cpp" />
     <ClCompile Include="core\Player.cpp" />
     <ClCompile Include="core\Vector.cpp" />
-    <ClCompile Include="core\MoveCalculator.cpp" />
+    <ClCompile Include="core\BoardAnalyzer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

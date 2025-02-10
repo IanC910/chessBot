@@ -42,7 +42,7 @@ static char QUEEN_BITMAP[] = {
 };
 
 static char KING_BITMAP[] = {
-    1,0,1,1,0,1,
+    0,0,1,1,0,0,
     1,1,1,1,1,1,
     0,1,1,1,1,0
 };

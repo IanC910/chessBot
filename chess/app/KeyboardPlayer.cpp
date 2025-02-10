@@ -13,7 +13,7 @@ KeyboardPlayer::KeyboardPlayer() :
 {}
 
 Move KeyboardPlayer::takeTurn(const Board& board) {
-    Chess::MoveCalculator moveCalculator(board);
+    Chess::BoardAnalyzer moveCalculator(board);
     std::list<Move> allAvailableMoves;
     moveCalculator.getAllMoves(allAvailableMoves, getColour());
     

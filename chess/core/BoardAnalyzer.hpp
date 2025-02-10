@@ -6,10 +6,10 @@
 
 namespace Chess {
 
-    class MoveCalculator {
+    class BoardAnalyzer {
     public:
-        MoveCalculator();
-        MoveCalculator(const Board& board);
+        BoardAnalyzer();
+        BoardAnalyzer(const Board& board);
 
         void setBoard(const Board& board);
 

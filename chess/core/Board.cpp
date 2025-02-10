@@ -264,3 +264,44 @@ int Board::getMaterialValue() {
     return materialValue;
 }
 
+bool Board::hasInsufficientMaterial() {
+    std::list<Vector> positionsForColour[3];
+
+    for (int r = 0; r < 8; r++) {
+        for (int f = 0; f < 8; f++) {
+            Piece piece = getPiece(r, f);
+            if(piece.getColour() != NO_COLOUR) {
+                positionsForColour[piece.getColour()].emplace_back(r, f);
+            }
+        }
+
+        if (positionsForColour[WHITE].size() > 2 || positionsForColour[BLACK].size() > 2) {
+            return false;
+        }
+    }
+
+    bool whiteHasInsufficientMaterial = true;
+    std::list<Vector>::iterator posIt = positionsForColour[WHITE].begin();
+    while (posIt != positionsForColour[WHITE].end()) {
+        Piece piece = getPiece(*posIt);
+        if (piece.getType() != BISHOP && piece.getType() != KNIGHT && piece.getType() != KING) {
+            whiteHasInsufficientMaterial = false;
+            break;
+        }
+        ++posIt;
+    }
+
+    bool blackHasInsufficientMaterial = true;
+    posIt = positionsForColour[BLACK].begin();
+    while (posIt != positionsForColour[BLACK].end()) {
+        Piece piece = getPiece(*posIt);
+        if (piece.getType() != BISHOP && piece.getType() != KNIGHT && piece.getType() != KING) {
+            blackHasInsufficientMaterial = false;
+            break;
+        }
+        ++posIt;
+    }
+
+    return whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
+}
+

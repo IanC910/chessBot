@@ -24,13 +24,16 @@
     <ClCompile Include="PieceTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCalculatorTests.cpp">
+    <ClCompile Include="BoardAnalyzerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SequencePlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GreedoBotTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

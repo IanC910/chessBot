@@ -36,7 +36,7 @@ namespace Chess {
         7,
     };
 
-    const char COLOUR_VALUE_MODIFIERS[]{
+    const char COLOUR_VALUE_MODIFIERS[] {
         0,
         1,
         -1
@@ -72,7 +72,7 @@ namespace Chess {
 	    3,
 	    5,
 	    9,
-	    100
+	    0
     };
 
     class Piece {

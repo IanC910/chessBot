@@ -37,6 +37,7 @@ namespace Chess {
         void doMove(const Move& move);
 
         int getMaterialValue();
+        bool hasInsufficientMaterial();
 
     private:
         Piece pieces[8][8]; // Row-major (Rank then file)
