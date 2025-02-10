@@ -1,1 +1,0 @@
-Make game stalemate when insufficient material
