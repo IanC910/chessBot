@@ -1,7 +1,8 @@
 
-#include <string>
-#include <sstream>
 #include <cstring>
+#include <list>
+#include <sstream>
+#include <string>
 
 #include "Move.hpp"
 #include "Vector.hpp"

@@ -140,6 +140,7 @@
     <ClInclude Include="core\Vector.hpp" />
     <ClInclude Include="app\KeyboardPlayer.hpp" />
     <ClInclude Include="core\BoardAnalyzer.hpp" />
+    <ClInclude Include="bots\RandallBot.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bots\GreedoBot.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="core\Player.cpp" />
     <ClCompile Include="core\Vector.cpp" />
     <ClCompile Include="core\BoardAnalyzer.cpp" />
+    <ClCompile Include="bots\RandallBot.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

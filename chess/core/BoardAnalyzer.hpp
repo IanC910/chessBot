@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <list>
+
 #include "Board.hpp"
 #include "Vector.hpp"
 

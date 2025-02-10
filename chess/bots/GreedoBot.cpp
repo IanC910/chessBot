@@ -1,14 +1,15 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <list>
 #include <vector>
 
 #include "GreedoBot.hpp"
 
 Chess::Move GreedoBot::takeTurn(const Chess::Board& board) {
-    Chess::BoardAnalyzer moveCalculator(board);
+    Chess::BoardAnalyzer boardAnalyzer(board);
     std::list<Chess::Move> availableMoves;
-    moveCalculator.getAllMoves(availableMoves, getColour());
+    boardAnalyzer.getAllMoves(availableMoves, getColour());
     if (availableMoves.empty()) {
         return Chess::Move();
     }
