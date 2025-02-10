@@ -1,9 +1,6 @@
 
 #pragma once
 
-#include <string>
-#include <list>
-
 #include "Move.hpp"
 #include "Vector.hpp"
 #include "Piece.hpp"

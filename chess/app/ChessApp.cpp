@@ -17,7 +17,7 @@ void ChessApp::run() {
     //  ask for player 2 type
     //  play game
 
-    GreedoBot whitePlayer;
+    RandallBot whitePlayer;
     GreedoBot blackPlayer;
 
     playGame(whitePlayer, blackPlayer);
