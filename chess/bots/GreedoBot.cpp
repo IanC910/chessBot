@@ -22,11 +22,9 @@ Chess::Move GreedoBot::takeTurn(const Chess::Board& board) {
     std::vector<Chess::Board> possibleBoards;
     possibleBoards.reserve(availableMoves.size());
 
-    std::list<Chess::Move>::iterator moveIt = availableMoves.begin();
-    while (moveIt != availableMoves.end()) {
+    for (Chess::Move& move : availableMoves) {
         possibleBoards.emplace_back(board);
-        possibleBoards.back().doMove(*moveIt);
-        ++moveIt;
+        possibleBoards.back().doMove(move);
     }
 
     int maxValueIndex = rand() % possibleBoards.size();
@@ -39,7 +37,7 @@ Chess::Move GreedoBot::takeTurn(const Chess::Board& board) {
         }
     }
 
-    moveIt = availableMoves.begin();
+    std::list<Chess::Move>::iterator moveIt = availableMoves.begin();
     for (int i = 0; i < maxValueIndex; i++) {
         ++moveIt;
     }
