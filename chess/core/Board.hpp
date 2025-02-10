@@ -33,7 +33,7 @@ namespace Chess {
 
         void doMove(const Move& move);
 
-        int getMaterialValue();
+        int getMaterialValue() const;
         bool hasInsufficientMaterial();
 
         uint64_t getPositionCode();

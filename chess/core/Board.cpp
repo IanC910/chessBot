@@ -253,7 +253,7 @@ void Board::doMove(const Move& move) {
     }
 }
 
-int Board::getMaterialValue() {
+int Board::getMaterialValue() const {
     int materialValue = 0;
 
     for (int r = 0; r < 8; r++) {
