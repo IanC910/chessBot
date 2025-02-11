@@ -18,18 +18,21 @@ void ChessApp::run() {
     //  play game
 
     RandallBot whitePlayer;
-    KeyboardPlayer blackPlayer;
+    TreeWizardBot blackPlayer;
+    bool drawBoard = false;
 
-    playGame(whitePlayer, blackPlayer);
+    playGame(whitePlayer, blackPlayer, drawBoard);
 }
 
-void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer) {
+void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer, bool drawBoard) {
     BoardDrawer drawer;
 
     Chess::Game game(whitePlayer, blackPlayer);
 
     while (!game.isGameOver()) {
-        drawer.drawBoard(game.getBoard());
+        if(drawBoard) {
+            drawer.drawBoard(game.getBoard());
+        }
 
         std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
 

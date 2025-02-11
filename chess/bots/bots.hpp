@@ -5,3 +5,4 @@
 
 #include "RandallBot.hpp"
 #include "GreedoBot.hpp"
+#include "TreeWizardBot.hpp"
