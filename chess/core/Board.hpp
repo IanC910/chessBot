@@ -33,8 +33,10 @@ namespace Chess {
 
         void doMove(const Move& move);
 
-        int getMaterialValue();
+        int getMaterialValue() const;
         bool hasInsufficientMaterial();
+
+        uint64_t getPositionCode();
 
     private:
         Piece pieces[8][8]; // Row-major (Rank then file)

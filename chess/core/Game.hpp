@@ -27,6 +27,8 @@ namespace Chess {
         const std::list<Move>& getMoveHistory() const;
         const std::list<Board>& getBoardHistory() const;
 
+        Move getLastMove() const;
+
     private:
         Board board;
 
@@ -38,7 +40,7 @@ namespace Chess {
         bool gameIsOver = false;
         Colour winnerColour = NO_COLOUR;
 
-        BoardAnalyzer moveCalculator;
+        BoardAnalyzer boardAnalyzer;
         bool movesCalculated = false;
         std::list<Move> availableMoves;
 

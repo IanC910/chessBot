@@ -22,8 +22,6 @@ Move KeyboardPlayer::takeTurn(const Board& board) {
         std::cout << "Type move (E.g. a2a3): ";
         std::cin >> moveString;
 
-        std::cout << "Your move: " << moveString << "\n";
-
         if (moveString.length() == 4) {
             char startFile  = moveString[0] - 'a';
             char startRank  = moveString[1] - '1';

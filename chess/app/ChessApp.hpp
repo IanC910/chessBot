@@ -9,7 +9,7 @@ public:
 
 private:
 
-    void playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer);
+    void playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer, bool drawBoard = true);
 
 };
 

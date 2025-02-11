@@ -32,7 +32,7 @@ namespace Chess {
         void getAllMoves(std::list<Move>& moves, Colour playerColour);
 
     private:
-        Board board;
+        const Board* board = nullptr;
 
         Vector whiteKingPos = Vector::INVALID;
         Vector blackKingPos = Vector::INVALID;

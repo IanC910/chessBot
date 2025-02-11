@@ -14,7 +14,7 @@ BoardAnalyzer::BoardAnalyzer(const Board& board) {
 }
 
 void BoardAnalyzer::setBoard(const Board& board) {
-    this->board = board;
+    this->board = &board;
     colourOfCalculatedChecks = NO_COLOUR;
 
     findKings();
@@ -23,7 +23,7 @@ void BoardAnalyzer::setBoard(const Board& board) {
 void BoardAnalyzer::findKings() {
     for (char r = 0; r < 8; r++) {
         for (char f = 0; f < 8; f++) {
-            Piece piece = board.getPiece(r, f);
+            Piece piece = board->getPiece(r, f);
             if (piece.getType() == KING) {
                 if (piece.getColour() == WHITE) {
                     whiteKingPos = {r, f};
@@ -42,7 +42,7 @@ Vector BoardAnalyzer::getKingPos(Colour kingColour) const {
 }
 
 Vector BoardAnalyzer::getPinDirection(Vector position) const {
-    Piece piece = board.getPiece(position);
+    Piece piece = board->getPiece(position);
     if (!position.isValid()) {
         return Vector(0, 0);
     }
@@ -100,7 +100,7 @@ Vector BoardAnalyzer::getPinDirection(Vector position) const {
             return Vector(0, 0);
         }
 
-        Piece currPiece = board.getPiece(currPos);
+        Piece currPiece = board->getPiece(currPos);
         if (currPiece == Piece::NO_PIECE) {
             continue;
         }
@@ -143,7 +143,7 @@ bool BoardAnalyzer::isKingChecked(Colour kingColour) {
 }
 
 void BoardAnalyzer::addSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector position) const {
-    switch (board.getPiece(position).getType()) {
+    switch (board->getPiece(position).getType()) {
         case PAWN:
             addSquaresSeenByPawn(squaresSeen, position);
             break;
@@ -173,7 +173,7 @@ void BoardAnalyzer::getSquaresSeenByPiece(std::list<Vector>& squaresSeen, Vector
 }
 
 void BoardAnalyzer::addMovesForPiece(std::list<Move>& moves, Vector position) {
-    Piece piece = board.getPiece(position);
+    Piece piece = board->getPiece(position);
 
     switch (piece.getType()) {
         case PAWN: {
@@ -215,7 +215,7 @@ void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
 
     for (int r = 0; r < 8; r++) {
         for (int f = 0; f < 8; f++) {
-            Piece piece = board.getPiece(r, f);
+            Piece piece = board->getPiece(r, f);
             if (piece.getColour() == playerColour) {
                 addMovesForPiece(moves, Vector(r, f));
             }
@@ -235,13 +235,13 @@ void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
         return;
     }
 
-    Piece king = board.getPiece(kingPos);
+    Piece king = board->getPiece(kingPos);
     std::list<Vector> squaresSeen;
 
     // Pawn checks
     addSquaresSeenByPawn(squaresSeen, kingPos);
     for (Vector& square : squaresSeen) {
-        Piece piece = board.getPiece(square);
+        Piece piece = board->getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == PAWN) {
                 positionsCheckingKing.push_back(square);
@@ -253,7 +253,7 @@ void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
     squaresSeen.clear();
     addSquaresSeenByBishop(squaresSeen, kingPos);
     for (Vector& square : squaresSeen) {
-        Piece piece = board.getPiece(square);
+        Piece piece = board->getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == BISHOP || piece.getType() == QUEEN) {
                 positionsCheckingKing.push_back(square);
@@ -265,7 +265,7 @@ void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
     squaresSeen.clear();
     addSquaresSeenByRook(squaresSeen, kingPos);
     for (Vector& square : squaresSeen) {
-        Piece piece = board.getPiece(square);
+        Piece piece = board->getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == ROOK || piece.getType() == QUEEN) {
                 positionsCheckingKing.push_back(square);
@@ -277,7 +277,7 @@ void BoardAnalyzer::getAllMoves(std::list<Move>& moves, Colour playerColour) {
     squaresSeen.clear();
     addSquaresSeenByKnight(squaresSeen, kingPos);
     for (Vector& square : squaresSeen) {
-        Piece piece = board.getPiece(square);
+        Piece piece = board->getPiece(square);
         if (piece.getColour() == oppositeColour) {
             if (piece.getType() == KNIGHT) {
                 positionsCheckingKing.push_back(square);
@@ -291,7 +291,7 @@ void BoardAnalyzer::addSquaresSeenByPawn(std::list<Vector>& squaresSeen, Vector 
         return;
     }
 
-    Piece piece = board.getPiece(position);
+    Piece piece = board->getPiece(position);
     if (piece.getColour() == NO_COLOUR) {
         return;
     }
@@ -337,7 +337,7 @@ void BoardAnalyzer::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vecto
             
             squaresSeen.push_back(currPos);
 
-            if (board.getPiece(currPos) != Piece::NO_PIECE) {
+            if (board->getPiece(currPos) != Piece::NO_PIECE) {
                 break;
             }
 
@@ -383,7 +383,7 @@ void BoardAnalyzer::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector 
         {0, -1}
     };
 
-    Piece thisRook = board.getPiece(position);
+    Piece thisRook = board->getPiece(position);
     Colour oppositeColour = getOppositeColour(thisRook.getColour());
     Piece oppositeKing(oppositeColour, KING);
 
@@ -397,7 +397,7 @@ void BoardAnalyzer::addSquaresSeenByRook(std::list<Vector>& squaresSeen, Vector 
             
             squaresSeen.push_back(currPos);
 
-            Piece piece = board.getPiece(currPos);
+            Piece piece = board->getPiece(currPos);
             if (piece != Piece::NO_PIECE && piece != oppositeKing) {
                 break;
             }
@@ -442,7 +442,7 @@ void BoardAnalyzer::addSquaresSeenByKing(std::list<Vector>& squaresSeen, Vector 
 }
 
 void BoardAnalyzer::filterEndSquaresByCheckRules(std::list<Vector>& endSquares, Vector startPosition) {
-    Piece piece = board.getPiece(startPosition);
+    Piece piece = board->getPiece(startPosition);
     Colour colour = piece.getColour();
 
     // Check for pins, filter
@@ -488,11 +488,11 @@ void BoardAnalyzer::filterEndSquaresByCheckRules(std::list<Vector>& endSquares, 
 }
 
 void BoardAnalyzer::filterEndSquaresByAvailability(std::list<Vector>& endSquares, Vector startPosition) const {
-    Piece piece = board.getPiece(startPosition);
+    Piece piece = board->getPiece(startPosition);
     Colour colour = piece.getColour();
     std::list<Vector>::iterator endSquareIt = endSquares.begin();
     while (endSquareIt != endSquares.end()) {
-        if (board.getPiece(*endSquareIt).getColour() == colour) {
+        if (board->getPiece(*endSquareIt).getColour() == colour) {
             endSquareIt = endSquares.erase(endSquareIt);
         }
         else {
@@ -502,7 +502,7 @@ void BoardAnalyzer::filterEndSquaresByAvailability(std::list<Vector>& endSquares
 }
 
 void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
-    Piece pawn = board.getPiece(position);
+    Piece pawn = board->getPiece(position);
     Colour pawnColour = pawn.getColour();
     if (pawnColour == NO_COLOUR) {
         return;
@@ -526,7 +526,7 @@ void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
     addSquaresSeenByPawn(endSquares, position);
     std::list<Vector>::iterator squareIt = endSquares.begin();
     while (squareIt != endSquares.end()) {
-        if (board.getPiece(*squareIt).getColour() != getOppositeColour(pawnColour)) {
+        if (board->getPiece(*squareIt).getColour() != getOppositeColour(pawnColour)) {
             squareIt = endSquares.erase(squareIt);
         }
         else {
@@ -534,14 +534,14 @@ void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
         }
     }
 
-    if (board.getPiece(noAttackEndPos) == Piece::NO_PIECE) {
+    if (board->getPiece(noAttackEndPos) == Piece::NO_PIECE) {
         endSquares.push_back(noAttackEndPos);
 
         if (position.rank == pawn.getStartRank()) {
             // Above check implies validity
             Vector doubleNoAttackEndPos = noAttackEndPos;
             doubleNoAttackEndPos.rank += pawn.getForwardDirection();
-            if (board.getPiece(doubleNoAttackEndPos) == Piece::NO_PIECE) {
+            if (board->getPiece(doubleNoAttackEndPos) == Piece::NO_PIECE) {
                 endSquares.push_back(doubleNoAttackEndPos);
             }
         }
@@ -553,13 +553,13 @@ void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
     // Last move must be a double pawn move that ends right next to this pawn
     // TODO
     Vector enPassantEndPos = Vector::INVALID;
-    if (board.wasLastMoveDoublePawn()) {
+    if (board->wasLastMoveDoublePawn()) {
         bool friendlyOnCorrectRank = (position.rank == pawn.getStartRank() + 3 * pawn.getForwardDirection());
-        Vector difference = board.getPositionOfLastMove() - position;
+        Vector difference = board->getPositionOfLastMove() - position;
         bool enemyOnCorrectSquare = (difference.rank == 0 && abs(difference.file) == 1);
         if (friendlyOnCorrectRank && enemyOnCorrectSquare) {
             enPassantEndPos.rank = position.rank + pawn.getForwardDirection();
-            enPassantEndPos.file = board.getPositionOfLastMove().file;
+            enPassantEndPos.file = board->getPositionOfLastMove().file;
             endSquares.push_back(enPassantEndPos);
         }
     }
@@ -589,7 +589,7 @@ void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
 }
 
 void BoardAnalyzer::addBishopMoves(std::list<Move>& moves, Vector position) {
-    Piece bishop = board.getPiece(position);
+    Piece bishop = board->getPiece(position);
     Colour bishopColour = bishop.getColour();
 
     int numChecks = getNumChecks(bishopColour);
@@ -609,7 +609,7 @@ void BoardAnalyzer::addBishopMoves(std::list<Move>& moves, Vector position) {
 }
 
 void BoardAnalyzer::addKnightMoves(std::list<Move>& moves, Vector position) {
-    Piece knight = board.getPiece(position);
+    Piece knight = board->getPiece(position);
     Colour knightColour = knight.getColour();
 
     int numChecks = getNumChecks(knightColour);
@@ -629,7 +629,7 @@ void BoardAnalyzer::addKnightMoves(std::list<Move>& moves, Vector position) {
 }
 
 void BoardAnalyzer::addRookMoves(std::list<Move>& moves, Vector position) {
-    Piece rook = board.getPiece(position);
+    Piece rook = board->getPiece(position);
     Colour rookColour = rook.getColour();
 
     int numChecks = getNumChecks(rookColour);
@@ -662,7 +662,7 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     // Restrict king from moving to those squares
     // Remove all squares seen by opponent from king's possible end squares
 
-    Piece king = board.getPiece(position);
+    Piece king = board->getPiece(position);
     Colour kingColour = king.getColour();
     Colour oppositeColour = getOppositeColour(kingColour);
 
@@ -670,7 +670,7 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     std::list<Vector> squaresSeenByOpponent;
     for (int r = 0; r < 8; r++) {
         for (int f = 0; f < 8; f++) {
-            Piece piece = board.getPiece(r, f);
+            Piece piece = board->getPiece(r, f);
             if (piece.getColour() == oppositeColour) {
                 addSquaresSeenByPiece(squaresSeenByOpponent, Vector(r, f));
             }
@@ -681,13 +681,11 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     std::list<Vector>::iterator endSquareIt = endSquares.begin();
     while (endSquareIt != endSquares.end()) {
         bool squareInvalid = false;
-        std::list<Vector>::iterator oppSquareIt = squaresSeenByOpponent.begin();
-        while (oppSquareIt != squaresSeenByOpponent.end()) {
-            if ((*endSquareIt) == (*oppSquareIt)) {
+        for (Vector& oppSquare : squaresSeenByOpponent) {
+            if ((*endSquareIt) == oppSquare) {
                 squareInvalid = true;
                 break;
             }
-            ++oppSquareIt;
         }
 
         if (squareInvalid) {
@@ -707,8 +705,8 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
     // King is not checked
     // No pieces between king and rook
     // King does not pass through or end on a square seen by an enemy piece
-    bool canShortCastle = board.canColourShortCastle(kingColour);
-    bool canLongCastle  = board.canColourLongCastle(kingColour);
+    bool canShortCastle = board->canColourShortCastle(kingColour);
+    bool canLongCastle  = board->canColourLongCastle(kingColour);
 
     if (!isKingChecked(kingColour)) {
         // Short castle
@@ -716,7 +714,7 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
             // Check for no pieces
             char kingRank = king.getStartRank();
             for (char f = 5; f <= 6 && canShortCastle; f++) {
-                if (board.getPiece(kingRank, f) != Piece::NO_PIECE) {
+                if (board->getPiece(kingRank, f) != Piece::NO_PIECE) {
                     canShortCastle = false;
                 }
             }
@@ -742,7 +740,7 @@ void BoardAnalyzer::addKingMoves(std::list<Move>& moves, Vector position) {
             // Check for no pieces
             char kingRank = king.getStartRank();
             for (char f = 3; f >= 1 && canLongCastle; f--) {
-                if (board.getPiece(kingRank, f) != Piece::NO_PIECE) {
+                if (board->getPiece(kingRank, f) != Piece::NO_PIECE) {
                     canLongCastle = false;
                 }
             }

@@ -57,6 +57,12 @@
     <ClInclude Include="bots\RandallBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bots\botData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\TreeWizardBot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Board.cpp">
@@ -96,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bots\RandallBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\TreeWizardBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

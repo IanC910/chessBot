@@ -72,5 +72,23 @@ namespace BoardTests {
             board.setPiece(1, 2, {WHITE, KNIGHT});
             Assert::IsFalse(board.hasInsufficientMaterial());
         }
+
+        TEST_METHOD(positionCodeTest) {
+            Board board;
+            uint64_t expectedCode = 0;
+            Assert::IsTrue(expectedCode == board.getPositionCode());
+
+            board.setPiece(0, 0, {WHITE, KING});
+            expectedCode += (1 << 0);
+            Assert::IsTrue(expectedCode == board.getPositionCode());
+
+            board.setPiece(1, 0, {BLACK, KING});
+            expectedCode += (1 << 8);
+            Assert::IsTrue(expectedCode == board.getPositionCode());
+
+            board.setPiece(5, 6, {WHITE, KNIGHT});
+            expectedCode += ((uint64_t)1 << 46);
+            Assert::IsTrue(expectedCode == board.getPositionCode());
+        }
     };
 }
