@@ -2,6 +2,13 @@
 
 using namespace Chess;
 
+TreeWizardBot::TreeWizardBot(int maxTreeDepth) {
+    if (maxTreeDepth < 2) {
+        maxTreeDepth = 2;
+    }
+    this->maxTreeDepth = maxTreeDepth;
+}
+
 Move TreeWizardBot::takeTurn(const Board& board) {
     if (root == nullptr) {
         root = new TreeNode(board);
@@ -69,6 +76,10 @@ int TreeWizardBot::evaluateBoard(const Board& board) {
 }
 
 void TreeWizardBot::buildTree(TreeNode* node, int depth) {
+    if (node == nullptr) {
+        return;
+    }
+
     // Populate node's children if empty
     if (node->children.empty()) {
         BoardAnalyzer boardAnalyzer(node->board);
@@ -84,7 +95,7 @@ void TreeWizardBot::buildTree(TreeNode* node, int depth) {
     }
 
     // Add children to queue if not reached max depth
-    if (depth + 1 < MAX_TREE_DEPTH) {
+    if (depth + 1 < maxTreeDepth) {
         for (TreeNode* child : node->children) {
             buildTree(child, depth + 1);
         }

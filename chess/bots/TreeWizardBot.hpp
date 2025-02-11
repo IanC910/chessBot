@@ -7,6 +7,8 @@
 
 class TreeWizardBot : public Chess::Player {
 public:
+    TreeWizardBot(int maxTreeDepth = 2);
+
     Chess::Move takeTurn(const Chess::Board& board) override;
 private:
 
@@ -20,7 +22,7 @@ private:
     };
 
     TreeNode* root = nullptr;
-    const int MAX_TREE_DEPTH = 2;
+    int maxTreeDepth = 2;
 
     int evaluateBoard(const Chess::Board& board);
 
