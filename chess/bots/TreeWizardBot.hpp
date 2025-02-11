@@ -28,7 +28,7 @@ private:
     void buildTree(TreeNode* node, int depth);
     void reRootTree(TreeNode* newRoot);
 
-    int evaluateBoard(const Chess::Board& board, Chess::Colour turnColour);
+    int evaluateBoard(const Chess::Board& board, Chess::Colour turnColour, int depth);
     int getNodeValue(TreeNode* node, int depth);
 };
 

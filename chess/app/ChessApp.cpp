@@ -18,7 +18,7 @@ void ChessApp::run() {
     //  play game
 
     TreeWizardBot whitePlayer(3);
-    KeyboardPlayer blackPlayer;
+    TreeWizardBot blackPlayer(2);
     bool drawBoard = true;
 
     playGame(whitePlayer, blackPlayer, drawBoard);

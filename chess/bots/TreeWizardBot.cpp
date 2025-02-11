@@ -122,7 +122,7 @@ void TreeWizardBot::reRootTree(TreeNode* newRoot) {
     root = newRoot;
 }
 
-int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
+int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour, int depth) {
     BoardAnalyzer boardAnalyzer(board);
     std::list<Move> availableMoves;
     boardAnalyzer.getAllMoves(availableMoves, turnColour);
@@ -133,11 +133,11 @@ int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
         if(boardAnalyzer.isKingChecked(turnColour)) {
             // Lose
             if (turnColour == getColour()) {
-                return -200;
+                return -200 + depth;
             }
 
             // Else: win
-            return 200;
+            return 200 - depth;
         }
         
         // Else: stalemate
@@ -151,25 +151,25 @@ int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
 int TreeWizardBot::getNodeValue(TreeNode* node, int depth) {
     Colour turnColour = (depth % 2 == 0) ? getColour() : getOppositeColour(getColour());
     if (node->children.empty()) {
-        return evaluateBoard(node->board, turnColour);
+        return evaluateBoard(node->board, turnColour, depth);
     }
 
     int* nodeValues = new int[node->children.size()];
     int minValueIndex = 0;
     int maxValueIndex = 0;
 
-    int i = 0;
+    int nodeIndex = 0;
     for(TreeNode* child : node->children) {
-        nodeValues[i] = getNodeValue(child, depth + 1);
+        nodeValues[nodeIndex] = getNodeValue(child, depth + 1);
 
-        if (nodeValues[i] < nodeValues[minValueIndex]) {
-            minValueIndex = i;
+        if (nodeValues[nodeIndex] < nodeValues[minValueIndex]) {
+            minValueIndex = nodeIndex;
         }
-        else if (nodeValues[i] > nodeValues[maxValueIndex]) {
-            maxValueIndex = i;
+        else if (nodeValues[nodeIndex] > nodeValues[maxValueIndex]) {
+            maxValueIndex = nodeIndex;
         }
 
-        ++i;
+        ++nodeIndex;
     }
 
     if (depth % 2 == 0) {
