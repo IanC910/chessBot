@@ -23,11 +23,12 @@ private:
 
     TreeNode* root = nullptr;
     int maxTreeDepth = 2;
-
-    int evaluateBoard(const Chess::Board& board);
+    int treeSize = 0;
 
     void buildTree(TreeNode* node, int depth);
     void reRootTree(TreeNode* newRoot);
+
+    int evaluateBoard(const Chess::Board& board, Chess::Colour turnColour);
     int getNodeValue(TreeNode* node, int depth);
 };
 

@@ -1,3 +1,6 @@
+
+#include <iostream>
+
 #include "TreeWizardBot.hpp"
 
 using namespace Chess;
@@ -26,8 +29,9 @@ Move TreeWizardBot::takeTurn(const Board& board) {
         // Trim unused branches, re root
         reRootTree(newRoot);
     }
-
+    treeSize = 1;
     buildTree(root, 0);
+    std::cout << "Tree size: " << treeSize << "\n";
 
     // Choose a move
     TreeNode* maxValueChild = root->children.front();
@@ -71,13 +75,13 @@ TreeWizardBot::TreeNode::~TreeNode() {
     }
 }
 
-int TreeWizardBot::evaluateBoard(const Board& board) {
-    return board.getMaterialValue() * COLOUR_VALUE_MODIFIERS[getColour()];
-}
-
 void TreeWizardBot::buildTree(TreeNode* node, int depth) {
     if (node == nullptr) {
         return;
+    }
+
+    if (depth == 0) {
+        treeSize = 1;
     }
 
     // Populate node's children if empty
@@ -92,6 +96,8 @@ void TreeWizardBot::buildTree(TreeNode* node, int depth) {
             newChild->board.doMove(move);
             node->children.push_back(newChild);
         }
+
+        treeSize += node->children.size();
     }
 
     // Add children to queue if not reached max depth
@@ -114,9 +120,36 @@ void TreeWizardBot::reRootTree(TreeNode* newRoot) {
     root = newRoot;
 }
 
+int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
+    BoardAnalyzer boardAnalyzer(board);
+    std::list<Move> availableMoves;
+    boardAnalyzer.getAllMoves(availableMoves, turnColour);
+
+    // If no moves
+    if (availableMoves.empty()) {
+        // If checkmate
+        if(boardAnalyzer.isKingChecked(turnColour)) {
+            // Lose
+            if (turnColour == getColour()) {
+                return -200;
+            }
+
+            // Else: win
+            return 200;
+        }
+        
+        // Else: stalemate
+        return 0;
+    }
+
+    // Standard scenario
+    return board.getMaterialValue() * COLOUR_VALUE_MODIFIERS[getColour()];
+}
+
 int TreeWizardBot::getNodeValue(TreeNode* node, int depth) {
+    Colour turnColour = (depth % 2 == 0) ? getColour() : getOppositeColour(getColour());
     if (node->children.empty()) {
-        return evaluateBoard(node->board);
+        return evaluateBoard(node->board, turnColour);
     }
 
     int* nodeValues = new int[node->children.size()];
