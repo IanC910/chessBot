@@ -18,7 +18,7 @@ Game::Game(Player& whitePlayer, Player& blackPlayer) :
 void Game::reset() {
     board.reset();
     movesCalculated = false;
-    moveCalculator = BoardAnalyzer(board);
+    boardAnalyzer = BoardAnalyzer(board);
 
     turnColour = WHITE;
 
@@ -44,7 +44,7 @@ const Board& Game::getBoard() const {
 
 bool Game::tryNextTurn() {
     if (!movesCalculated) {
-        moveCalculator.getAllMoves(availableMoves, turnColour);
+        boardAnalyzer.getAllMoves(availableMoves, turnColour);
     }
     movesCalculated = true;
 
@@ -82,12 +82,12 @@ bool Game::tryNextTurn() {
         return true;
     }
 
-    moveCalculator.setBoard(board);
-    moveCalculator.getAllMoves(availableMoves, turnColour);
+    boardAnalyzer = BoardAnalyzer(board);
+    boardAnalyzer.getAllMoves(availableMoves, turnColour);
     if (availableMoves.empty()) {
         gameIsOver = true;
 
-        if(moveCalculator.isKingChecked(turnColour)) {
+        if(boardAnalyzer.isKingChecked(turnColour)) {
             winnerColour = getOppositeColour(turnColour);
         }
     }

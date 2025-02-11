@@ -40,7 +40,7 @@ namespace Chess {
         bool gameIsOver = false;
         Colour winnerColour = NO_COLOUR;
 
-        BoardAnalyzer moveCalculator;
+        BoardAnalyzer boardAnalyzer;
         bool movesCalculated = false;
         std::list<Move> availableMoves;
 
