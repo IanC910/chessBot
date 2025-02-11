@@ -17,9 +17,9 @@ void ChessApp::run() {
     //  ask for player 2 type
     //  play game
 
-    GreedoBot whitePlayer;
-    TreeWizardBot blackPlayer(3);
-    bool drawBoard = false;
+    TreeWizardBot whitePlayer(3);
+    TreeWizardBot blackPlayer(2);
+    bool drawBoard = true;
 
     playGame(whitePlayer, blackPlayer, drawBoard);
 }
@@ -34,13 +34,14 @@ void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer, 
             drawer.drawBoard(game.getBoard());
         }
 
-        std::cout << Chess::getColourName(game.getTurnColour()) << "'s turn\n";
+        std::string turnColourString = Chess::getColourName(game.getTurnColour());
+        std::cout << turnColourString << "'s turn\n";
 
         while (!game.tryNextTurn()) {
             std::cout << "Invalid move. Try again\n";
         }
 
-        std::cout << "Move: " << game.getLastMove().toString() << "\n";
+        std::cout << turnColourString << " played: " << game.getLastMove().toString() << "\n";
     }
 
     drawer.drawBoard(game.getBoard());
