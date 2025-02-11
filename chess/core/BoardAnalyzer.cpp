@@ -327,6 +327,10 @@ void BoardAnalyzer::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vecto
         {1, -1}
     };
 
+    Piece thisBishop = board->getPiece(position);
+    Colour oppositeColour = getOppositeColour(thisBishop.getColour());
+    Piece oppositeKing(oppositeColour, KING);
+
     for (int d = 0; d < 4; ++d) {
         Vector currPos = position + directions[d];
 
@@ -337,7 +341,8 @@ void BoardAnalyzer::addSquaresSeenByBishop(std::list<Vector>& squaresSeen, Vecto
             
             squaresSeen.push_back(currPos);
 
-            if (board->getPiece(currPos) != Piece::NO_PIECE) {
+            Piece piece = board->getPiece(currPos);
+            if (piece != Piece::NO_PIECE && piece != oppositeKing) {
                 break;
             }
 
