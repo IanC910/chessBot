@@ -18,7 +18,7 @@ void ChessApp::run() {
     //  play game
 
     TreeWizardBot whitePlayer(3);
-    TreeWizardBot blackPlayer(2);
+    KeyboardPlayer blackPlayer;
     bool drawBoard = true;
 
     playGame(whitePlayer, blackPlayer, drawBoard);
@@ -35,13 +35,13 @@ void ChessApp::playGame(Chess::Player& whitePlayer, Chess::Player& blackPlayer, 
         }
 
         std::string turnColourString = Chess::getColourName(game.getTurnColour());
-        std::cout << turnColourString << "'s turn\n";
+        std::cout << turnColourString << "'s turn" << std::endl;
 
         while (!game.tryNextTurn()) {
             std::cout << "Invalid move. Try again\n";
         }
 
-        std::cout << turnColourString << " played: " << game.getLastMove().toString() << "\n";
+        std::cout << turnColourString << " played: " << game.getLastMove().toString() << std::endl;
     }
 
     drawer.drawBoard(game.getBoard());

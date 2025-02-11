@@ -74,7 +74,7 @@ void BoardDrawer::drawBoard(const Chess::Board& board) {
     }
     
 
-    std::wcout << "\n" << boardString << "\n";
+    std::wcout << "\n" << boardString << std::endl;
 }
 
 void BoardDrawer::cacheEmptyBoard() {

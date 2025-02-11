@@ -48,6 +48,8 @@ Move TreeWizardBot::takeTurn(const Board& board) {
         ++i;
     }
 
+    std::cout << "Max value found: " << maxValue << "\n";
+
     // Get move
     BoardAnalyzer boardAnalyzer(root->board);
     std::list<Move> availableMoves;

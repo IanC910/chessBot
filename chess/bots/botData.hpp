@@ -27,5 +27,6 @@ const BotData GREEDO_BOT_DATA = {
 const BotData TREE_WIZARD_BOT_DATA = {
     "Tree Wizard",
     "Knows what is to come",
-    "Can see several moves into the future, depending on setting"
+    "Can see several moves into the future, depending on setting."
 };
+// Beat 400 elo bot
