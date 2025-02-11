@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bots\botDescriptions.hpp" />
+    <ClInclude Include="bots\botData.hpp" />
     <ClInclude Include="bots\GreedoBot.hpp" />
     <ClInclude Include="app\ChessApp.hpp" />
     <ClInclude Include="bots\bots.hpp" />

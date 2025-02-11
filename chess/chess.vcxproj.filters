@@ -57,7 +57,7 @@
     <ClInclude Include="bots\RandallBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bots\botDescriptions.hpp">
+    <ClInclude Include="bots\botData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bots\TreeWizardBot.hpp">

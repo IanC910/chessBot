@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "botDescriptions.hpp"
+#include "botData.hpp"
 
 #include "RandallBot.hpp"
 #include "GreedoBot.hpp"
