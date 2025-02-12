@@ -163,27 +163,27 @@ int TreeWizardBot::getNodeValue(TreeNode* node, int depth) {
         return evaluateBoard(node->board, turnColour, depth);
     }
 
-    int* nodeValues = new int[node->children.size()];
+    int numChildren = node->children.size();
+    int* childValues = new int[numChildren];
     int minValueIndex = 0;
     int maxValueIndex = 0;
 
-    int nodeIndex = 0;
-    for(TreeNode* child : node->children) {
-        nodeValues[nodeIndex] = getNodeValue(child, depth + 1);
+    for(int i = 0; i < numChildren; i++) {
+        childValues[i] = getNodeValue(node->children[i], depth + 1);
 
-        if (nodeValues[nodeIndex] < nodeValues[minValueIndex]) {
-            minValueIndex = nodeIndex;
+        if (childValues[i] < childValues[minValueIndex]) {
+            minValueIndex = i;
         }
-        else if (nodeValues[nodeIndex] > nodeValues[maxValueIndex]) {
-            maxValueIndex = nodeIndex;
+        else if (childValues[i] > childValues[maxValueIndex]) {
+            maxValueIndex = i;
         }
 
-        ++nodeIndex;
+        ++i;
     }
 
     if (depth % 2 == 0) {
-        return nodeValues[maxValueIndex];
+        return childValues[maxValueIndex];
     }
 
-    return nodeValues[minValueIndex];
+    return childValues[minValueIndex];
 }
