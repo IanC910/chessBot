@@ -13,5 +13,6 @@
 
 // Bots
 #include "../chess/bots/GreedoBot.cpp"
+#include "../chess/bots/TreeWizardBot.cpp"
 
 

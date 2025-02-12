@@ -29,4 +29,5 @@ const BotData TREE_WIZARD_BOT_DATA = {
     "Knows what is to come",
     "Can see several moves into the future, depending on setting."
 };
-// Level 3 beat 700 elo bot 1 time, lost 2 times
+// Level 3 vs 700 elo bot: 1 win, 2 losses
+// Level 4 is way too slow

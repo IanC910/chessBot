@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <list>
 
 #include "TreeWizardBot.hpp"
 
@@ -34,21 +35,27 @@ Move TreeWizardBot::takeTurn(const Board& board) {
     std::cout << "Tree size: " << treeSize << "\n";
 
     // Choose a move
-    TreeNode* maxValueChild = root->children.front();
-    int maxValue = -100; // Arbitrary low number
-    int maxValueChildIndex = 0;
-    int i = 0;
-    for (TreeNode* child : root->children) {
-        int value = getNodeValue(child, 1);
-        if (value > maxValue) {
-            maxValue = value;
-            maxValueChild = child;
-            maxValueChildIndex = i;
+    int maxValue = -1000000; // Arbitrary low number
+    std::vector<int> maxValueChildIndices;
+    maxValueChildIndices.reserve(root->children.size());
+    for(int i = 0; i < root->children.size(); i++) {
+        int value = getNodeValue(root->children[i], 1);
+        // Hold all children with same value
+        if (value == maxValue) {
+            maxValueChildIndices.push_back(i);
         }
-        ++i;
+        else if (value > maxValue) {
+            maxValue = value;
+            maxValueChildIndices.clear();
+            maxValueChildIndices.push_back(i);
+        }
     }
 
     std::cout << "Max value found: " << maxValue << "\n";
+
+    // Pick random move from max value moves
+    int maxValueChildIndex = maxValueChildIndices[std::rand() % maxValueChildIndices.size()];
+    TreeNode* maxValueChild = root->children[maxValueChildIndex];
 
     // Get move
     BoardAnalyzer boardAnalyzer(root->board);
@@ -56,15 +63,14 @@ Move TreeWizardBot::takeTurn(const Board& board) {
     boardAnalyzer.getAllMoves(availableMoves, getColour());
     std::list<Move>::iterator moveIt = availableMoves.begin();
     for (int i = 0; i < maxValueChildIndex; i++) {
-        moveIt++;
+        ++moveIt;
     }
-
-    Move move = *moveIt;
+    Move chosenMove = *moveIt;
     
     // Trim again
     reRootTree(maxValueChild);
 
-    return move;
+    return chosenMove;
 }
 
 TreeWizardBot::TreeNode::TreeNode(const Board& board) {
@@ -92,6 +98,7 @@ void TreeWizardBot::buildTree(TreeNode* node, int depth) {
         std::list<Move> availableMoves;
         Colour turnColour = (depth % 2 == 0) ? getColour() : getOppositeColour(getColour());
         boardAnalyzer.getAllMoves(availableMoves, turnColour);
+        node->children.reserve(availableMoves.size());
 
         for (Move& move : availableMoves) {
             TreeNode* newChild = new TreeNode(node->board);
@@ -122,7 +129,7 @@ void TreeWizardBot::reRootTree(TreeNode* newRoot) {
     root = newRoot;
 }
 
-int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
+int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour, int depth) {
     BoardAnalyzer boardAnalyzer(board);
     std::list<Move> availableMoves;
     boardAnalyzer.getAllMoves(availableMoves, turnColour);
@@ -131,13 +138,13 @@ int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
     if (availableMoves.empty()) {
         // If checkmate
         if(boardAnalyzer.isKingChecked(turnColour)) {
-            // Lose
+            // Lose, higher depth -> greater score
             if (turnColour == getColour()) {
-                return -200;
+                return -200 + depth;
             }
 
-            // Else: win
-            return 200;
+            // Else: win, higher depth -> lower score
+            return 200 - depth;
         }
         
         // Else: stalemate
@@ -151,30 +158,28 @@ int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour) {
 int TreeWizardBot::getNodeValue(TreeNode* node, int depth) {
     Colour turnColour = (depth % 2 == 0) ? getColour() : getOppositeColour(getColour());
     if (node->children.empty()) {
-        return evaluateBoard(node->board, turnColour);
+        return evaluateBoard(node->board, turnColour, depth);
     }
 
-    int* nodeValues = new int[node->children.size()];
+    int numChildren = node->children.size();
+    int* childValues = new int[numChildren];
     int minValueIndex = 0;
     int maxValueIndex = 0;
 
-    int i = 0;
-    for(TreeNode* child : node->children) {
-        nodeValues[i] = getNodeValue(child, depth + 1);
+    for(int i = 0; i < numChildren; i++) {
+        childValues[i] = getNodeValue(node->children[i], depth + 1);
 
-        if (nodeValues[i] < nodeValues[minValueIndex]) {
+        if (childValues[i] < childValues[minValueIndex]) {
             minValueIndex = i;
         }
-        else if (nodeValues[i] > nodeValues[maxValueIndex]) {
+        else if (childValues[i] > childValues[maxValueIndex]) {
             maxValueIndex = i;
         }
-
-        ++i;
     }
 
     if (depth % 2 == 0) {
-        return nodeValues[maxValueIndex];
+        return childValues[maxValueIndex];
     }
 
-    return nodeValues[minValueIndex];
+    return childValues[minValueIndex];
 }

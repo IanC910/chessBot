@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <list>
+#include <vector>
 
 #include "../core/core.hpp"
 
@@ -15,7 +15,7 @@ private:
     class TreeNode {
     public:
         Chess::Board board;
-        std::list<TreeNode*> children;
+        std::vector<TreeNode*> children;
 
         TreeNode(const Chess::Board& board);
         ~TreeNode();
@@ -28,7 +28,7 @@ private:
     void buildTree(TreeNode* node, int depth);
     void reRootTree(TreeNode* newRoot);
 
-    int evaluateBoard(const Chess::Board& board, Chess::Colour turnColour);
+    int evaluateBoard(const Chess::Board& board, Chess::Colour turnColour, int depth);
     int getNodeValue(TreeNode* node, int depth);
 };
 
