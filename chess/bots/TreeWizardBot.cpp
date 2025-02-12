@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <list>
 
 #include "TreeWizardBot.hpp"
 
@@ -60,19 +61,17 @@ Move TreeWizardBot::takeTurn(const Board& board) {
         ++indexIt;
     }
     int maxValueChildIndex = *indexIt;
+    TreeNode* maxValueChild = root->children[maxValueChildIndex];
 
     // Get move
     BoardAnalyzer boardAnalyzer(root->board);
     std::list<Move> availableMoves;
     boardAnalyzer.getAllMoves(availableMoves, getColour());
     std::list<Move>::iterator moveIt = availableMoves.begin();
-    std::list<TreeNode*>::iterator childIt = root->children.begin();
     for (int i = 0; i < maxValueChildIndex; i++) {
         ++moveIt;
-        ++childIt;
     }
     Move chosenMove = *moveIt;
-    TreeNode* maxValueChild = *childIt;
     
     // Trim again
     reRootTree(maxValueChild);
@@ -105,6 +104,7 @@ void TreeWizardBot::buildTree(TreeNode* node, int depth) {
         std::list<Move> availableMoves;
         Colour turnColour = (depth % 2 == 0) ? getColour() : getOppositeColour(getColour());
         boardAnalyzer.getAllMoves(availableMoves, turnColour);
+        node->children.reserve(availableMoves.size());
 
         for (Move& move : availableMoves) {
             TreeNode* newChild = new TreeNode(node->board);
