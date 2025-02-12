@@ -36,7 +36,8 @@ Move TreeWizardBot::takeTurn(const Board& board) {
 
     // Choose a move
     int maxValue = -1000000; // Arbitrary low number
-    std::list<int> maxValueChildIndices;
+    std::vector<int> maxValueChildIndices;
+    maxValueChildIndices.reserve(root->children.size());
     int childIndex = 0;
     for (TreeNode* child : root->children) {
         int value = getNodeValue(child, 1);
@@ -55,12 +56,7 @@ Move TreeWizardBot::takeTurn(const Board& board) {
     std::cout << "Max value found: " << maxValue << "\n";
 
     // Pick random move from max value moves
-    int maxValueChildIndexIndex = std::rand() % maxValueChildIndices.size();
-    std::list<int>::iterator indexIt = maxValueChildIndices.begin();
-    for (int i = 0; i < maxValueChildIndexIndex; i++) {
-        ++indexIt;
-    }
-    int maxValueChildIndex = *indexIt;
+    int maxValueChildIndex = maxValueChildIndices[std::rand() % maxValueChildIndices.size()];
     TreeNode* maxValueChild = root->children[maxValueChildIndex];
 
     // Get move
