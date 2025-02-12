@@ -556,7 +556,6 @@ void BoardAnalyzer::addPawnMoves(std::list<Move>& moves, Vector position) {
     // Conditions:
     // Pawn must be on 3rd rank form starting
     // Last move must be a double pawn move that ends right next to this pawn
-    // TODO
     Vector enPassantEndPos = Vector::INVALID;
     if (board->wasLastMoveDoublePawn()) {
         bool friendlyOnCorrectRank = (position.rank == pawn.getStartRank() + 3 * pawn.getForwardDirection());

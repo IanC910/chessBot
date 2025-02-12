@@ -169,6 +169,7 @@
     <ClCompile Include="SequencePlayer.cpp" />
     <ClCompile Include="BoardAnalyzerTests.cpp" />
     <ClCompile Include="PieceTests.cpp" />
+    <ClCompile Include="TreeWizardBotTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

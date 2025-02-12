@@ -38,19 +38,17 @@ Move TreeWizardBot::takeTurn(const Board& board) {
     int maxValue = -1000000; // Arbitrary low number
     std::vector<int> maxValueChildIndices;
     maxValueChildIndices.reserve(root->children.size());
-    int childIndex = 0;
-    for (TreeNode* child : root->children) {
-        int value = getNodeValue(child, 1);
+    for(int i = 0; i < root->children.size(); i++) {
+        int value = getNodeValue(root->children[i], 1);
         // Hold all children with same value
         if (value == maxValue) {
-            maxValueChildIndices.push_back(childIndex);
+            maxValueChildIndices.push_back(i);
         }
         else if (value > maxValue) {
             maxValue = value;
             maxValueChildIndices.clear();
-            maxValueChildIndices.push_back(childIndex);
+            maxValueChildIndices.push_back(i);
         }
-        ++childIndex;
     }
 
     std::cout << "Max value found: " << maxValue << "\n";
@@ -140,12 +138,12 @@ int TreeWizardBot::evaluateBoard(const Board& board, Colour turnColour, int dept
     if (availableMoves.empty()) {
         // If checkmate
         if(boardAnalyzer.isKingChecked(turnColour)) {
-            // Lose
+            // Lose, higher depth -> greater score
             if (turnColour == getColour()) {
                 return -200 + depth;
             }
 
-            // Else: win
+            // Else: win, higher depth -> lower score
             return 200 - depth;
         }
         
@@ -177,8 +175,6 @@ int TreeWizardBot::getNodeValue(TreeNode* node, int depth) {
         else if (childValues[i] > childValues[maxValueIndex]) {
             maxValueIndex = i;
         }
-
-        ++i;
     }
 
     if (depth % 2 == 0) {
