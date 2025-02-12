@@ -34,37 +34,50 @@ Move TreeWizardBot::takeTurn(const Board& board) {
     std::cout << "Tree size: " << treeSize << "\n";
 
     // Choose a move
-    TreeNode* maxValueChild = root->children.front();
-    int maxValue = -100; // Arbitrary low number
-    int maxValueChildIndex = 0;
-    int i = 0;
+    int maxValue = -1000000; // Arbitrary low number
+    std::list<int> maxValueChildIndices;
+    int childIndex = 0;
     for (TreeNode* child : root->children) {
         int value = getNodeValue(child, 1);
-        if (value > maxValue) {
-            maxValue = value;
-            maxValueChild = child;
-            maxValueChildIndex = i;
+        // Hold all children with same value
+        if (value == maxValue) {
+            maxValueChildIndices.push_back(childIndex);
         }
-        ++i;
+        else if (value > maxValue) {
+            maxValue = value;
+            maxValueChildIndices.clear();
+            maxValueChildIndices.push_back(childIndex);
+        }
+        ++childIndex;
     }
 
     std::cout << "Max value found: " << maxValue << "\n";
+
+    // Pick random move from max value moves
+    int maxValueChildIndexIndex = std::rand() % maxValueChildIndices.size();
+    std::list<int>::iterator indexIt = maxValueChildIndices.begin();
+    for (int i = 0; i < maxValueChildIndexIndex; i++) {
+        ++indexIt;
+    }
+    int maxValueChildIndex = *indexIt;
 
     // Get move
     BoardAnalyzer boardAnalyzer(root->board);
     std::list<Move> availableMoves;
     boardAnalyzer.getAllMoves(availableMoves, getColour());
     std::list<Move>::iterator moveIt = availableMoves.begin();
+    std::list<TreeNode*>::iterator childIt = root->children.begin();
     for (int i = 0; i < maxValueChildIndex; i++) {
-        moveIt++;
+        ++moveIt;
+        ++childIt;
     }
-
-    Move move = *moveIt;
+    Move chosenMove = *moveIt;
+    TreeNode* maxValueChild = *childIt;
     
     // Trim again
     reRootTree(maxValueChild);
 
-    return move;
+    return chosenMove;
 }
 
 TreeWizardBot::TreeNode::TreeNode(const Board& board) {
