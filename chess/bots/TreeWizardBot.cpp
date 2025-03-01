@@ -1,4 +1,5 @@
 
+#include <chrono>
 #include <iostream>
 #include <list>
 
@@ -31,10 +32,14 @@ Move TreeWizardBot::takeTurn(const Board& board) {
         reRootTree(newRoot);
     }
     treeSize = 1;
+    auto buildStartTime = std::chrono::high_resolution_clock::now();
     buildTree(root, 0);
-    std::cout << "Tree size: " << treeSize << "\n";
+    auto buildStopTime = std::chrono::high_resolution_clock::now();
+    auto buildTimeMs = std::chrono::duration_cast<std::chrono::milliseconds>(buildStopTime - buildStartTime);
+    std::cout << "Tree size: " << treeSize << ", built in " << buildTimeMs.count() << " ms\n";
 
     // Choose a move
+    auto evalStartTime = std::chrono::high_resolution_clock::now();
     int maxValue = -1000000; // Arbitrary low number
     std::vector<int> maxValueChildIndices;
     maxValueChildIndices.reserve(root->children.size());
@@ -50,8 +55,10 @@ Move TreeWizardBot::takeTurn(const Board& board) {
             maxValueChildIndices.push_back(i);
         }
     }
+    auto evalStopTime = std::chrono::high_resolution_clock::now();
+    auto evalTimeMs = std::chrono::duration_cast<std::chrono::milliseconds>(evalStopTime - evalStartTime);
 
-    std::cout << "Max value found: " << maxValue << "\n";
+    std::cout << "Max value: " << maxValue << ", found in " << evalTimeMs.count() << " ms\n";
 
     // Pick random move from max value moves
     int maxValueChildIndex = maxValueChildIndices[std::rand() % maxValueChildIndices.size()];

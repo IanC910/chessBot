@@ -26,7 +26,7 @@ const BotData GREEDO_BOT_DATA = {
 
 const BotData TREE_WIZARD_BOT_DATA = {
     "Tree Wizard",
-    "Knows what is to come",
+    "Has exactly 3 tricks up his sleeve.",
     "Can see several moves into the future, depending on setting."
 };
 // Level 3 vs 700 elo bot: 1 win, 2 losses
